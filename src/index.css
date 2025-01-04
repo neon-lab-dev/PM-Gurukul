@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+@layer base {
+  input {
+    @apply w-full border-[1px] border-[#B6B7C3] placeholder:text-[#4A4A5A] text-[#4A4A5A] p-4 text-[14px] leading-5 -tracking-[0.25px] rounded-xl;
+  }
+}
