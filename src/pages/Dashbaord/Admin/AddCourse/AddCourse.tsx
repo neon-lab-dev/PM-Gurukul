@@ -53,20 +53,48 @@ const AddCourse = () => {
             name="courseDescription"
             placeholder="Enter course description"
           />
+          <div className="flex flex-col gap-2 font-Inter">
+            <label htmlFor="" className="text-neutral-65">
+              Category
+              <span className="text-red-600"> *</span>
+            </label>
+            <div className="relative inline-block">
+              <select
+                name="category"
+                id=""
+                className="appearance-none px-[18px] py-[14px] rounded-lg bg-neutral-70 border border-neutral-75 w-full text-neutral-65"
+              >
+                <option value="0">Select Category</option>
+                <option value="1" className="text-dark">
+                  Category 1
+                </option>
+                <option value="2">Category 2</option>
+                <option value="3">Category 3</option>
+              </select>
+              <img
+                src={ICONS.arrowDown}
+                alt="Dropdown Icon"
+                className="absolute right-[18px] top-1/2 transform -translate-y-1/2 pointer-events-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-4">
+            <TextInput
+              label="Base Price"
+              name="basePrice"
+              placeholder="Enter base price"
+            />
+            <TextInput
+              label="Discounted Price"
+              name="DiscountedPrice"
+              placeholder="Enter discounted price"
+            />
+          </div>
           <TextInput
-            label="Category"
-            name="courseCategory"
-            placeholder="Select Category"
-          />
-          <TextInput
-            label="Author"
-            name="courseAuthor"
-            placeholder="Select an Author or create one"
-          />
-          <TextInput
-            label="Price"
-            name="coursePrice"
-            placeholder="Enter course price"
+            label="Number of videos"
+            name="noOfVideos"
+            placeholder="Enter Number of videos"
           />
         </form>
       </div>

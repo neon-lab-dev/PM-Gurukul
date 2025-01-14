@@ -73,6 +73,7 @@ export const ICONS = {
     closeRed,
     closeBg,
     menuDots,
+    arrowDown,
 
     design,
     development,
@@ -101,7 +102,6 @@ export const ICONS = {
     cartYellow,
     deleteIcon,
     arrowLeft,
-    arrowDown,
     folderUpload,
     addCircle,
     copy
