@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { IMAGES } from "../../../assets";
 import Container from "../../Shared/Container/Container";
 import HeroContainer from "../../Reusable/HeroContainer/HeroContainer";
-import Badge from "../../Reusable/Badge/Badge";
 import Ripple from "../../Reusable/Ripple/Ripple";
 import { TLoggedInUser } from "../../../types/user.types";
 import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
@@ -15,7 +14,7 @@ const Hero = () => {
       <Container>
         <div className="font-Inter flex flex-col lg:flex-row justify-between">
           <div className="flex flex-col justify-center pb-10">
-            <Badge title="This is a headline for heading" />
+            {/* <Badge title="This is a headline for heading" /> */}
             <h1 className="text-white text-[48px] font-bold leading-[64px] mt-1 max-w-[700px]">
               Build Your Digital Skills and Achieve Digital Excellence with PMGURUKKUL
             </h1>

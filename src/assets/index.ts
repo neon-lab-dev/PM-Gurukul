@@ -76,6 +76,13 @@ import securePayment from "../assets/Images/secure.png";
 import secureSSL from "../assets/Images/secure-ssl.png";
 import razorpay from "../assets/Images/razorpay.png";
 
+// Course images
+import courseImg1 from "../assets/Images/gurukul website poster 1.jpg";
+import courseImg2 from "../assets/Images/gurukul website poster 2.jpg";
+import courseImg3 from "../assets/Images/gurukul website poster 3.jpg";
+import courseImg4 from "../assets/Images/gurukul website poster 4.jpg";
+import courseImg5 from "../assets/Images/gurukul website poster 5.jpg";
+
 export const ICONS = {
     hamburgerMenu,
     starCircle,
@@ -153,4 +160,10 @@ export const IMAGES = {
     securePayment,
     secureSSL,
     razorpay,
+
+    courseImg1,
+    courseImg2,
+    courseImg3,
+    courseImg4,
+    courseImg5,
 };
