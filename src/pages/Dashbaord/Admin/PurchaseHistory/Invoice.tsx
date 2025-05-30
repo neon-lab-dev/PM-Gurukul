@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   headerContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
   logo: { width: 200, height: 60 },
   address: { textAlign: 'right', fontSize: 10 },
+  addressText: { marginTop : 5 },
   section: { marginBottom: 10, backgroundColor: '#F2F2F2', padding: 8, borderRadius: 6 },
   section2: { marginBottom: 10 },
   boldText: { fontWeight: 'bold', color: 'black' }, // Black bold titles
@@ -72,14 +73,11 @@ const Invoice = ({ order }: { order: TOrders }) => {
         <View style={styles.headerContainer}>
           <Image src={logo} style={styles.logo} />
           <View style={styles.address}>
-            <Text>BIZGURUKUL PRIVATE LIMITED</Text>
-            <Text>Regd. Add: A-26, SECOND FLOOR,</Text>
-            <Text>SECTOR-16, Noida,</Text>
-            <Text>Gautam Buddha Nagar- 201301,</Text>
-            <Text>Uttar Pradesh, India</Text>
-            <Text>GSTIN: 09AAJCB0091Q1Z6</Text>
-            <Text>State Name: Delhi, Code: 07</Text>
-            <Text>PAN: AAJCB0091Q</Text>
+            <Text>PMGURUKKUL EDTECH MARKETING LLP</Text>
+            <Text style={styles.addressText}>Address: 2/79, Geeta Colony, Delhi-110031,India,</Text>
+            <Text style={styles.addressText}>GSTIN: 07ABHFP1767D1Z8,</Text>
+            <Text style={styles.addressText}>State Name: Delhi, Code: 07,</Text>
+            <Text style={styles.addressText}>PAN: ABHFP1767D</Text>
           </View>
         </View>
 

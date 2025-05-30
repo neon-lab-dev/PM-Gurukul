@@ -270,6 +270,20 @@ const PersonalInfo: React.FC<TPersonalInfo> = ({ register, errors, mobileNumber 
               required: "Referral Code is required",
             })}
           />
+          <TextInput
+            label="GST Number"
+            placeholder="Enter your GST number"
+            error={errors.city}
+            {...register("gstNumber")}
+            isRequired={false}
+          />
+          <TextInput
+            label="GST Company Name"
+            placeholder="Enter your GST Company Name"
+            error={errors.city}
+            {...register("gstCompanyName")}
+            isRequired={false}
+          />
         </div>
       </div>
     </div>

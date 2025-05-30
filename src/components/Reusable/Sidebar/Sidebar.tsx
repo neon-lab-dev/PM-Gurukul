@@ -56,7 +56,7 @@ const Sidebar: React.FC = () => {
   const menus = user?.role === "admin" ? adminMenus : userMenus;
 
   return (
-    <div className="w-60 min-w-60 h-screen px-4 pt-14 pb-6 font-Inter flex flex-col justify-between sticky left-0 top-0">
+    <div className="w-60 min-w-60 h-screen px-4 py-6 font-Inter flex flex-col justify-between sticky left-0 top-0">
       <div>
         <Link to="/" className="flex items-center gap-2 w-full pb-4 mb-2">
           <img src={IMAGES.pmGurukulLogo} alt="PM-Gurukul" className="w-40" />
