@@ -9,9 +9,8 @@ const ContactUsHero = () => {
             <div className='max-w-full xl:max-w-[1080px] mx-auto px-4 xl:px-0 text-center'>
                 <p className={paragraphStyle}>This is the official page where you can share all your queries or feedback, or seek any other help that you may require to effectively use or enquire about PMGURUKKUL learning programs. Our dedicated team will check and address your questions within the next 24 hours. This is our promise!</p>
                 <p className="text-neutral-15 text-[15px] leading-6 mt-4">At PMGURUKKUL, we strive to address and resolve issues in the shortest possible time and in the most seamless way. Every question you have is very valuable to us and our focus is to resolve it through this portal. Hence, we request you to route all your concerns through this official portal</p>
-                <p className="text-neutral-15 text-[15px] leading-6 mt-4">REGISTERED ADDRESS :
-                    2/130, GEETA COLONY
-                    DELHI – 110031
+                <p className="text-neutral-15 text-[15px] leading-6 mt-4">
+                    REGISTERED ADDRESS: 2/79, GEETA COLONY, DELHI – 110031
                 </p>
                 <p className="text-neutral-15 text-[15px] leading-6 mt-4">
                     CUSTOMER SUPPORT NUMBER :

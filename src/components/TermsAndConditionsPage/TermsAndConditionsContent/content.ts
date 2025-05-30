@@ -130,7 +130,7 @@ export const content3 = [
             "25. You also agree that you will only promote or forward to anyone those posts, posters, advertisements, rewards, offers, links, legal documents that the Company posts on its official website.",
             "26. You also agree not to use the Service in any manner that could disable, overburden, damage, or impair the Service, use any device, software, or routine that interferes with the proper working of the Service, use any automated means to access the Service without prior written consent.",
             "27. Take any action that may damage or fabricate the Company's rating.",
-            "PMGURUKKUL PRIVATE LIMITED reserves all rights or remedies that may be available in the event of your breach of this Agreement. Violation of any of the foregoing restrictions may result in the termination of your account, without any notice."
+            "PMGURUKKUL EDTECH MARKETING LLP reserves all rights or remedies that may be available in the event of your breach of this Agreement. Violation of any of the foregoing restrictions may result in the termination of your account, without any notice."
         ]
     },
     {
@@ -153,7 +153,7 @@ export const content4 = [
         details: [
             "1. So that no one's money is ever misused, never accept any cash amount or any registration amounts of any customer into your bank account; deposit all money directly in the company's bank account.",
             "2. The company is not responsible for monetary transactions in individual accounts other than the official Bank Account of PMGURUKKUL.",
-            "3. If you have any kind of problem or any query, you can call the company's customer care number. PMGURUKKUL has only one active Support Number 0000000000.",
+            "3. If you have any kind of problem or any query, you can call the company's customer care number. PMGURUKKUL has only one active Support Number 9540143943.",
             "4. PMGURUKKUL Support Team only uses the official email ID support@pmgurukkul.com for communication.",
             "5. PMGURUKKUL Support Team never asks for any OTP, passwords, or sensitive information.",
             "6. Do not share any of your details with anyone. If the company asks you to share, then share your details like your name, registered number, email, etc., only through the email ID support@pmgurukkul.com.",
