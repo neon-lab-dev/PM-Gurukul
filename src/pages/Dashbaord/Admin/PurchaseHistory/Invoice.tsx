@@ -1,66 +1,84 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
-import { TOrders } from './PurchaseHistory';
-import logo from '../../../../assets/Images/pm-gurukul.png';
-import { formatDate } from '../../../../utils/formatDate';
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
+import { TOrders } from "./PurchaseHistory";
+import logo from "../../../../assets/Images/pm-gurukul.png";
+import { formatDate } from "../../../../utils/formatDate";
 
 const styles = StyleSheet.create({
-  page: { padding: 30, fontSize: 12, position: 'relative' },
-  headerContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
+  page: { padding: 30, fontSize: 12, position: "relative" },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
   logo: { width: 200, height: 60 },
-  address: { textAlign: 'right', fontSize: 10 },
-  section: { marginBottom: 10, backgroundColor: '#F2F2F2', padding: 8, borderRadius: 6 },
+  address: { textAlign: "right", fontSize: 10 },
+  section: {
+    marginBottom: 10,
+    backgroundColor: "#F2F2F2",
+    padding: 8,
+    borderRadius: 6,
+  },
   section2: { marginBottom: 10 },
-  boldText: { fontWeight: 'bold', color: 'black' }, // Black bold titles
-  normalText: { color: '#4F4F4F' }, // Gray normal text
-  table: { width: '100%', marginTop: 10, borderWidth: 1, borderColor: '#ccc' },
+  boldText: { fontWeight: "bold", color: "black" }, // Black bold titles
+  normalText: { color: "#4F4F4F" }, // Gray normal text
+  table: { width: "100%", marginTop: 10, borderWidth: 1, borderColor: "#ccc" },
   tableRow: {
-    borderRight: 2,
-    flexDirection: 'row',
+    borderRight: 2, // This seems unusual, typically borderRight would be on cells, not row. Assuming it's meant for overall table border effect or a typo and should be borderWidth.
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderColor: '#ccc',
-    alignItems: 'center',
+    borderColor: "#ccc",
+    alignItems: "center",
   },
   rowFontSize: {
-    fontSize: 10
+    fontSize: 10,
   },
-  tableCell: { flex: 1, padding: 5, textAlign: 'center' },
+  tableCell: { flex: 1, padding: 5, textAlign: "center" },
   cellWithBorder: {
     borderRightWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
-  tableHeader: { backgroundColor: '#f2f2f2', fontWeight: 'bold' },
+  tableHeader: { backgroundColor: "#f2f2f2", fontWeight: "bold" },
   declarationRow: {
     borderTopWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     padding: 10,
     fontSize: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  footerDetails: { marginTop: 20, alignItems: 'center' },
+  footerDetails: { marginTop: 20, alignItems: "center" },
   clickableLink: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 10,
-    color: 'blue',
-    textDecoration: 'underline',
-    position: 'absolute',
+    color: "blue",
+    textDecoration: "underline",
+    position: "absolute",
     bottom: 10,
     left: 30,
   },
   statusCard: {
-    backgroundColor: '#25D366',
-    color: 'white',
+    backgroundColor: "#25D366",
+    color: "white",
     paddingVertical: 2,
     paddingHorizontal: 8,
     borderRadius: 4,
     fontSize: 8,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 5,
   },
 });
 
 const Invoice = ({ order }: { order: TOrders }) => {
-  const gstAmount = order?.totalPrice ? (order.totalPrice * Number(order?.gst)) / (100 + Number(order?.gst)) : 0;
+  const gstAmount = order?.totalPrice
+    ? (order.totalPrice * Number(order?.gst)) / (100 + Number(order?.gst))
+    : 0;
   if (!order || !order._id) {
     return <Text>Invalid Order</Text>;
   }
@@ -72,14 +90,14 @@ const Invoice = ({ order }: { order: TOrders }) => {
         <View style={styles.headerContainer}>
           <Image src={logo} style={styles.logo} />
           <View style={styles.address}>
-            <Text>BIZGURUKUL PRIVATE LIMITED</Text>
-            <Text>Regd. Add: A-26, SECOND FLOOR,</Text>
-            <Text>SECTOR-16, Noida,</Text>
-            <Text>Gautam Buddha Nagar- 201301,</Text>
-            <Text>Uttar Pradesh, India</Text>
-            <Text>GSTIN: 09AAJCB0091Q1Z6</Text>
-            <Text>State Name: Delhi, Code: 07</Text>
-            <Text>PAN: AAJCB0091Q</Text>
+            <Text style={{ marginTop: 2 }}>BIZGURUKUL PRIVATE LIMITED</Text>
+            <Text style={{ marginTop: 2 }}>Regd. Add: A-26, SECOND FLOOR,</Text>
+            <Text style={{ marginTop: 2 }}>SECTOR-16, Noida,</Text>
+            <Text style={{ marginTop: 2 }}>Gautam Buddha Nagar- 201301,</Text>
+            <Text style={{ marginTop: 2 }}>Uttar Pradesh, India</Text>
+            <Text style={{ marginTop: 2 }}>GSTIN: 09AAJCB0091Q1Z6</Text>
+            <Text style={{ marginTop: 2 }}>State Name: Delhi, Code: 07</Text>
+            <Text style={{ marginTop: 2 }}>PAN: AAJCB0091Q</Text>
           </View>
         </View>
 
@@ -89,11 +107,16 @@ const Invoice = ({ order }: { order: TOrders }) => {
             <Text style={styles.boldText}>Invoice#:</Text>
             <Text style={styles.normalText}> {order._id}</Text>
           </Text>
-          <Text>
+          <Text style={{ marginTop: 5 }}>
             <Text style={styles.boldText}>Invoice Date:</Text>
-            <Text style={styles.normalText}> {formatDate(order.createdAt)}</Text>
+            <Text style={styles.normalText}>
+              {" "}
+              {formatDate(order.createdAt)}
+            </Text>
           </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", marginTop: 3 }}
+          >
             <Text style={styles.boldText}>Status:</Text>
             <Text style={styles.statusCard}>PAID</Text>
           </View>
@@ -102,73 +125,137 @@ const Invoice = ({ order }: { order: TOrders }) => {
         {/* Invoiced To Section */}
         <View style={styles.section2}>
           <Text style={styles.boldText}>Invoiced To:</Text>
-          <Text>
+          <Text style={{ marginTop: 5 }}>
             <Text style={styles.boldText}>Name:</Text>
             <Text style={styles.normalText}> {order?.user?.full_name}</Text>
           </Text>
-          <Text>
+          <Text style={{ marginTop: 5 }}>
             <Text style={styles.boldText}>Mobile Number:</Text>
             <Text style={styles.normalText}> {order?.user?.mobileNumber}</Text>
           </Text>
         </View>
 
         {/* Course Table */}
-        {/* Course Table */}
         <View style={styles.table}>
           {/* Table Header */}
           <View style={[styles.tableRow, styles.tableHeader]}>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>Description</Text>
+            <Text style={[styles.tableCell, styles.cellWithBorder]}>
+              Description
+            </Text>
             <Text style={[styles.tableCell, styles.cellWithBorder]}>Qty</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>HSN/SAC</Text>
+            <Text style={[styles.tableCell, styles.cellWithBorder]}>
+              HSN/SAC
+            </Text>
             <Text style={styles.tableCell}>Amount</Text>
           </View>
 
           {/* Course Details */}
-         {
-          order?.course?.map((course:any) => 
-            <View key={course?._id} style={[styles.tableRow, styles.rowFontSize]}>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>{course?.title}</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>1</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>999293</Text>
-            <Text style={styles.tableCell}>{order?.discountedPrice}</Text>
-          </View>
-          )
-         }
-
+          {order?.course?.map((course: any) => (
+            <View
+              key={course?._id}
+              style={[styles.tableRow, styles.rowFontSize]}
+            >
+              <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                {course?.title}
+              </Text>
+              <Text style={[styles.tableCell, styles.cellWithBorder]}>1</Text>
+              <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                999293
+              </Text>
+              <Text style={styles.tableCell}>{order?.discountedPrice}</Text>
+            </View>
+          ))}
 
           {/* Subtotal */}
           <View style={[styles.tableRow, styles.rowFontSize]}>
             <Text style={styles.tableCell}></Text>
             <Text style={styles.tableCell}></Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder, { textAlign: 'right', fontWeight: 'bold' }]}>Sub Total:</Text>
-            <Text style={[styles.tableCell, { fontWeight: 'bold' }]}>{order?.discountedPrice}</Text>
+            <Text
+              style={[
+                styles.tableCell,
+                styles.cellWithBorder,
+                { textAlign: "right", fontWeight: "bold", marginRight: -1 },
+              ]}
+            >
+              Sub Total:
+            </Text>
+            <Text style={[styles.tableCell, { fontWeight: "bold" }]}>
+              {order?.discountedPrice}
+            </Text>
           </View>
 
-          {/* Tax Row */}
+          {/* Tax Row - MODIFIED SECTION */}
           <View style={[styles.tableRow, styles.rowFontSize]}>
-            <Text style={[styles.tableCell, styles.cellWithBorder, { fontWeight: 'bold' }]}>Tax {order?.gst}%:</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>CGST: 0%</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder]}>CGST Amt: 0</Text>
-            <Text style={[styles.tableCell, styles.cellWithBorder, { fontWeight: 'bold' }]}>{gstAmount.toFixed(2)}</Text>
-          </View>
+            {/* Cell 1: Corresponds to 'Description' column. Takes 1/4 of width (flex: 2 out of 8 total) */}
+            <Text
+              style={[styles.tableCell, styles.cellWithBorder, { fontSize: 9 }]}
+            >
+              Tax {order?.gst}%:
+            </Text>
 
+            {/* Cells 2-5: Correspond to 'Qty' and 'HSN/SAC' columns. Each takes 1/8 of width (flex: 1 out of 8 total) */}
+            <Text
+              style={[styles.tableCell, styles.cellWithBorder, { fontSize: 9 }]}
+            >
+              CGST: 9%
+            </Text>
+            <Text
+              style={[
+                styles.tableCell,
+                styles.cellWithBorder,
+                { flex: 2, fontSize: 9 },
+              ]}
+            >
+              CGST Amt: {gstAmount / 2}
+            </Text>
+            <Text
+              style={[styles.tableCell, styles.cellWithBorder, { fontSize: 9 }]}
+            >
+              SGST: 9%
+            </Text>
+            <Text
+              style={[
+                styles.tableCell,
+                styles.cellWithBorder,
+                { flex: 2, fontSize: 9 },
+              ]}
+            >
+              SGST Amt: {gstAmount / 2}
+            </Text>
+
+            {/* Cell 6: Corresponds to 'Amount' column. Takes 1/4 of width (flex: 2 out of 8 total). No right border. */}
+            <Text style={[styles.tableCell, { fontWeight: "bold", flex: 2 }]}>
+              {gstAmount.toFixed(2)}
+            </Text>
+          </View>
+          {/* END OF MODIFIED SECTION */}
 
           {/* Total */}
           <View style={styles.tableRow}>
-            <Text style={[styles.tableCell, { textAlign: 'right' }]}></Text>
+            <Text style={[styles.tableCell, { textAlign: "right" }]}></Text>
             <Text style={styles.tableCell}></Text>
-            <Text style={[styles.tableCell, { textAlign: 'right', fontWeight: 'bold' }]}>Total:</Text>
-            <Text style={[styles.tableCell, { fontWeight: 'bold' }]}>{order?.totalPrice}</Text>
+            <Text
+              style={[
+                styles.tableCell,
+                { textAlign: "right", fontWeight: "bold" },
+              ]}
+            >
+              Total:
+            </Text>
+            <Text style={[styles.tableCell, { fontWeight: "bold" }]}>
+              {order?.totalPrice}
+            </Text>
           </View>
         </View>
 
         {/* Declaration Section */}
         <View style={styles.table}>
           <Text style={styles.declarationRow}>
-            Declaration: We declare that this invoice shows the actual price of the goods/services
-            described and that all particulars are true and correct.
+            Declaration: We declare that this invoice shows the actual price of
+            the goods/services described and that all particulars are true and
+            correct.
           </Text>
-          <Text style={[styles.declarationRow, { fontWeight: 'bold' }]}>
+          <Text style={[styles.declarationRow, { fontWeight: "bold" }]}>
             This is a Computer Generated Invoice No Signature Required.
           </Text>
         </View>
