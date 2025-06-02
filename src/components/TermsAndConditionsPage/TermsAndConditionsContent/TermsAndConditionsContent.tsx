@@ -96,7 +96,7 @@ const TermsAndConditionsContent = () => {
           infringes on copyright or other intellectual property rights.
           Copyright owners or authorized representatives may submit claims of
           infringement via email to{" "}
-          <a href="support@pmgurukkul.com" target="_blank">
+          <a href="mailto:support@pmgurukkul.com" target="_blank">
             <strong className="text-blue-10 hover:underline">
               support@pmgurukkul.com
             </strong>

@@ -285,8 +285,3 @@ const SetupProfile = () => {
 };
 
 export default SetupProfile;
-
-
-{/* <div className="bg-neutral-100 rounded-md p-2 text-neutral-30">Pending </div>
-            <div className="bg-secondary-40 rounded-md p-2 text-secondary-55">Approved </div>
-            <div className="bg-secondary-45 rounded-md p-2 text-secondary-60">Rejected</div> */}
