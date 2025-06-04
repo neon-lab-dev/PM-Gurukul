@@ -83,6 +83,8 @@ import courseImg3 from "../assets/Images/gurukul website poster 3.jpg";
 import courseImg4 from "../assets/Images/gurukul website poster 4.jpg";
 import courseImg5 from "../assets/Images/gurukul website poster 5.jpg";
 
+import whyPMGurukkul from "../assets/Images/whyPMGurukkul.png";
+
 export const ICONS = {
     hamburgerMenu,
     starCircle,
@@ -166,4 +168,5 @@ export const IMAGES = {
     courseImg3,
     courseImg4,
     courseImg5,
+    whyPMGurukkul,
 };

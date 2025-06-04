@@ -53,7 +53,7 @@ const Testimonials = () => {
 
     return (
         <div style={{
-            background: "linear-gradient(0deg, rgba(255, 162, 57, 0.10) 0%, rgba(255, 162, 57, 0.10) 100%), #FFF",
+            background: "linear-gradient(92deg, #FFEFF1 0.63%, #FFFBF5 98.18%)",
         }} className="py-[64px]">
             <Container>
                 <div className="flex flex-col gap-[64px] items-center justify-center">

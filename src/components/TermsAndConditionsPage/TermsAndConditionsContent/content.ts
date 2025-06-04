@@ -1,6 +1,6 @@
 export const content1 = [
     "Your use/access/browsing of the Application or Website or the Services or products or registration (with or without payment/with or without subscription) through any means shall signify your acceptance of the Terms and your agreement to be legally bound by the same.",
-    "BY CLICKING THE 'ACCEPT' BUTTON ON PMGURRUKKUL WEBSITE OR BY INSTALLING, COPYING OR USING THE PMGURUKKKUL APPLICATION , YOU ARE INDICATING THAT YOU HAVE READ THIS AGREEMENT, THAT YOU UNDERSTAND IT, AND THAT YOU CONSENT TO BE BOUND BY ALL OF ITS PRIVACY POLICY OR TERMS AND CONDITIONS.",
+    "BY CLICKING THE 'ACCEPT' BUTTON ON PMGURUKKUL WEBSITE OR BY INSTALLING, COPYING OR USING THE PMGURUKKUL APPLICATION , YOU ARE INDICATING THAT YOU HAVE READ THIS AGREEMENT, THAT YOU UNDERSTAND IT, AND THAT YOU CONSENT TO BE BOUND BY ALL OF ITS PRIVACY POLICY OR TERMS AND CONDITIONS.",
     "If you do not agree with the Terms or the Privacy Policy, please do not use the Application or Website or avail the Services or products. Failure to abide by the terms of this agreement may result in termination of your access to the website or application."
 ];
 
