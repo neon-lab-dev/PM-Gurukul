@@ -7,24 +7,25 @@ import FAQ from "../../components/Shared/FAQ/FAQ";
 import CustomerSupport from "../../components/Shared/CustomerSupport/CustomerSupport";
 import { Helmet } from "react-helmet-async";
 import UpcomingCourses from "../../components/HomePage/UpcomingCourses/UpcomingCourses";
-
+import WhyPMGurukkul from "../../components/HomePage/WhyPMGurukkul/WhyPMGurukkul";
 
 const Home = () => {
-    return (
-        <div>
-            <Helmet>
-                <title>PMGURUKKUL | Achieve Digital Excellence</title>
-            </Helmet>
-            <Hero />
-            <UpcomingCourses />
-            <Enrollment />
-            <SessionAnnouncement />
-            {/* <WhyUs /> */}
-            <Testimonials />
-            <FAQ />
-            <CustomerSupport />
-        </div>
-    );
+  return (
+    <div>
+      <Helmet>
+        <title>PMGURUKKUL | Achieve Digital Excellence</title>
+      </Helmet>
+      <Hero />
+      <UpcomingCourses />
+      <Enrollment />
+      <SessionAnnouncement />
+      {/* <WhyUs /> */}
+      <WhyPMGurukkul/>
+      <Testimonials />
+      <FAQ />
+      <CustomerSupport />
+    </div>
+  );
 };
 
 export default Home;
