@@ -50,7 +50,7 @@ const Navbar = () => {
                     src={
                       location.pathname === "/cart"
                         ? ICONS.cartYellow
-                        : ICONS.cartWhite
+                        : ICONS.cartDark
                     }
                     alt="cart-icon"
                     className="size-6"
@@ -70,7 +70,7 @@ const Navbar = () => {
                           : "/auth/login"
                         : "/auth/login"
                     }
-                    className="bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow"
+                    className="bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow hidden sm:block"
                   >
                     {user ? "Dashboard" : "Get Started"}
                   </Link>
