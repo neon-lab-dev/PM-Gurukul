@@ -13,7 +13,7 @@ const WhyPMGurukkul = () => {
   return (
     <div className="bg-gradient-gray py-[64px] font-Inter">
       <Container>
-        <div className="flex flex-col gap-9 items-center justify-center">
+        <div className="flex flex-col gap-0 xl:gap-9 items-center justify-center">
           <SectionHeading
             heading="Why PMGurukkul?"
             description="Your Pathway to Growth, Learning, and Success."
@@ -25,7 +25,7 @@ const WhyPMGurukkul = () => {
                   key={item}
                   className="bg-white border border-neutral-130 p-4 rounded-xl"
                 >
-                  <p className="text-xl leading-7 text-neutral-135">{item}</p>
+                  <p className="text-sm md:text-xl leading-5 md:leading-7 text-neutral-135">{item}</p>
                 </div>
               ))}
             </div>
