@@ -18,7 +18,7 @@ const WhyPMGurukkul = () => {
             heading="Why PMGurukkul?"
             description="Your Pathway to Growth, Learning, and Success."
           />
-          <div className="flex flex-col xl:flex-row items-center gap-0 xl:gap-10">
+          <div className="flex flex-col-reverse xl:flex-row items-center gap-0 xl:gap-10">
             <div className="flex flex-col gap-6">
               {data?.map((item) => (
                 <div
@@ -30,7 +30,7 @@ const WhyPMGurukkul = () => {
               ))}
             </div>
 
-            <img src={IMAGES.whyPMGurukkul} alt="" className="size-full xl:size-[700px]" />
+            <img src={IMAGES.whyPMGurukkul} alt="" className="size-[400px] md:size-full xl:size-[700px]" />
           </div>
         </div>
       </Container>

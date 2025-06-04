@@ -40,6 +40,7 @@ import ArrowUp from "../assets/Icons/ArrowUp.png";
 import Cart from "../assets/Icons/Cart.png";
 import video from "../assets/Icons/video.svg";
 import cartWhite from "../assets/Icons/cart-white.svg";
+import cartDark from "../assets/Icons/cartDark.svg";
 import cartYellow from "../assets/Icons/cart-yellow.svg";
 import deleteIcon from "../assets/Icons/delete.svg";
 import folderUpload from "../assets/Icons/empty 1.svg";
@@ -127,6 +128,7 @@ export const ICONS = {
     Cart,
     video,
     cartWhite,
+    cartDark,
     cartYellow,
     deleteIcon,
     arrowLeft,
