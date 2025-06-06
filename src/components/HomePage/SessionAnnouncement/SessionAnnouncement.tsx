@@ -9,8 +9,8 @@ const SessionAnnouncement = () => {
     return (
         <div className='bg-white py-[96px] font-Inter'>
             <Container>
-                <div className='flex flex-col lg:flex-row gap-8 lg:gap-0 items-center justify-between'>
-                    <img src={IMAGES.sessionAnnouncement} alt="session-announcement" className='w-full max-w-[600px]' />
+                <div className='flex flex-col xl:flex-row gap-8 xl:gap-0 items-center justify-between'>
+                    <img src={IMAGES.leadershipProgram} alt="session-announcement" className='w-full max-w-[600px]' />
                     <div>
                         <div className='flex flex-col gap-4'>
                             <div className='rounded-3xl bg-neutral-15 px-4 py-[6px] text-primary-10 font-medium leading-6 text-center w-fit'>Stay tuned! Date coming soon!</div>
