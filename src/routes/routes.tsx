@@ -42,6 +42,7 @@ import Signup from "../pages/Auth/Signup/Signup";
 import ForgotPassword from "../pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import EmailSent from "../pages/Auth/EmailSent/EmailSent";
+import PaymentSuccessful from "../pages/PaymentSuccessful/PaymentSuccessful";
 
 
 export const router = createBrowserRouter([
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "/privacy-policy",
         element: <PrivacyPolicy />,
+      },
+      {
+        path: "/payment-successful/:paymentId",
+        element: <PaymentSuccessful />,
       },
     ],
   },
