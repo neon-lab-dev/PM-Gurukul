@@ -38,11 +38,11 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
     if(cartItems?.length === 0) return toast.error("Cart is empty!");
     if (isPurchased)
       return toast.error(
-        "Maybe you have already purchased some of these courses! Please check your purchased courses or remove it from cart to continue."
+        "Maybe you have already purchased some of these courses! Please check your purchased courses or remove it from cart to continue with other courses."
       );
     try {
       setLoading(true);
-      const keyData = await axios.get("http://localhost:5000/api/v1/getKey");
+      const keyData = await axios.get("https://pmgurkulbackend.vercel.app/api/v1/getKey");
 
       const response = await makePayment({ amount: Number(totalAmount) });
 
@@ -54,7 +54,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
         description: "Test Transaction",
         image: "https://i.ibb.co/yBPFg2BJ/pmgurukul-favicon.png",
         order_id: response?.data?.order?.id, // the order id
-        callback_url: "http://localhost:5000/api/v1/paymentVerification",
+        callback_url: "https://pmgurkulbackend.vercel.app/api/v1/paymentVerification",
         prefill: {
           name: user?.name,
           email: user?.email,
@@ -87,7 +87,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="heading6 text-sm">GST 18%</h1>
         <div className="flex items-center gap-[6px]">
-          <h1 className="heading6 text-sm">₹{gst}</h1>
+          <h1 className="heading6 text-sm">₹{gst.toFixed(2)}</h1>
         </div>
       </div>
 
@@ -98,7 +98,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
           <h1 className="heading6">To Pay </h1>
         </div>
         <div>
-          <h1 className="heading6">₹{totalAmount}</h1>
+          <h1 className="heading6">₹{totalAmount.toFixed(2)}</h1>
         </div>
       </div>
 
