@@ -65,7 +65,7 @@ const PaymentSuccessful = () => {
           completed.
         </p>
         <Link
-          to="/courses"
+          to="/dashboard/my-courses"
           className="inline-block bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition duration-300"
         >
           Go to Courses

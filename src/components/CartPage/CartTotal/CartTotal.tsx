@@ -35,6 +35,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
 
   const totalAmount = 1;
   const handleCheckout = async () => {
+    if(cartItems?.length === 0) return toast.error("Cart is empty!");
     if (isPurchased)
       return toast.error(
         "Maybe you have already purchased some of these courses! Please check your purchased courses or remove it from cart to continue."
