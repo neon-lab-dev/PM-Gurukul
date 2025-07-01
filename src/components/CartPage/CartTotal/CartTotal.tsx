@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 import { useState } from "react";
 import { useMakePaymentMutation } from "../../../redux/Features/Payment/paymentApi";
+import { useGetMeQuery } from "../../../redux/Features/User/userApi";
+import { toast } from "sonner";
 
 // Add Razorpay type to window
 declare global {
@@ -15,6 +17,9 @@ declare global {
 }
 
 const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
+  const { data: profile } = useGetMeQuery({});
+  const purchasedCourses = profile?.user?.purchasedCourses || [];
+
   const discountedPriceTotal =
     cartData &&
     cartData?.reduce((acc, currVal) => acc + currVal.discountedPrice, 0);
@@ -22,6 +27,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
   const user = useSelector(useCurrentUser) as any;
 
   const cartItems = cartData?.map((item) => item._id);
+  const isPurchased = cartItems?.some((id) => purchasedCourses.includes(id));
 
   const [makePayment] = useMakePaymentMutation();
 
@@ -29,6 +35,10 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
 
   const totalAmount = 1;
   const handleCheckout = async () => {
+    if (isPurchased)
+      return toast.error(
+        "Maybe you have already purchased some of these courses! Please check your purchased courses or remove it from cart to continue."
+      );
     try {
       setLoading(true);
       const keyData = await axios.get("http://localhost:5000/api/v1/getKey");
@@ -94,7 +104,10 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
       <div className="flex flex-col gap-4">
         <button
           onClick={handleCheckout}
-          className="bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow w-full"
+          className={`bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow w-full ${
+            loading ? "cursor-not-allowed" : ""
+          } `}
+          disabled={loading}
         >
           {loading ? "Loading..." : "Proceed to Payment"}
         </button>
