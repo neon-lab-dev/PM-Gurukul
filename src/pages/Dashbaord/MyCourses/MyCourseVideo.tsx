@@ -21,23 +21,22 @@ const MyCourseVideo = () => {
   return (
     <div>
       <div className="flex w-full justify-between items-center py-3 px-6">
-        <Link to={"/"} className="flex items-center gap-2">
+        <Link to={"/"} className="">
           <img
             src={IMAGES.pmGurukulLogo}
             alt="PM-Gurukul"
-            className="size-12"
+            className="w-32 md:w-60"
           />
-          <h1 className="text-primary-10 font-semibold text-2xl">PMGURUKKUL</h1>
         </Link>{" "}
         <div className="bg-white flex justify-end items-center">
           <ul className="flex gap-5">
-            <li>
+            {/* <li>
               <Link to="/dashboard">
                 <img src={ICONS.Bell} />
               </Link>
-            </li>
+            </li> */}
             <li>
-              <Link to="/dashboard">
+              <Link to="/dashboard/my-profile">
                 <img src={ICONS.UserCircle} />
               </Link>
             </li>
