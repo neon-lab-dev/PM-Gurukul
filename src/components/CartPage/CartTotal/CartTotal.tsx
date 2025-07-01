@@ -33,7 +33,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const totalAmount = 1;
+  const totalAmount = discountedPriceTotal + gst;
   const handleCheckout = async () => {
     if(cartItems?.length === 0) return toast.error("Cart is empty!");
     if (isPurchased)
@@ -98,7 +98,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
           <h1 className="heading6">To Pay </h1>
         </div>
         <div>
-          <h1 className="heading6">₹{discountedPriceTotal + gst}</h1>
+          <h1 className="heading6">₹{totalAmount}</h1>
         </div>
       </div>
 

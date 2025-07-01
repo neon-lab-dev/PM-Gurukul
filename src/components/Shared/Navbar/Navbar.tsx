@@ -47,11 +47,7 @@ const Navbar = () => {
               <div className="flex flex-row-reverse lg:flex-row items-center gap-5 lg:gap-8">
                 <Link to={"/cart"} className="relative">
                   <img
-                    src={
-                      location.pathname === "/cart"
-                        ? ICONS.cartYellow
-                        : ICONS.cartDark
-                    }
+                    src={ICONS.cartDark}
                     alt="cart-icon"
                     className="size-6"
                   />
