@@ -3,7 +3,7 @@ import { useCart } from "../../../Providers/CartProvider/CartProvider";
 import { TCartData } from "../../../types/cartData.types";
 
 
-const CartItem = ({ item, isDeleteAvailable=true, match }: { item: TCartData, isDeleteAvailable?:boolean; match: boolean }) => {
+const CartItem = ({ item, isDeleteAvailable=true, match }: { item: TCartData, isDeleteAvailable?:boolean; match?: boolean }) => {
     const paragraphStyle = "text-neutral-85 text-sm leading-5 mt-1";
     const { removeCourseFromCart } = useCart();
 
