@@ -21,10 +21,10 @@ const PaymentSuccessful = () => {
   useEffect(() => {
     const handlePushOrderedItems = async () => {
       try {
-        const courseIds = orderedCourses?.map((data: any) => data?._id);
         const orderInfo = {
-          courseId: courseIds,
+          courseId: orderedCourses,
         };
+        console.log(orderInfo);
         await createOrder(orderInfo).unwrap();
         setSuccess(true);
         localStorage.removeItem("orderedCourses");

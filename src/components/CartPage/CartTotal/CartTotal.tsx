@@ -27,7 +27,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const totalAmount = 10;
+  const totalAmount = 1;
   const handleCheckout = async () => {
     try {
       setLoading(true);
@@ -41,7 +41,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
         currency: "INR",
         name: "PMGURUKKUL",
         description: "Test Transaction",
-        image: "https://i.ibb.co.com/SmbFbDC/footer-Logo.png",
+        image: "https://i.ibb.co/yBPFg2BJ/pmgurukul-favicon.png",
         order_id: response?.data?.order?.id, // the order id
         callback_url: "http://localhost:5000/api/v1/paymentVerification",
         prefill: {
@@ -50,10 +50,9 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
           userId: user?._id,
         },
         theme: {
-          color: "#7E77D6",
+          color: "#051539",
         },
       };
-      console.log(window);
       const rzp = new window.Razorpay(options);
       rzp.open();
 
