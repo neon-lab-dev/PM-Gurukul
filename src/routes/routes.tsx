@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: <ProtectedRoute><Cart /></ProtectedRoute>,
       },
       {
         path: "/terms-and-conditions",
