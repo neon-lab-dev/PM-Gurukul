@@ -2,7 +2,7 @@ import VideoPlayer from "../../../components/MyCoursesPage/VideoPlayer";
 import Playlist from "../../../components/MyCoursesPage/PlaylistAccordion";
 import { ICONS, IMAGES } from "../../../assets";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TLecture } from "../../../types/lecture.types";
 
 const MyCourseVideo = () => {
@@ -17,6 +17,29 @@ const MyCourseVideo = () => {
       url: "",
     },
   });
+
+  // To disable right button click
+  useEffect(() => {
+  const disableContextMenu = (e: MouseEvent) => e.preventDefault();
+  document.addEventListener("contextmenu", disableContextMenu);
+
+  const keyDownHandler = (e: KeyboardEvent) => {
+    if (
+      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key)) || // Ctrl+Shift+I/J/C
+      e.key === 'F12' || // F12
+      (e.ctrlKey && e.key === 'U') // Ctrl+U
+    ) {
+      e.preventDefault();
+    }
+  };
+  document.addEventListener("keydown", keyDownHandler);
+
+  return () => {
+    document.removeEventListener("contextmenu", disableContextMenu);
+    document.removeEventListener("keydown", keyDownHandler);
+  };
+}, []);
+
 
   return (
     <div>
