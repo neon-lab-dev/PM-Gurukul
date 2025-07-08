@@ -30,6 +30,15 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["earning"],
     }),
 
+    getWeeklyPayouts: builder.query({
+      query: () => ({
+        url: "/weekly-earnings",
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["earning"],
+    }),
+
     getAllOrders: builder.query({
       query: () => ({
         url: "/allorders",
@@ -88,10 +97,21 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["user"],
     }),
 
+    // To get all the pending payouts overall
     approvePayout: builder.mutation({
       query: (id) => ({
         url: `/approve/payout/${id}`,
         method: "PUT",
+        credentials: "include",
+      }),
+      invalidatesTags: ["earning"],
+    }),
+
+    // To get all the pending weekly payouts
+    approveWeeklyPayout: builder.mutation({
+      query: (id) => ({
+        url: `/approve-payout/${id}`,
+        method: "PATCH",
         credentials: "include",
       }),
       invalidatesTags: ["earning"],
@@ -142,6 +162,7 @@ export const {
   useGetAllUserQuery,
   useGetAllPendingKYCQuery,
   useGetAllEarningsQuery,
+  useGetWeeklyPayoutsQuery,
   useGetAllOrdersQuery,
   useGetSingleOrderByIdQuery,
   useGetSingleUserByIdQuery,
@@ -149,6 +170,7 @@ export const {
   useApproveKycMutation,
   useRejectKycMutation,
   useApprovePayoutMutation,
+  useApproveWeeklyPayoutMutation,
   useDeleteCourseMutation,
   useCreateCourseMutation,
   useAddVideoMutation,

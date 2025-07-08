@@ -18,12 +18,12 @@ const ContactUsHero = () => {
                     <a href="tel:9540 143 943" className='text-blue-10 hover:underline ml-3'>9540 143 943</a>
 
                 </p>
-                <div className='flex items-center gap-2 justify-center mt-4'>
+                <div className='flex flex-col md:flex-row items-center gap-2 justify-center mt-4'>
                     <p className="text-neutral-15 text-[15px] leading-6">
                         EMAIL US :
                     </p>
                     <a href="mailto:support@pmgurukkul.com" className='text-blue-10 hover:underline'>support@pmgurukkul.com</a>
-                    <p className="text-neutral-15 text-[15px] leading-6">
+                    <p className="text-neutral-15 text-[15px] leading-6 hidden md:block">
                         |
                     </p>
                     <a href="mailto:info@pmgurukkul.com" className='text-blue-10 hover:underline'>info@pmgurukkul.com</a>

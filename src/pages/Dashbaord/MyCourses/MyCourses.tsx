@@ -22,7 +22,7 @@ const MyCourses = () => {
           myPurchasedCourses?.purchasedCourses?.length < 1 ?
             <NoDataFound message={"You haven’t Enrolled on any course"} isBtnAvailable={true} />
             :
-            <div className="grid grid-cols-3 2xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 gap-6">
               {
                 isLoading ?
                   [1, 2, 3, 4].map((_, index) =>

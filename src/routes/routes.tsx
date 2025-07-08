@@ -43,6 +43,7 @@ import ForgotPassword from "../pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import EmailSent from "../pages/Auth/EmailSent/EmailSent";
 import PaymentSuccessful from "../pages/PaymentSuccessful/PaymentSuccessful";
+import WeeklyPayouts from "../pages/Dashbaord/Admin/WeeklyPayouts/WeeklyPayouts";
 
 
 export const router = createBrowserRouter([
@@ -216,6 +217,10 @@ export const router = createBrowserRouter([
       {
         path: "payouts",
         element: <Payouts />,
+      },
+      {
+        path: "weekly-payouts",
+        element: <WeeklyPayouts />,
       },
       {
         path: "affiliates",

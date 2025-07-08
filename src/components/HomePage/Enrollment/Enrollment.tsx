@@ -7,8 +7,8 @@ const Enrollment = () => {
     return (
         <div className="bg-neutral-20 py-[96px]">
             <Container>
-                <div className="bg-white rounded-[64px] shadow-shadow-light-gray font-Inter flex flex-col-reverse xl:flex-row items-center justify-between">
-                    <div className="px-5 lg:px-0 lg:pl-[64px]  flex flex-col gap-3 md:gap-5">
+                <div className="bg-white rounded-[30px] md:rounded-[64px] shadow-shadow-light-gray font-Inter flex flex-col-reverse xl:flex-row items-center justify-between">
+                    <div className="px-5 lg:px-0 lg:pl-[64px]  flex flex-col gap-3 md:gap-5 p-2 md:p-6">
                         <Heading1 classNames="max-w-[1100px]">Your enrollment plays a vital role to make education a reality for underprivileged children.</Heading1>
                         <Ripple styles="rounded-xl w-fit">
                             <button className="bg-primary-gradient px-5 lg:px-6 py-3 md:py-5 text-primary-10 md:text-xl font-semibold leading-7 rounded-[10px] shadow-primary-shadow flex items-center gap-[10px] w-fit text-sm">

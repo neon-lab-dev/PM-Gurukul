@@ -19,7 +19,7 @@ const RegisteredUsers = () => {
     { key: "mobile", label: "Mobile", sortable: true },
     { key: "joined", label: "Joined", sortable: true },
     { key: "role", label: "Role", sortable: true },
-    { key: "action", label: "Action", sortable: false },
+    // { key: "action", label: "Action", sortable: false },
   ];
 
   // Registered user table data
@@ -32,7 +32,7 @@ const RegisteredUsers = () => {
       mobile: user?.mobileNumber,
       joined: formatDate(user?.createdAt),
       role: user?.role,
-      action: "View",
+      // action: "View",
     }))
     : [];
 
