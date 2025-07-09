@@ -30,6 +30,8 @@ export type TProfileData = {
   refralCode: string;
   addline1: string;
   addline2: string;
+  gstNumber: string;
+  gstCompanyName: string;
   document: {
     doctype: string;
     documentNumber: string;

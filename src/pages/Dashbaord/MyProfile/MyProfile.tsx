@@ -62,6 +62,8 @@ const MyProfile = () => {
     });
   };
 
+  console.log(user);
+
   useEffect(() => {
     if (user) {
       setValue("full_name", user?.user?.full_name);
@@ -85,6 +87,8 @@ const MyProfile = () => {
       setValue("document.doctype", user?.user?.document?.doctype);
       setSelectedDocument(user?.user?.document?.doctype);
       setValue("panNumber", user?.user?.panCard?.panNumber);
+      setValue("gstNumber", user?.user?.gstNumber);
+      setValue("gstCompanyName", user?.user?.gstCompanyName);
       if (user?.user?.bankInfo) {
         user.user.bankInfo.forEach((bank: TBankInfo, index: number) => {
           setValue(`bankInfo.${index}.accholderName` as keyof TProfileData, bank.accholderName);
@@ -204,6 +208,8 @@ const MyProfile = () => {
       formData.append('refralCode', data.refralCode);
       formData.append('addline1', data.addline1);
       formData.append('addline2', data.addline2);
+      formData.append('gstNumber', data.gstNumber);
+      formData.append('gstCompanyName', data.gstCompanyName);
 
       // Appending document details
       formData.append('doctype', selectedDocument);
