@@ -15,7 +15,7 @@ import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
 import Ripple from "../../../../components/Reusable/Ripple/Ripple";
 import usePayoutStatus from "../../../../Providers/PayoutStatusProvider/usePayoutStatus";
-
+import { ICONS } from "../../../../assets";
 
 const WeeklyPayouts = () => {
   const { data: allWeeklyPayouts, isLoading } = useGetWeeklyPayoutsQuery({});
@@ -76,18 +76,24 @@ const WeeklyPayouts = () => {
         />
       </div>
       {/* Status cards */}
-      <DashboardStatusOrLoader
-        statusCardInfo={[
-          {
-            title: "Total Pending Payouts",
-            valueCount: allWeeklyPayouts?.data?.length,
-          },
-        ]}
-        isLoading={isLoading}
-      />
+      {showPayouts && (
+        <DashboardStatusOrLoader
+          statusCardInfo={[
+            {
+              title: "Total Pending Payouts",
+              valueCount: allWeeklyPayouts?.data?.length,
+            },
+          ]}
+          isLoading={isLoading}
+        />
+      )}
 
       {!showPayouts && (
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col gap-5 items-center justify-center mt-10">
+          <img src={ICONS.notAllowed} alt="" className="size-[200px]" />
+          <h1 className="text-2xl font-semibold">
+            Payouts can only be generated on Tuesdays!
+          </h1>
           <Ripple styles="rounded-xl">
             <button
               onClick={generatePayouts}

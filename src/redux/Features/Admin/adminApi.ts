@@ -36,7 +36,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
-      providesTags: ["earning"],
+      providesTags: ["payout"],
     }),
 
     getAllOrders: builder.query({
@@ -114,7 +114,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "PATCH",
         credentials: "include",
       }),
-      invalidatesTags: ["earning"],
+      invalidatesTags: ["payout"],
     }),
 
     deleteCourse: builder.mutation({

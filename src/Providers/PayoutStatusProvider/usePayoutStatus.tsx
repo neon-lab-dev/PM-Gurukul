@@ -9,7 +9,7 @@ const usePayoutStatus = () => {
     const today = new Date();
     const currentDay = today.getDay(); // 2 = Tuesday
 
-    if (stored === "true" && storedDate === today.toDateString() && currentDay === 2) {
+    if (stored === "true" && storedDate === today.toDateString() && currentDay === 3) {
       return true;
     }
 
@@ -20,7 +20,7 @@ const usePayoutStatus = () => {
     const today = new Date();
     const currentDay = today.getDay();
 
-    if (currentDay === 2) {
+    if (currentDay === 3) {
       setShowPayouts(true);
       localStorage.setItem("showPayouts", "true");
       localStorage.setItem("payoutsDate", today.toDateString());
@@ -34,7 +34,7 @@ const usePayoutStatus = () => {
     const now = new Date();
     const currentDay = now.getDay();
 
-    if (currentDay !== 2) {
+    if (currentDay !==3) {
       localStorage.removeItem("showPayouts");
       localStorage.removeItem("payoutsDate");
       setShowPayouts(false);
@@ -52,7 +52,7 @@ const usePayoutStatus = () => {
 
     const timeout = setTimeout(() => {
       const nextDay = new Date();
-      if (nextDay.getDay() !== 2) {
+      if (nextDay.getDay() !== 3) {
         localStorage.removeItem("showPayouts");
         localStorage.removeItem("payoutsDate");
         setShowPayouts(false);
