@@ -32,7 +32,7 @@ const userApi = baseApi.injectEndpoints({
 
     myOrders: builder.query({
       query: () => ({
-        url: "/myorder",
+        url: "/my-orders",
         method: "GET",
         credentials: "include",
       }),

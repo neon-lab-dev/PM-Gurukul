@@ -41,7 +41,7 @@ const adminApi = baseApi.injectEndpoints({
 
     getAllOrders: builder.query({
       query: () => ({
-        url: "/allorders",
+        url: "/all-orders",
         method: "GET",
         credentials: "include",
       }),
