@@ -9,12 +9,25 @@ import { TBankInfo } from "../../../../types/profileData.types";
 import KYCStatus from "../../../../components/MyProfilePage/KycDetails/KYCStatus/KYCStatus";
 import UploadedProofs from "../../../../components/MyProfilePage/UploadedProofs/UploadedProofs";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useApproveKycMutation, useGetSingleUserByIdQuery, useRejectKycMutation, useUpdateUserDetailsMutation } from "../../../../redux/Features/Admin/adminApi";
+import {
+  useApproveKycMutation,
+  useGetSingleUserByIdQuery,
+  useRejectKycMutation,
+  useUpdateUserDetailsMutation,
+} from "../../../../redux/Features/Admin/adminApi";
 import { toast } from "sonner";
 import LoadingSpinner from "../../../../components/Loaders/LoadingSpinner/LoadingSpinner";
 import Ripple from "../../../../components/Reusable/Ripple/Ripple";
 
-type BankInfoField = 'accholderName' | 'accNumber' | 'accType' | 'ifscCode' | 'bankName' | 'bankBranch' | 'nominName' | 'nomiRelation';
+type BankInfoField =
+  | "accholderName"
+  | "accNumber"
+  | "accType"
+  | "ifscCode"
+  | "bankName"
+  | "bankBranch"
+  | "nominName"
+  | "nomiRelation";
 
 export type TProfileData = {
   full_name: string;
@@ -36,11 +49,13 @@ export type TProfileData = {
   refralCode: string;
   addline1: string;
   addline2: string;
+  gstNumber: string;
+  gstCompanyName: string;
   document: {
     doctype: string;
     documentNumber: string;
     docImage: any;
-  },
+  };
 } & {
   // dynamic access for bankInfo properties
   [key: `bankInfo.${number}.${keyof TBankInfo}`]: any;
@@ -53,7 +68,8 @@ const ViewAffiliate = () => {
   const { data: user } = useGetSingleUserByIdQuery(id);
   const [approveKyc, { isLoading: isApproving }] = useApproveKycMutation();
   const [rejectKyc, { isLoading: isRejecting }] = useRejectKycMutation();
-  const [updateUserDetails, { isLoading: isUpdating }] = useUpdateUserDetailsMutation();
+  const [updateUserDetails, { isLoading: isUpdating }] =
+    useUpdateUserDetailsMutation();
   const [selectedDocument, setSelectedDocument] = useState<string>("");
 
   const {
@@ -85,8 +101,11 @@ const ViewAffiliate = () => {
     }
   }, [user]);
 
-  const handleBankInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: BankInfoField) => {
-    setBankInfo(prev => {
+  const handleBankInfoChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    field: BankInfoField
+  ) => {
+    setBankInfo((prev) => {
       const updatedBankInfo = [...prev];
       updatedBankInfo[0][field] = e.target.value;
       return updatedBankInfo;
@@ -100,8 +119,8 @@ const ViewAffiliate = () => {
       setValue("mobileNumber", user?.user?.mobileNumber);
       setValue("gender", user?.user?.gender);
       const formattedDob = user?.user?.dob
-        ? new Date(user.user.dob).toISOString().split('T')[0]
-        : '';
+        ? new Date(user.user.dob).toISOString().split("T")[0]
+        : "";
       setValue("dob", formattedDob);
       setValue("city", user?.user?.city);
       setValue("state", user?.user?.state);
@@ -116,16 +135,42 @@ const ViewAffiliate = () => {
       setValue("document.doctype", user?.user?.document?.doctype);
       setSelectedDocument(user?.user?.document?.doctype);
       setValue("panNumber", user?.user?.panCard?.panNumber);
+      setValue("gstNumber", user?.user?.gstNumber);
+      setValue("gstCompanyName", user?.user?.gstCompanyName);
       if (user?.user?.bankInfo) {
         user.user.bankInfo.forEach((bank: TBankInfo, index: number) => {
-          setValue(`bankInfo.${index}.accholderName` as keyof TProfileData, bank.accholderName);
-          setValue(`bankInfo.${index}.accNumber` as keyof TProfileData, bank.accNumber);
-          setValue(`bankInfo.${index}.accType` as keyof TProfileData, bank.accType);
-          setValue(`bankInfo.${index}.ifscCode` as keyof TProfileData, bank.ifscCode);
-          setValue(`bankInfo.${index}.bankName` as keyof TProfileData, bank.bankName);
-          setValue(`bankInfo.${index}.bankBranch` as keyof TProfileData, bank.bankBranch);
-          setValue(`bankInfo.${index}.nominName` as keyof TProfileData, bank.nominName);
-          setValue(`bankInfo.${index}.nomiRelation` as keyof TProfileData, bank.nomiRelation);
+          setValue(
+            `bankInfo.${index}.accholderName` as keyof TProfileData,
+            bank.accholderName
+          );
+          setValue(
+            `bankInfo.${index}.accNumber` as keyof TProfileData,
+            bank.accNumber
+          );
+          setValue(
+            `bankInfo.${index}.accType` as keyof TProfileData,
+            bank.accType
+          );
+          setValue(
+            `bankInfo.${index}.ifscCode` as keyof TProfileData,
+            bank.ifscCode
+          );
+          setValue(
+            `bankInfo.${index}.bankName` as keyof TProfileData,
+            bank.bankName
+          );
+          setValue(
+            `bankInfo.${index}.bankBranch` as keyof TProfileData,
+            bank.bankBranch
+          );
+          setValue(
+            `bankInfo.${index}.nominName` as keyof TProfileData,
+            bank.nominName
+          );
+          setValue(
+            `bankInfo.${index}.nomiRelation` as keyof TProfileData,
+            bank.nomiRelation
+          );
         });
       }
     }
@@ -143,7 +188,6 @@ const ViewAffiliate = () => {
       console.error("Error approving KYC:", err);
     }
   };
-
 
   const handleRejectKyc = async () => {
     try {
@@ -180,7 +224,6 @@ const ViewAffiliate = () => {
     docBackImageFile: null,
   });
 
-
   // -------- For PAN Card ----- (Start)
 
   const [fileNames, setFileNames] = useState({
@@ -207,7 +250,7 @@ const ViewAffiliate = () => {
   };
   // -------- PAN Card end ------
 
-// Handle Front Image
+  // Handle Front Image
   const handleFileChangeFront = (name: string, file: File | null) => {
     if (file) {
       setFrontFileNames((prev) => ({
@@ -235,52 +278,54 @@ const ViewAffiliate = () => {
     }
   };
 
-// Update details function
+  // Update details function
   const handleUpdateUserDetails = async (data: TProfileData) => {
     try {
       const formData = new FormData();
 
       // Appending text fields
-      formData.append('full_name', data.full_name);
-      formData.append('email', data.email);
-      formData.append('gender', data.gender);
-      formData.append('dob', data.dob);
-      formData.append('mobileNumber', data?.mobileNumber);
-      formData.append('occupation', data.occupation);
-      formData.append('country', data.country);
-      formData.append('state', data.state);
-      formData.append('city', data.city);
-      formData.append('pinCode', data.pinCode);
-      formData.append('panNumber', data.panNumber);
-      formData.append('refralCode', data.refralCode);
-      formData.append('addline1', data.addline1);
-      formData.append('addline2', data.addline2);
+      formData.append("full_name", data.full_name);
+      formData.append("email", data.email);
+      formData.append("gender", data.gender);
+      formData.append("dob", data.dob);
+      formData.append("mobileNumber", data?.mobileNumber);
+      formData.append("occupation", data.occupation);
+      formData.append("country", data.country);
+      formData.append("state", data.state);
+      formData.append("city", data.city);
+      formData.append("pinCode", data.pinCode);
+      formData.append("panNumber", data.panNumber);
+      formData.append("refralCode", data.refralCode);
+      formData.append("addline1", data.addline1);
+      formData.append("addline2", data.addline2);
 
       // Appending document details
-      formData.append('doctype', selectedDocument);
-      formData.append('documentNumber', data.document.documentNumber);
+      formData.append("doctype", selectedDocument);
+      formData.append("documentNumber", data.document.documentNumber);
 
       // front side doc image
       if (frontFiles.docFrontImageFile) {
         if (frontFiles.docFrontImageFile) {
-          formData.append('docFrontImageFile', frontFiles.docFrontImageFile);
+          formData.append("docFrontImageFile", frontFiles.docFrontImageFile);
         }
       }
 
       // back side doc image
       if (backFiles.docBackImageFile) {
         if (backFiles.docBackImageFile) {
-          formData.append('docBackImageFile', backFiles.docBackImageFile);
+          formData.append("docBackImageFile", backFiles.docBackImageFile);
         }
       }
 
       // Appending bank info
-      formData.append('bankInfo', JSON.stringify(bankInfo));
+      formData.append("bankInfo", JSON.stringify(bankInfo));
 
       // Appending pan card image
-      if (files.panImageFile) formData.append('panImageFile', files.panImageFile);
+      if (files.panImageFile)
+        formData.append("panImageFile", files.panImageFile);
       // Appending pass book image
-      if (files.passbookImageFile) formData.append('passbookImageFile', files.passbookImageFile);
+      if (files.passbookImageFile)
+        formData.append("passbookImageFile", files.passbookImageFile);
 
       const response = await updateUserDetails({ id, formData }).unwrap();
       if (response?.user) {
@@ -304,41 +349,45 @@ const ViewAffiliate = () => {
           </span>
         </div>
         <div className="flex items-center gap-[10px]">
-
-
           {/* Reject button that opens the modal */}
           <button
             onClick={handleRejectKyc}
             className="px-4 py-2 bg-error border-[1px] border-[#DFE2E6] rounded-lg text-white"
           >
-            {
-              isRejecting ?
-                <LoadingSpinner />
-                :
-                "Reject"
-            }
+            {isRejecting ? <LoadingSpinner /> : "Reject"}
           </button>
 
-          <button disabled={isApproving} onClick={handleApproveKyc} className="px-4 py-2 bg-success border-[#051539] rounded-lg text-white">
-            {
-              isApproving ?
-                <LoadingSpinner />
-                :
-                "Approve KYC"
-            }
+          <button
+            disabled={isApproving}
+            onClick={handleApproveKyc}
+            className="px-4 py-2 bg-success border-[#051539] rounded-lg text-white"
+          >
+            {isApproving ? <LoadingSpinner /> : "Approve KYC"}
           </button>
         </div>
       </div>
-      <form onSubmit={handleSubmit(handleUpdateUserDetails)} className="flex flex-col gap-8 mt-8">
+      <form
+        onSubmit={handleSubmit(handleUpdateUserDetails)}
+        className="flex flex-col gap-8 mt-8"
+      >
         <PersonalInfo register={register} errors={errors} />
         <div className="flex flex-col gap-4">
           <p className="text-neutral-90 font-semibold">KYC Details</p>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-4">
               <KYCStatus kycStatus={user?.user?.kyc_status} />
-              <IdentityInfo register={register} errors={errors} setSelectedDocument={setSelectedDocument} selectedDocument={selectedDocument}
-                frontFileNames={frontFileNames} backFileNames={backFileNames} onFileChangeFront={handleFileChangeFront} onFileChangeBack={handleFileChangeBack}
-                handleFileChange={handleFileChange} fileNames={fileNames} />
+              <IdentityInfo
+                register={register}
+                errors={errors}
+                setSelectedDocument={setSelectedDocument}
+                selectedDocument={selectedDocument}
+                frontFileNames={frontFileNames}
+                backFileNames={backFileNames}
+                onFileChangeFront={handleFileChangeFront}
+                onFileChangeBack={handleFileChangeBack}
+                handleFileChange={handleFileChange}
+                fileNames={fileNames}
+              />
               {/* <UploadProof register={register} errors={errors} /> */}
               <UploadedProofs
                 docName={user?.user?.document?.doctype}
@@ -350,48 +399,49 @@ const ViewAffiliate = () => {
             </div>
             {user?.user?.bankInfo?.length > 0
               ? user?.user?.bankInfo?.map((_: TBankInfo, index: number) => (
-                <BankInfo
-                  key={index}
-                  handleBankInfoChange={handleBankInfoChange}
-                  handleFileChange={handleFileChange}
-                  fileNames={fileNames}
-                  index={index}
-                  register={register}
-                  errors={errors}
-                />
-              ))
+                  <BankInfo
+                    key={index}
+                    handleBankInfoChange={handleBankInfoChange}
+                    handleFileChange={handleFileChange}
+                    fileNames={fileNames}
+                    index={index}
+                    register={register}
+                    errors={errors}
+                  />
+                ))
               : [0].map((_, index) => (
-                <BankInfo
-                  key={index}
-                  handleBankInfoChange={handleBankInfoChange}
-                  handleFileChange={handleFileChange}
-                  fileNames={fileNames}
-                  index={index}
-                  register={register}
-                  errors={errors}
-                />
-              ))}
-
+                  <BankInfo
+                    key={index}
+                    handleBankInfoChange={handleBankInfoChange}
+                    handleFileChange={handleFileChange}
+                    fileNames={fileNames}
+                    index={index}
+                    register={register}
+                    errors={errors}
+                  />
+                ))}
           </div>
         </div>
 
         <div className="flex items-center justify-end gap-4">
           <Ripple styles="rounded-xl">
-            <Link to={"/admin/affiliates"} className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center">
+            <Link
+              to={"/admin/affiliates"}
+              className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center"
+            >
               Go Back
             </Link>
           </Ripple>
           <Ripple styles="rounded-xl">
-            <button type="submit" className="bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center">
-              {
-                isUpdating ? "Loading..." : 'Save Details'
-              }
+            <button
+              type="submit"
+              className="bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center"
+            >
+              {isUpdating ? "Loading..." : "Save Details"}
             </button>
           </Ripple>
         </div>
       </form>
-
-
 
       {/* ReasonForRejection Modal */}
       {/* <ReasonForRejection open={isModalOpen} onClose={closeModal} /> */}
