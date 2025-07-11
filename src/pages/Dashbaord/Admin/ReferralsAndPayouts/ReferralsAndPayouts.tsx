@@ -56,6 +56,7 @@ const ReferralsAndPayouts = () => {
     "November",
     "December",
   ];
+  
 
   // Daily, Weekly & Monthly earnings status
   const earnings = [
