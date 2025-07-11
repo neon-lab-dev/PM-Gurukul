@@ -3,7 +3,7 @@ import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
-import { useMyOrdersQuery } from "../../../../redux/Features/User/userApi";
+import { useGetMeQuery, useMyOrdersQuery } from "../../../../redux/Features/User/userApi";
 import { useState } from "react";
 import Invoice from "../../Admin/PurchaseHistory/Invoice";
 import { pdf } from "@react-pdf/renderer";
@@ -28,6 +28,7 @@ type TCombinedOrders = TMyOrders & TOrders;
 
 const MyOrders = () => {
   const { data: myOrders, isLoading } = useMyOrdersQuery({});
+  const { data: user } = useGetMeQuery({});
 
   const myOrdersTableHeaders = [
     { key: "no", label: "NO.", sortable: true },
@@ -42,7 +43,11 @@ const MyOrders = () => {
   const handleDownloadInvoice = async (order: TOrders) => {
     setIsGeneratingInvoice(true)
     try {
-      const blob = await pdf(<Invoice order={order} />).toBlob();
+      const companyDetails = {
+        gstNumber: user?.user?.gstNumber,
+        gstCompanyName: user?.user?.gstCompanyName,
+      }
+      const blob = await pdf(<Invoice order={order} companyDetails={companyDetails} />).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -57,8 +62,6 @@ const MyOrders = () => {
       setIsGeneratingInvoice(false);
     }
   };
-
-  console.log(myOrders?.orders);
 
   // Table data
   const myOrdersTableData = myOrders?.orders?.length

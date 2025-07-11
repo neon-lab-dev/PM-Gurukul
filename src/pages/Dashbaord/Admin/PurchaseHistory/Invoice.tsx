@@ -9,6 +9,7 @@ import {
 } from "@react-pdf/renderer";
 import { TOrders } from "./PurchaseHistory";
 import logo from "../../../../assets/Images/pm-gurukul.png";
+import rupee from "../../../../assets/Icons/rupee.png";
 import { formatDate } from "../../../../utils/formatDate";
 
 const styles = StyleSheet.create({
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: { width: 200, height: 60 },
+  rupee: { width: 6, height: 6 },
   address: { textAlign: "right", fontSize: 10 },
   section: {
     marginBottom: 10,
@@ -75,7 +77,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const Invoice = ({ order }: { order: TOrders }) => {
+const Invoice = ({
+  order,
+  companyDetails,
+}: {
+  order: TOrders;
+  companyDetails: any;
+}) => {
   const gstAmount = order?.totalPrice
     ? (order.totalPrice * Number(order?.gst)) / (100 + Number(order?.gst))
     : 0;
@@ -90,14 +98,15 @@ const Invoice = ({ order }: { order: TOrders }) => {
         <View style={styles.headerContainer}>
           <Image src={logo} style={styles.logo} />
           <View style={styles.address}>
-            <Text style={{ marginTop: 2 }}>BIZGURUKUL PRIVATE LIMITED</Text>
-            <Text style={{ marginTop: 2 }}>Regd. Add: A-26, SECOND FLOOR,</Text>
-            <Text style={{ marginTop: 2 }}>SECTOR-16, Noida,</Text>
-            <Text style={{ marginTop: 2 }}>Gautam Buddha Nagar- 201301,</Text>
-            <Text style={{ marginTop: 2 }}>Uttar Pradesh, India</Text>
-            <Text style={{ marginTop: 2 }}>GSTIN: 09AAJCB0091Q1Z6</Text>
-            <Text style={{ marginTop: 2 }}>State Name: Delhi, Code: 07</Text>
-            <Text style={{ marginTop: 2 }}>PAN: AAJCB0091Q</Text>
+            <Text style={{ marginTop: 2 }}>
+              PMGURUKKUL EDTECH MARKETING LLP
+            </Text>
+            <Text style={{ marginTop: 2 }}>
+              Address: 2/79, Geeta Colony, Delhi-110031,India,
+            </Text>
+            <Text style={{ marginTop: 2 }}>GSTIN: 07ABHFP1767D1Z8,</Text>
+            <Text style={{ marginTop: 2 }}>State Name: Delhi, Code: 07,</Text>
+            <Text style={{ marginTop: 2 }}>PAN: ABHFP1767D</Text>
           </View>
         </View>
 
@@ -105,7 +114,7 @@ const Invoice = ({ order }: { order: TOrders }) => {
         <View style={styles.section}>
           <Text>
             <Text style={styles.boldText}>Invoice#:</Text>
-            <Text style={styles.normalText}> {order._id}</Text>
+            <Text style={styles.normalText}> {order.paymentId}</Text>
           </Text>
           <Text style={{ marginTop: 5 }}>
             <Text style={styles.boldText}>Invoice Date:</Text>
@@ -122,17 +131,65 @@ const Invoice = ({ order }: { order: TOrders }) => {
           </View>
         </View>
 
-        {/* Invoiced To Section */}
-        <View style={styles.section2}>
-          <Text style={styles.boldText}>Invoiced To:</Text>
-          <Text style={{ marginTop: 5 }}>
-            <Text style={styles.boldText}>Name:</Text>
-            <Text style={styles.normalText}> {order?.user?.full_name}</Text>
-          </Text>
-          <Text style={{ marginTop: 5 }}>
-            <Text style={styles.boldText}>Mobile Number:</Text>
-            <Text style={styles.normalText}> {order?.user?.mobileNumber}</Text>
-          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: 10,
+            gap: 30,
+
+            width: "100%", // or any fixed width or % that suits your design
+          }}
+        >
+          {/* Invoiced To Section */}
+          <View style={{ flex: 1 }}>
+            <Text style={styles.boldText}>Invoiced To:</Text>
+            <View style={{ marginTop: 5 }}>
+              <Text>
+                <Text style={styles.boldText}>Name:</Text>
+                <Text style={styles.normalText}> {order?.user?.full_name}</Text>
+              </Text>
+            </View>
+            <View style={{ marginTop: 5 }}>
+              <Text>
+                <Text style={styles.boldText}>Mobile Number:</Text>
+                <Text style={styles.normalText}>
+                  {" "}
+                  {order?.user?.mobileNumber}
+                </Text>
+              </Text>
+            </View>
+          </View>
+
+          {/* GST details */}
+          {companyDetails && (
+            <View
+              style={{
+                alignSelf: "flex-start",
+              }}
+            >
+              <Text style={styles.boldText}>GST Information:</Text>
+              <View style={{ marginTop: 5 }}>
+                <Text>
+                  <Text style={styles.boldText}>GST Company Name:</Text>
+                  <Text style={styles.normalText}>
+                    {" "}
+                    {companyDetails?.gstCompanyName}
+                  </Text>
+                </Text>
+              </View>
+              <View style={{ marginTop: 5 }}>
+                <Text>
+                  <Text style={styles.boldText}>GST Number:</Text>
+                  <Text style={styles.normalText}>
+                    {" "}
+                    {companyDetails?.gstNumber}
+                  </Text>
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Course Table */}
@@ -162,7 +219,10 @@ const Invoice = ({ order }: { order: TOrders }) => {
               <Text style={[styles.tableCell, styles.cellWithBorder]}>
                 999293
               </Text>
-              <Text style={styles.tableCell}>{order?.discountedPrice}</Text>
+              <Text style={styles.tableCell}>
+                <Image src={rupee} style={styles.rupee} />
+                {order?.discountedPrice}
+              </Text>
             </View>
           ))}
 
@@ -180,6 +240,7 @@ const Invoice = ({ order }: { order: TOrders }) => {
               Sub Total:
             </Text>
             <Text style={[styles.tableCell, { fontWeight: "bold" }]}>
+              <Image src={rupee} style={styles.rupee} />
               {order?.discountedPrice}
             </Text>
           </View>
@@ -225,6 +286,7 @@ const Invoice = ({ order }: { order: TOrders }) => {
 
             {/* Cell 6: Corresponds to 'Amount' column. Takes 1/4 of width (flex: 2 out of 8 total). No right border. */}
             <Text style={[styles.tableCell, { fontWeight: "bold", flex: 2 }]}>
+              <Image src={rupee} style={styles.rupee} />
               {gstAmount.toFixed(2)}
             </Text>
           </View>
@@ -243,6 +305,7 @@ const Invoice = ({ order }: { order: TOrders }) => {
               Total:
             </Text>
             <Text style={[styles.tableCell, { fontWeight: "bold" }]}>
+              <Image src={rupee} style={styles.rupee} />
               {order?.totalPrice}
             </Text>
           </View>

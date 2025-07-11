@@ -12,6 +12,7 @@ import DashboardStatusOrLoader from '../../../../components/Reusable/DashboardSt
 
 export type TOrders = {
   _id: string;
+  paymentId: string;
   user: {
     _id: string;
     mobileNumber: string;
