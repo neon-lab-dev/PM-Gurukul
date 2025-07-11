@@ -163,8 +163,7 @@ const Invoice = ({
           </View>
 
           {/* GST details */}
-          {companyDetails && (
-            <View
+           <View
               style={{
                 alignSelf: "flex-start",
               }}
@@ -175,7 +174,7 @@ const Invoice = ({
                   <Text style={styles.boldText}>GST Company Name:</Text>
                   <Text style={styles.normalText}>
                     {" "}
-                    {companyDetails?.gstCompanyName}
+                    {companyDetails?.gstCompanyName || "N/A"}
                   </Text>
                 </Text>
               </View>
@@ -184,12 +183,11 @@ const Invoice = ({
                   <Text style={styles.boldText}>GST Number:</Text>
                   <Text style={styles.normalText}>
                     {" "}
-                    {companyDetails?.gstNumber}
+                    {companyDetails?.gstNumber || "N/A"}
                   </Text>
                 </Text>
               </View>
             </View>
-          )}
         </View>
 
         {/* Course Table */}
