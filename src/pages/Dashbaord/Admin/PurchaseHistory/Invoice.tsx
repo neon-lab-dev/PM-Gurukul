@@ -82,7 +82,7 @@ const Invoice = ({
   companyDetails,
 }: {
   order: TOrders;
-  companyDetails: any;
+  companyDetails?: any;
 }) => {
   const gstAmount = order?.totalPrice
     ? (order.totalPrice * Number(order?.gst)) / (100 + Number(order?.gst))
