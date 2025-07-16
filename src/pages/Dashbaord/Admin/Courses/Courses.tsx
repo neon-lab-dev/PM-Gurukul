@@ -5,25 +5,25 @@ import { formatDate } from "../../../../utils/formatDate";
 import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
 import { toast } from "sonner";
-import { useDeleteCourseMutation, useGetAllCoursesQuery } from "../../../../redux/Features/Admin/adminApi";
+import {
+  useDeleteCourseMutation,
+  useGetAllCoursesQuery,
+} from "../../../../redux/Features/Admin/adminApi";
 import { TCourse } from "../../../../components/CoursePage/AllCourses/course.types";
 import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
 
 const AdminCourses = () => {
-  const { data: allCourses, isLoading } = useGetAllCoursesQuery({ searchQuery: "" });
+  const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
 
   const handleDeleteCourse = async (id: string) => {
     try {
-      await toast.promise(
-        deleteCourse(id).unwrap(),
-        {
-          loading: "Loading...",
-          success: "Course deleted successfully!",
-          error: "Failed to delete course. Please try again.",
-        }
-      );
+      await toast.promise(deleteCourse(id).unwrap(), {
+        loading: "Loading...",
+        success: "Course deleted successfully!",
+        error: "Failed to delete course. Please try again.",
+      });
     } catch (err) {
       console.error("Error deleting course:", err);
     }
@@ -45,17 +45,20 @@ const AdminCourses = () => {
   // Pending KYC user table data
   const allCoursesTableData = allCourses?.courses?.length
     ? allCourses?.courses?.map((course: TCourse, index: number) => ({
-      no: `${index + 1}`,
-      courseName: course?.title,
-      category: course?.category,
-      creator: course?.author,
-      basePrice: `₹${course?.basePrice}`,
-      discountedPrice: `₹${course?.discountedPrice}`,
-      publishedOn: formatDate(course?.createdAt),
-      action: [
-        { label: "Delete Course", onClick: () => handleDeleteCourse(course._id) },
-      ],
-    }))
+        no: `${index + 1}`,
+        courseName: course?.title,
+        category: course?.category,
+        creator: course?.author,
+        basePrice: `₹${course?.basePrice}`,
+        discountedPrice: `₹${course?.discountedPrice}`,
+        publishedOn: formatDate(course?.createdAt),
+        action: [
+          {
+            label: "Delete Course",
+            onClick: () => handleDeleteCourse(course._id),
+          },
+        ],
+      }))
     : [];
 
   return (
@@ -85,22 +88,19 @@ const AdminCourses = () => {
         isLoading={isLoading}
       />
 
-      {
-        isLoading ?
-          <div className="flex items-center justify-center mt-5">
-            <Spinner />
-          </div>
-          :
-          allCoursesTableData?.length > 0
-            ?
-            <Table
-              headers={allCoursesTableHeaders}
-              data={allCoursesTableData}
-              showHeader={true}
-            />
-            :
-            <NoDataFound message={"No Course found."} />
-      }
+      {isLoading ? (
+        <div className="flex items-center justify-center mt-5">
+          <Spinner />
+        </div>
+      ) : allCoursesTableData?.length > 0 ? (
+        <Table
+          headers={allCoursesTableHeaders}
+          data={allCoursesTableData}
+          showHeader={true}
+        />
+      ) : (
+        <NoDataFound message={"No Course found."} />
+      )}
     </>
   );
 };

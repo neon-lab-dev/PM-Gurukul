@@ -156,7 +156,7 @@ const AddVideo: React.FC<AddVideoProps> = ({ isOpen, onClose, courseId }) => {
               Cancel
             </button>
             <button
-              disabled={isUploading}
+              disabled={isUploading || isLoading}
               type="submit"
               className="px-4 py-2 bg-[#051539] text-white border-[1px] border-[#DFE2E6] rounded-lg"
             >

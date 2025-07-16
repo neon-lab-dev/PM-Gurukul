@@ -66,7 +66,7 @@ const adminApi = baseApi.injectEndpoints({
     }),
 
     getAllCourses: builder.query({
-      query: (searchQuery) => ({
+      query: ({searchQuery}) => ({
         url: `/courses?keyword=${searchQuery}`,
         method: "GET",
         credentials: "include",
