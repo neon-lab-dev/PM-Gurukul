@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import VideoPlayer from "../../../components/MyCoursesPage/VideoPlayer";
 import Playlist from "../../../components/MyCoursesPage/PlaylistAccordion";
 import { ICONS, IMAGES } from "../../../assets";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import { TLecture } from "../../../types/lecture.types";
 
 const MyCourseVideo = () => {
@@ -18,16 +18,29 @@ const MyCourseVideo = () => {
     },
   });
 
+  // 🚫 Disable right-click
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
     <div>
       <div className="flex w-full justify-between items-center py-3 px-6">
-        <Link to={"/"} className="">
+        <Link to={"/"}>
           <img
             src={IMAGES.pmGurukulLogo}
             alt="PM-Gurukul"
             className="w-32 md:w-60"
           />
-        </Link>{" "}
+        </Link>
         <div className="bg-white flex justify-end items-center">
           <ul className="flex gap-5">
             {/* <li>
