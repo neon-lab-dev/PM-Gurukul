@@ -2,7 +2,6 @@ import { baseApi } from "../../Api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
     getAllUser: builder.query({
       query: () => ({
         url: "/all/user",
@@ -64,6 +63,15 @@ const adminApi = baseApi.injectEndpoints({
         credentials: "include",
       }),
       providesTags: ["user"],
+    }),
+
+    getAllCourses: builder.query({
+      query: (searchQuery) => ({
+        url: `/courses?keyword=${searchQuery}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["course"],
     }),
 
     approveKyc: builder.mutation({
@@ -137,7 +145,7 @@ const adminApi = baseApi.injectEndpoints({
     }),
 
     addVideo: builder.mutation({
-      query: ({formData, courseId}) => ({
+      query: ({ formData, courseId }) => ({
         url: `/course/${courseId}`,
         method: "PUT",
         body: formData,
@@ -147,14 +155,13 @@ const adminApi = baseApi.injectEndpoints({
     }),
 
     deleteVideo: builder.mutation({
-      query: ({courseId, lectureId}) => ({
+      query: ({ courseId, lectureId }) => ({
         url: `/lectures?courseId=${courseId}&lectureId=${lectureId}`,
         method: "DELETE",
         credentials: "include",
       }),
       invalidatesTags: ["course"],
     }),
-
   }),
 });
 
@@ -167,6 +174,7 @@ export const {
   useGetSingleOrderByIdQuery,
   useGetSingleUserByIdQuery,
   useUpdateUserDetailsMutation,
+  useGetAllCoursesQuery,
   useApproveKycMutation,
   useRejectKycMutation,
   useApprovePayoutMutation,

@@ -1,12 +1,11 @@
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
 import { Link } from "react-router-dom";
-import { useGetAllCoursesQuery } from "../../../../redux/Features/Course/courseApi";
 import { formatDate } from "../../../../utils/formatDate";
 import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
 import { toast } from "sonner";
-import { useDeleteCourseMutation } from "../../../../redux/Features/Admin/adminApi";
+import { useDeleteCourseMutation, useGetAllCoursesQuery } from "../../../../redux/Features/Admin/adminApi";
 import { TCourse } from "../../../../components/CoursePage/AllCourses/course.types";
 import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
