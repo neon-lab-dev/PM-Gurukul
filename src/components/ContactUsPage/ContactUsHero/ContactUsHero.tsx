@@ -15,7 +15,7 @@ const ContactUsHero = () => {
                 <p className="text-neutral-15 text-[15px] leading-6 mt-4">
                     CUSTOMER SUPPORT NUMBER :
                     ( TIMINGS – 10:00 AM to 5:30 PM from Monday to Saturday )
-                    <a href="tel:9540 143 943" className='text-blue-10 hover:underline ml-3'>9540 143 943</a>
+                    <a href="tel:87 50 210 100" className='text-blue-10 hover:underline ml-3'>87 50 210 100</a>
 
                 </p>
                 <div className='flex flex-col md:flex-row items-center gap-2 justify-center mt-4'>

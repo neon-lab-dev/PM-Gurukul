@@ -73,7 +73,7 @@ export const socialMediaLinks = [
     },
     {
         icon: ICONS.whatsapp,
-        path: "https://api.whatsapp.com/send?phone=9540143943&text=Hello,%20I%20want%20to%20know%20more%20about%20your%20courses.",
+        path: "https://api.whatsapp.com/send?phone=8750210100&text=Hello,%20I%20want%20to%20know%20more%20about%20your%20courses.",
         size: 35
     },
     {

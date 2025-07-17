@@ -153,7 +153,7 @@ export const content4 = [
         details: [
             "1. So that no one's money is ever misused, never accept any cash amount or any registration amounts of any customer into your bank account; deposit all money directly in the company's bank account.",
             "2. The company is not responsible for monetary transactions in individual accounts other than the official Bank Account of PMGURUKKUL.",
-            "3. If you have any kind of problem or any query, you can call the company's customer care number. PMGURUKKUL has only one active Support Number 9540143943.",
+            "3. If you have any kind of problem or any query, you can call the company's customer care number. PMGURUKKUL has only one active Support Number 8750210100.",
             "4. PMGURUKKUL Support Team only uses the official email ID support@pmgurukkul.com for communication.",
             "5. PMGURUKKUL Support Team never asks for any OTP, passwords, or sensitive information.",
             "6. Do not share any of your details with anyone. If the company asks you to share, then share your details like your name, registered number, email, etc., only through the email ID support@pmgurukkul.com.",

@@ -16,7 +16,7 @@ const CustomerSupport = () => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <a href="tel:+9540143943" target="_blank" rel="noreferrer">
+            <a href="tel:+8750210100" target="_blank" rel="noreferrer">
               <Ripple styles="rounded-[14px]">
                 <button className="px-7 py-[14px] border border-primary-10 rounded-[14px] text-primary-10 font-semibold text-xl leading-6">
                   Mobile
@@ -24,7 +24,7 @@ const CustomerSupport = () => {
               </Ripple>
             </a>
             <a
-              href="https://api.whatsapp.com/send?phone=9540143943&text=Hello,%20I%20want%20to%20know%20more%20about%20your%20courses."
+              href="https://api.whatsapp.com/send?phone=8750210100&text=Hello,%20I%20want%20to%20know%20more%20about%20your%20courses."
               target="_blank"
               rel="noreferrer"
             >
