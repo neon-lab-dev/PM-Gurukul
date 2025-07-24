@@ -78,7 +78,7 @@ const Sidebar: React.FC = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "https://pmgurkulbackend.vercel.app/api/v1/logout"
+        "https://api.pmgurukkul.com/api/v1/logout"
       );
 
       if (response.ok) {
