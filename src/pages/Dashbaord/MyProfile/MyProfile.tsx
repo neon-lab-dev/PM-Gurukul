@@ -132,7 +132,6 @@ const MyProfile = () => {
     //     passbookImageFile: null,
     //     docImage: null,
     // });
-  console.log(frontFiles, backFiles);
 
   // -------- For PAN Card ----- (Start)
 
@@ -247,7 +246,6 @@ const MyProfile = () => {
     }
   };
 
-  console.log(user?.user?.document?.docBackImage?.url);
 
 
   return (

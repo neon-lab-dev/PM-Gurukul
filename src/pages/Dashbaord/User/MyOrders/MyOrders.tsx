@@ -69,7 +69,7 @@ const MyOrders = () => {
       no: `${index + 1}`,
       orderId: order?._id,
       noOfItems: order?.course?.length,
-      amount: `₹${order?.amountCredited}`,
+      amount: `₹${order?.totalPrice}`,
       action: [
         {
           label: `${isGeneratingInvoice ? "Generating Invoice" : "Download Invoice"}`,
