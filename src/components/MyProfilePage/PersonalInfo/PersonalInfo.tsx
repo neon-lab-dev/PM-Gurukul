@@ -265,6 +265,7 @@ const PersonalInfo: React.FC<TPersonalInfo> = ({ register, errors, mobileNumber 
           <TextInput
             label="Referral Code"
             placeholder="Enter your referral Code"
+            isDisabled={location.pathname === "/dashboard/my-profile" ? true : false}
             error={errors.city}
             {...register("refralCode", {
               required: "Referral Code is required",

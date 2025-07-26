@@ -259,19 +259,21 @@ const MyProfile = () => {
           <h1 className="text-2xl font-semibold text-neutral-90">My Profile</h1>
         </div>
 
-        <div className="flex justify-end">
-          {/* <button
-            onClick={() => setIsKycClicked(!isKycClicked)}
-            type="button"
-            className="px-6 py-3 bg-primary-10 text-white rounded-xl text-lg font-semibold">
-            Submit KYC Information
-          </button> */}
+        <div className="flex gap-5 justify-end">
+          <div className="bg-white rounded-lg border border-neutral-75 p-4">
+            <h1 className="">Referred By</h1> 
+          <h1 className="font-semibold">{user?.user?.referredBy?.full_name} ({user?.user?.referredBy?.email})</h1> 
+          <h1 className="font-semibold"><span className="font-normal">Referral Code : </span>{user?.user?.referredBy?.refralCode}</h1> 
+          </div>
 
-          <Ripple styles="rounded-xl">
-            <button onClick={() => setIsKycClicked(!isKycClicked)} type="button" className="bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center">
-              Submit KYC Information
+            <div className="bg-white rounded-lg border border-neutral-75 p-4 flex flex-col items-center justify-center">
+              <p>Submit Your KYC Information</p>
+          <Ripple styles="rounded-xl w-full">
+              <button onClick={() => setIsKycClicked(!isKycClicked)} type="button" className="mt-2 bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center">
+              Submit
             </button>
           </Ripple>
+            </div>
         </div>
       </div>
 
