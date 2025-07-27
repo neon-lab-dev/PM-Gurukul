@@ -121,7 +121,7 @@ const VerifyPhoneNumber = () => {
 
                 {
                     isTimerFinished ?
-                        <Link to={"/auth/login"} className="text-primary-10 text-sm leading-5 font-medium text-center">Resend OTP</Link>
+                        <Link to={"/auth/signup"} className="text-primary-10 text-sm leading-5 font-medium text-center">Resend OTP</Link>
                         :
                         <p className="font-Inter text-neutral-65 text-center">
                             Resend In <strong>0:{timeLeft.toString().padStart(2, "0")}</strong>

@@ -227,6 +227,39 @@ const SetupProfile = () => {
     }
   };
 
+ const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+const [isTimerFinished, setIsTimerFinished] = useState(false);
+
+useEffect(() => {
+  const timerInterval = setInterval(() => {
+    setTimeLeft((prevTimeLeft) => {
+      if (prevTimeLeft > 0) {
+        return prevTimeLeft - 1;
+      } else {
+        clearInterval(timerInterval);
+        setIsTimerFinished(true);
+        return 0;
+      }
+    });
+  }, 1000);
+
+  return () => clearInterval(timerInterval);
+}, []);
+
+useEffect(() => {
+  if (isTimerFinished) {
+    navigate("/auth/login");
+  }
+}, [isTimerFinished, navigate]);
+
+// 🕒 Format seconds to MM:SS
+const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+};
+
+
   return (
     <>
       <Helmet>
@@ -245,6 +278,11 @@ const SetupProfile = () => {
               Setup Your Profile
             </h1>
           </div>
+
+          <h1 className="font-semibold text-orange-600">
+            Please complete your profile setup in{" "}
+            {formatTime(timeLeft)} minutes
+          </h1>
 
           <PersonalInfo
             register={register}
