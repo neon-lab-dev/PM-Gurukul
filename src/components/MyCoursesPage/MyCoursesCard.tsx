@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ICONS } from "../../assets";
-import Forum from "../../pages/Dashbaord/MyCourses/Forum";
 import { Link } from "react-router-dom";
+import Threads from "../../pages/Dashbaord/Admin/Courses/Threads/Threads";
 
 type TMyCoursesCard = {
   _id: string;
@@ -18,8 +18,10 @@ const MyCoursesCard:React.FC<TMyCoursesCard> = ({
   poster,
 }) => {
   const completedLesson = 1;
-  const [showForum, setShowForum] = useState(false);
   const progress = (completedLesson / numOfVideos) * 100;
+
+  const [courseId, setCourseId] = useState<string>("");
+  const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
 
   return (
     <>
@@ -63,7 +65,7 @@ const MyCoursesCard:React.FC<TMyCoursesCard> = ({
 
           <div className="flex gap-2">
             <button
-              onClick={() => setShowForum(true)}
+              onClick={() => {setIsThreadsBarOpen(true); setCourseId(_id);}}
               className="bg-neutral-60 flex items-center border border-neutral-55 py-[10px] px-4  text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center"
             >
               Check Forum
@@ -80,8 +82,8 @@ const MyCoursesCard:React.FC<TMyCoursesCard> = ({
         </div>
       </div>
 
-      {showForum && (
-        <Forum onClose={() => setShowForum(false)} />
+      {isThreadsBarOpen && (
+        <Threads courseId={courseId} isThreadsBarOpen={isThreadsBarOpen} setIsThreadsBarOpen={setIsThreadsBarOpen} />
       )}
     </>
   );

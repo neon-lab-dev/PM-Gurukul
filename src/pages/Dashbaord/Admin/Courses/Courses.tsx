@@ -46,8 +46,6 @@ const AdminCourses = () => {
     { key: "action", label: "ACTION", sortable: false },
   ];
 
-  console.log(courseId);
-
   // Pending KYC user table data
   const allCoursesTableData = allCourses?.courses?.length
     ? allCourses?.courses?.map((course: TCourse, index: number) => ({

@@ -17,7 +17,6 @@ import KYCFormPage from "../pages/Dashbaord/KYC/KYCFormPage";
 import MyCourseVideo from "../pages/Dashbaord/MyCourses/MyCourseVideo";
 import KYCStatusPage from "../pages/Dashbaord/KYC/KYCStatusPage";
 import CourseVideoLayout from "../layouts/CourseVideoLayout/CourseVideoLayout";
-import Forum from "../pages/Dashbaord/MyCourses/Forum";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import Cart from "../pages/Cart/Cart";
 import AdminCourses from "../pages/Dashbaord/Admin/Courses/Courses";
@@ -145,16 +144,6 @@ export const router = createBrowserRouter([
       {
         path: "my-courses",
         element: <MyCourses />,
-      },
-      {
-        path: "forum",
-        element: (
-          <Forum
-            onClose={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        ),
       },
       {
         path: "referral",

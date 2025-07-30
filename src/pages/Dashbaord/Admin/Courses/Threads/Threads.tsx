@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { ICONS, IMAGES } from "../../../../../assets";
-import {
-  useAddThreadMutation,
-  useGetSingleCourseByIdQuery,
-} from "../../../../../redux/Features/Course/courseApi";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import TextInput from "../../../../../components/Reusable/TextInput/TextInput";
-import Textarea from "../../../../../components/Reusable/TextArea/TextArea";
-import LoadingSpinner from "../../../../../components/Loaders/LoadingSpinner/LoadingSpinner";
-
-type OtpFormData = {
-  title: string;
-  content: string;
-};
+import { IMAGES } from "../../../../../assets";
+import { useGetSingleCourseByIdQuery } from "../../../../../redux/Features/Course/courseApi";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../../../redux/Features/Auth/authSlice";
+import { TLoggedInUser } from "../../../../../types/user.types";
+import { FaChevronDown } from "react-icons/fa";
+import AddThreadForm from "./AddThreadForm";
+import AddReplyForm from "./AddReplyForm";
+import ThreadCardLoader from "../../../../../components/Loaders/ThreadCardLoader/ThreadCardLoader";
+import { MdDelete } from "react-icons/md";
 
 const Threads = ({
   courseId,
@@ -25,6 +20,9 @@ const Threads = ({
   isThreadsBarOpen: boolean;
   setIsThreadsBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const user = useSelector(useCurrentUser) as TLoggedInUser;
+
+  //   Control outside click
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -41,41 +39,25 @@ const Threads = ({
     };
   }, [isThreadsBarOpen, setIsThreadsBarOpen]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<OtpFormData>();
-
+  //   To fetch threads/forum contents
   const { data: singleCourseData, isLoading: isThreadLoading } =
     useGetSingleCourseByIdQuery(courseId);
-  console.log(singleCourseData);
+
+  // To control add thread/forum form for admin
   const [isAddThreadFormOpen, setIsAddThreadFormOpen] =
     useState<boolean>(false);
-  const [addThread, { isLoading }] = useAddThreadMutation();
 
-  const handleAddThread = async (data: OtpFormData) => {
-    try {
-      const payload = {
-        ...data,
-      };
-      const response = await addThread({ courseId, data: payload }).unwrap();
-      if (response?.success) {
-        toast.success(response?.message);
-        setIsAddThreadFormOpen(false);
-        reset();
-      }
-    } catch (err) {
-      toast.error((err as any)?.data?.message);
-    }
-  };
+  // To control the replies accordion
+  const [isAccordingOpen, setIsAccordingOpen] = useState(-1);
+  const handleClick = (index: number) =>
+    setIsAccordingOpen((prevIndex) => (prevIndex === index ? -1 : index));
 
+  const [selectedThreadId, setSelectedThreadId] = useState<string>("");
   return (
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black transition-opacity duration-300 z-40 ${
+        className={`fixed font-Inter inset-0 bg-black transition-opacity duration-300 z-40 ${
           isThreadsBarOpen ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setIsThreadsBarOpen(false)}
@@ -92,105 +74,163 @@ const Threads = ({
             <button onClick={() => setIsThreadsBarOpen(false)}>✕</button>
             <h2 className="text-lg font-semibold">Course Forum</h2>
           </div>
-          <button
-            type="button"
-            className="px-5 bg-primary-10 text-white py-2 rounded-lg"
-            onClick={() => setIsAddThreadFormOpen(!isAddThreadFormOpen)}
-          >
-            Add Thread
-          </button>
+          {user?.role === "admin" && (
+            <button
+              type="button"
+              className="px-5 bg-primary-10 text-white py-2 rounded-lg"
+              onClick={() => setIsAddThreadFormOpen(!isAddThreadFormOpen)}
+            >
+              Add Thread
+            </button>
+          )}
         </div>
 
+        {/* Add thread form */}
         {isAddThreadFormOpen && (
-          <form
-            onSubmit={handleSubmit(handleAddThread)}
-            className="flex flex-col gap-5 bg-neutral-15/20 border border-neutral-30/15 p-4"
-          >
-            <TextInput
-              label="Title"
-              placeholder="Enter title"
-              error={errors.title}
-              {...register("title", { required: "Title is required" })}
-            />
-            <Textarea
-              label="Content"
-              placeholder="Write content here..."
-              rows={6}
-              error={errors.content}
-              {...register("content", {
-                required: "Content is required",
-              })}
-            />
-
-            <div className="flex justify-end">
-              <button
-                disabled={isLoading}
-                type="submit"
-                className={`px-6 py-3 bg-primary-10 text-white rounded-xl text-lg font-semibold w-fit ${
-                  isLoading ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
-              >
-                {isLoading ? <LoadingSpinner /> : "Submit"}
-              </button>
-            </div>
-          </form>
+          <AddThreadForm
+            courseId={courseId}
+            setIsAddThreadFormOpen={setIsAddThreadFormOpen}
+          />
         )}
 
-        <div className="flex flex-col justify-between relative gap-6 bg-neutral-80 p-6 h-[calc(100%-4rem)] ">
+        <div className="flex flex-col justify-between relative gap-6 bg-neutral-80 p-6 h-[calc(100%-4rem)]">
           {/* Forum content */}
-          <div className="flex flex-col gap-4 h-[70vh] overflow-y-scroll">
-            {singleCourseData?.course?.forum?.map((thread: any) => (
-              <div
-                key={thread?._id}
-                className="flex justify-start items-end gap-2"
-              >
-                <img
-                  src={IMAGES.pmGurukulFavicon}
-                  alt="avatar"
-                  className="size-7 rounded-full"
-                />
-                <div className="flex flex-col bg-[#ebedf0] rounded-xl p-4 gap-2 w-full">
-                  <div className=" gap-2">
-                    <h1 className="text-neutral-90 font-medium">
-                      PMGURUKKUL | Admin
-                    </h1>
-                    <p className="text-neutral-65 text-xs">
-                      {new Date(thread?.createdAt).toLocaleString()}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="mt-2 capitalize font-semibold">
-                      {thread?.title}
-                    </h1>
-
-                    <p className="text-neutral-65">{thread?.content}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-end ">
-              <div className="flex bg-primary-10 rounded-xl p-4">
-                <p className="text-white">Meet link please</p>
-              </div>
+          {isThreadLoading ? (
+            <div className="flex flex-col gap-3">
+              {[1, 2, 3].map((_, index) => (
+                <ThreadCardLoader key={index} />
+              ))}
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-4 h-[80vh] border-b overflow-y-auto">
+              {
+              singleCourseData?.course?.forum?.length < 1 ?
+              <p>No threads found</p>
+              :
+              singleCourseData?.course?.forum?.map(
+                (thread: any, index: number) => (
+                  <div key={thread?._id} className="flex gap-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedThreadId === thread._id}
+                      onChange={() =>
+                        setSelectedThreadId(
+                          selectedThreadId === thread._id ? null : thread._id
+                        )
+                      }
+                      className="accent-primary-10 size-4"
+                    />
+                    <div className="w-full">
+                      <div
+                        className={`flex flex-col bg-primary-10 rounded-xl p-4 gap-2 w-full ${
+                          isAccordingOpen === index && "rounded-b-none"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="bg-white size-8 rounded-full p-1">
+                              <img
+                                src={IMAGES.pmGurukulFavicon}
+                                alt="avatar"
+                                className="size-7 rounded-full"
+                              />
+                            </div>
+                            <div>
+                              <h1 className="text-white font-medium">
+                                PMGURUKKUL | Admin
+                              </h1>
+                              <p className="text-neutral-10 text-xs">
+                                {new Date(thread?.createdAt).toLocaleString()}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleClick(index)}
+                            className="text-white font-medium flex items-center gap-2 cursor-pointer"
+                          >
+                            View Replies
+                            <FaChevronDown
+                              className={`dark:text-slate-600 text-text transition-all duration-300 ${
+                                isAccordingOpen === index && "rotate-[180deg]"
+                              }`}
+                            />
+                          </button>
+                        </div>
+                        <div>
+                          <h1 className="mt-2 capitalize font-semibold text-white">
+                            {thread?.title}
+                          </h1>
 
-          {/* <form
-            onSubmit={handleSubmit(handleAddThread)}
-            className="flex justify-between items-center border border-neutral-300 bg-white rounded-3xl relative"
-          >
-            <input
-              type="text"
-              placeholder="Ask a question..."
-              className=" p-2 rounded-3xl w-full focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-primary-10 w-8 h-8 flex justify-center items-center rounded-full mx-2"
-            >
-              <img src={ICONS.ArrowUp} alt="send" />
-            </button>
-          </form> */}
+                          <p className="text-neutral-15/80">
+                            {thread?.content}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Replies */}
+                      <div
+                        className={`grid transition-all duration-300 rounded-b-xl overflow-hidden ease-in-out bg-[#ebedf0] p-4 max-h-[300px] overflow-y-auto custom-scrollbar ${
+                          isAccordingOpen === index
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] h-0 opacity-0"
+                        }`}
+                      >
+                        {thread?.replies?.length > 1 && (
+                          <h1 className="text-neutral-90 font-medium">
+                            All replies from students
+                          </h1>
+                        )}
+                        {/* All replies */}
+                        <div className="flex flex-col gap-4 mt-3">
+                          {thread?.replies?.length < 1 ? (
+                            <p>No replies yet</p>
+                          ) : (
+                            thread?.replies?.map((reply: any) => (
+                              <div
+                                key={reply?._id}
+                                className="flex flex-col gap-3 bg-white rounded-xl p-4"
+                              >
+                               <div className="flex items-center justify-between">
+                                 <div className="flex items-center gap-2">
+                                  <div className="size-8 rounded-full bg-[#ebedf0] flex items-center justify-center font-semibold">
+                                    {reply?.sender?.full_name
+                                      ?.charAt(0)
+                                      .toUpperCase()}
+                                  </div>
+                                  <div>
+                                    <h1 className="text-neutral-90 font-medium text-sm">
+                                      {reply?.sender?.full_name}
+                                    </h1>
+                                    <p className="text-neutral-30/80 text-xs">
+                                      {new Date(
+                                        reply?.createdAt
+                                      ).toLocaleString()}
+                                    </p>
+                                  </div>
+                                </div>
+                                <MdDelete className="text-rose-500" />
+                               </div>
+
+                                <p className="text-neutral-90">
+                                  {reply?.message}
+                                </p>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
+
+          <AddReplyForm
+            courseId={courseId}
+            selectedThreadId={selectedThreadId}
+            setSelectedThreadId={setSelectedThreadId}
+          />
         </div>
       </div>
     </>
