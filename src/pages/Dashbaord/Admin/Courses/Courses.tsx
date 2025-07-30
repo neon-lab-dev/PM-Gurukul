@@ -16,7 +16,7 @@ import { useState } from "react";
 import Threads from "./Threads/Threads";
 
 const AdminCourses = () => {
-    const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
+  const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
   const [courseId, setCourseId] = useState<string>("");
@@ -62,7 +62,7 @@ const AdminCourses = () => {
             onClick: () => handleDeleteCourse(course._id),
           },
           {
-            label: "Threads",
+            label: "Forum",
             onClick: () => {
               setIsThreadsBarOpen(true);
               setCourseId(course?._id);
@@ -113,9 +113,13 @@ const AdminCourses = () => {
         <NoDataFound message={"No Course found."} />
       )}
 
-      {
-        isThreadsBarOpen && <Threads courseId={courseId} isThreadsBarOpen={isThreadsBarOpen} setIsThreadsBarOpen={setIsThreadsBarOpen} />
-      }
+      {isThreadsBarOpen && (
+        <Threads
+          courseId={courseId}
+          isThreadsBarOpen={isThreadsBarOpen}
+          setIsThreadsBarOpen={setIsThreadsBarOpen}
+        />
+      )}
     </>
   );
 };
