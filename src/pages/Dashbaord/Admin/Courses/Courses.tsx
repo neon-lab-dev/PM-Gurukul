@@ -12,10 +12,14 @@ import {
 import { TCourse } from "../../../../components/CoursePage/AllCourses/course.types";
 import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
+import { useState } from "react";
+import Threads from "./Threads/Threads";
 
 const AdminCourses = () => {
+    const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
+  const [courseId, setCourseId] = useState<string | null>(null);
 
   const handleDeleteCourse = async (id: string) => {
     try {
@@ -42,6 +46,8 @@ const AdminCourses = () => {
     { key: "action", label: "ACTION", sortable: false },
   ];
 
+  console.log(courseId);
+
   // Pending KYC user table data
   const allCoursesTableData = allCourses?.courses?.length
     ? allCourses?.courses?.map((course: TCourse, index: number) => ({
@@ -56,6 +62,13 @@ const AdminCourses = () => {
           {
             label: "Delete Course",
             onClick: () => handleDeleteCourse(course._id),
+          },
+          {
+            label: "Threads",
+            onClick: () => {
+              setIsThreadsBarOpen(true);
+              setCourseId(course?._id);
+            },
           },
         ],
       }))
@@ -101,6 +114,10 @@ const AdminCourses = () => {
       ) : (
         <NoDataFound message={"No Course found."} />
       )}
+
+      {
+        isThreadsBarOpen && <Threads courseId={courseId} isThreadsBarOpen={isThreadsBarOpen} setIsThreadsBarOpen={setIsThreadsBarOpen} />
+      }
     </>
   );
 };

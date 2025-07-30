@@ -71,7 +71,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           placeholder={placeholder}
           rows={rows}
           ref={ref}
-          className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border ${
+          className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border focus:outline-none focus:border-primary-10 transition duration-300 ${
             error ? "border-red-500" : "border-neutral-75"
           }`}
           {...rest}
