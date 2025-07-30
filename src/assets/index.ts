@@ -79,6 +79,8 @@ import secureSSL from "../assets/Images/secure-ssl.png";
 import razorpay from "../assets/Images/razorpay.png";
 import leadershipProgram from "../assets/Images/leadership-program.jpg";
 
+import chatBg from "../assets/Images/chat-bg.png";
+
 // Course images
 import courseImg1 from "../assets/Images/gurukul website poster 1.jpg";
 import courseImg2 from "../assets/Images/gurukul website poster 2.jpg";
@@ -175,4 +177,5 @@ export const IMAGES = {
     courseImg4,
     courseImg5,
     whyPMGurukkul,
+    chatBg,
 };

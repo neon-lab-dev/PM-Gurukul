@@ -1,46 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { useAddReplyToThreadMutation } from "../../../../../redux/Features/Course/courseApi";
 import { toast } from "sonner";
 import { ICONS } from "../../../../../assets";
+import { useAddThreadMutation } from "../../../../../redux/Features/Course/courseApi";
 
 type TFormData = {
-  message: string;
+  content: string;
 };
-const AddReplyForm = ({
-  courseId,
-  selectedThreadId,
-  setSelectedThreadId,
-}: {
-  courseId: string;
-  selectedThreadId: string;
-  setSelectedThreadId: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const AddReplyForm = ({ courseId }: { courseId: string }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<TFormData>();
-  const [addReplyToThread, { isLoading }] = useAddReplyToThreadMutation();
+  const [addThread, { isLoading }] = useAddThreadMutation();
 
   const handleAddReplyOnThread = async (data: TFormData) => {
     try {
-      if (!selectedThreadId) {
-        toast.error("Please select a thread first.");
-        return;
-      }
       const payload = {
         ...data,
       };
-      const response = await addReplyToThread({
+      const response = await addThread({
         courseId,
-        messageId: selectedThreadId,
         data: payload,
       }).unwrap();
       if (response?.success) {
-        toast.success(response?.message);
-        setSelectedThreadId("");
         reset();
       }
     } catch (err) {
@@ -56,13 +41,13 @@ const AddReplyForm = ({
         <input
           type="text"
           placeholder="Share your thought on forum..."
-          className="p-2 rounded-3xl w-full focus:outline-none"
-          {...register("message", {
+          className="pl-3 py-2 pr-2 rounded-3xl w-full focus:outline-none"
+          {...register("content", {
             required: "Message is required",
           })}
         />
-        {errors.message && (
-          <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+        {errors.content && (
+          <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
         )}
       </div>
 
@@ -71,7 +56,11 @@ const AddReplyForm = ({
         type="submit"
         className="bg-primary-10 w-8 h-8 flex justify-center items-center rounded-full mx-2"
       >
-        <img src={ICONS.ArrowUp} alt="send" />
+        {isLoading ? (
+          <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        ) : (
+          <img src={ICONS.ArrowUp} alt="send" />
+        )}
       </button>
     </form>
   );

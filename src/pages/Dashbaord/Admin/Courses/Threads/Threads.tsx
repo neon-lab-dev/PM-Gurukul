@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { IMAGES } from "../../../../../assets";
-import { useGetSingleCourseByIdQuery } from "../../../../../redux/Features/Course/courseApi";
-import { useSelector } from "react-redux";
-import { useCurrentUser } from "../../../../../redux/Features/Auth/authSlice";
-import { TLoggedInUser } from "../../../../../types/user.types";
-import { FaChevronDown } from "react-icons/fa";
-import AddThreadForm from "./AddThreadForm";
+import {
+  useDeleteThreadMutation,
+  useGetSingleCourseByIdQuery,
+} from "../../../../../redux/Features/Course/courseApi";
 import AddReplyForm from "./AddReplyForm";
 import ThreadCardLoader from "../../../../../components/Loaders/ThreadCardLoader/ThreadCardLoader";
 import { MdDelete } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../../../redux/Features/Auth/authSlice";
+import { TLoggedInUser } from "../../../../../types/user.types";
 
 const Threads = ({
   courseId,
@@ -41,18 +42,25 @@ const Threads = ({
 
   //   To fetch threads/forum contents
   const { data: singleCourseData, isLoading: isThreadLoading } =
-    useGetSingleCourseByIdQuery(courseId);
+    useGetSingleCourseByIdQuery(courseId, {
+      pollingInterval: 10000, // 10 seconds
+    });
 
-  // To control add thread/forum form for admin
-  const [isAddThreadFormOpen, setIsAddThreadFormOpen] =
-    useState<boolean>(false);
+  const [deletingThreadId, setDeletingThreadId] = useState<string | null>(null);
 
-  // To control the replies accordion
-  const [isAccordingOpen, setIsAccordingOpen] = useState(-1);
-  const handleClick = (index: number) =>
-    setIsAccordingOpen((prevIndex) => (prevIndex === index ? -1 : index));
+  const [deleteThread] = useDeleteThreadMutation();
 
-  const [selectedThreadId, setSelectedThreadId] = useState<string>("");
+  const handleDeleteThread = async (id: string) => {
+    try {
+      setDeletingThreadId(id);
+      await deleteThread({ courseId, id }).unwrap();
+    } catch (err) {
+      console.error("Error deleting course:", err);
+    } finally {
+      setDeletingThreadId(null);
+    }
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -70,30 +78,18 @@ const Threads = ({
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setIsThreadsBarOpen(false)}>✕</button>
-            <h2 className="text-lg font-semibold">Course Forum</h2>
-          </div>
-          {user?.role === "admin" && (
-            <button
-              type="button"
-              className="px-5 bg-primary-10 text-white py-2 rounded-lg"
-              onClick={() => setIsAddThreadFormOpen(!isAddThreadFormOpen)}
-            >
-              Add Thread
-            </button>
-          )}
+          <h2 className="text-lg font-semibold">
+            {singleCourseData?.course?.title} | Forum
+          </h2>
+          <button onClick={() => setIsThreadsBarOpen(false)}>✕</button>
         </div>
 
-        {/* Add thread form */}
-        {isAddThreadFormOpen && (
-          <AddThreadForm
-            courseId={courseId}
-            setIsAddThreadFormOpen={setIsAddThreadFormOpen}
+        <div className="flex flex-col justify-between relative gap-6 bg-neutral-80 px-4 py-6 h-[calc(100%-4rem)]">
+          <img
+            src={IMAGES.chatBg}
+            alt=""
+            className="absolute top-0 bottom-0 right-0 left-0 h-full w-full z-0 opacity-[0.02]"
           />
-        )}
-
-        <div className="flex flex-col justify-between relative gap-6 bg-neutral-80 p-6 h-[calc(100%-4rem)]">
           {/* Forum content */}
           {isThreadLoading ? (
             <div className="flex flex-col gap-3">
@@ -102,135 +98,100 @@ const Threads = ({
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-4 h-[80vh] border-b overflow-y-auto">
-              {
-              singleCourseData?.course?.forum?.length < 1 ?
-              <p>No threads found</p>
-              :
-              singleCourseData?.course?.forum?.map(
-                (thread: any, index: number) => (
-                  <div key={thread?._id} className="flex gap-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedThreadId === thread._id}
-                      onChange={() =>
-                        setSelectedThreadId(
-                          selectedThreadId === thread._id ? null : thread._id
-                        )
-                      }
-                      className="accent-primary-10 size-4"
-                    />
-                    <div className="w-full">
-                      <div
-                        className={`flex flex-col bg-primary-10 rounded-xl p-4 gap-2 w-full ${
-                          isAccordingOpen === index && "rounded-b-none"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <div className="bg-white size-8 rounded-full p-1">
-                              <img
-                                src={IMAGES.pmGurukulFavicon}
-                                alt="avatar"
-                                className="size-7 rounded-full"
-                              />
-                            </div>
-                            <div>
-                              <h1 className="text-white font-medium">
-                                PMGURUKKUL | Admin
-                              </h1>
-                              <p className="text-neutral-10 text-xs">
-                                {new Date(thread?.createdAt).toLocaleString()}
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => handleClick(index)}
-                            className="text-white font-medium flex items-center gap-2 cursor-pointer"
-                          >
-                            View Replies
-                            <FaChevronDown
-                              className={`dark:text-slate-600 text-text transition-all duration-300 ${
-                                isAccordingOpen === index && "rotate-[180deg]"
-                              }`}
-                            />
-                          </button>
-                        </div>
-                        <div>
-                          <h1 className="mt-2 capitalize font-semibold text-white">
-                            {thread?.title}
-                          </h1>
+            <div className="flex flex-col gap-4 h-[80vh] border-b overflow-y-auto relative">
+              {singleCourseData?.course?.forum?.length < 1 ? (
+                <p>No message found</p>
+              ) : (
+                singleCourseData?.course?.forum?.map((thread: any) => {
+                  const isAdmin = thread?.sender?.role === "admin";
 
-                          <p className="text-neutral-15/80">
+                  return (
+                    <div
+                      key={thread?._id}
+                      className={`flex flex-col ${
+                        isAdmin ? "self-start" : "self-end"
+                      }`}
+                    >
+                      <div className="flex gap-2">
+                        {isAdmin ? (
+                          <div className="bg-white size-8 rounded-full p-1">
+                            <img
+                              src={IMAGES.pmGurukulFavicon}
+                              alt="avatar"
+                              className="size-7 rounded-full"
+                            />
+                          </div>
+                        ) : (
+                          <div className="size-8 rounded-full bg-primary-10 flex items-center justify-center font-semibold text-white">
+                            {thread?.sender?.full_name?.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        {/* Card */}
+                        <div
+                          className={`flex flex-col rounded-tr-xl rounded-b-xl px-3 py-2 gap-2 w-fit relative min-w-[200px] shadow ${
+                            isAdmin ? "bg-primary-10" : "bg-white"
+                          }`}
+                        >
+                          <div
+                            className={`w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent z-50 -rotate-90 absolute top-1 -left-3 ${
+                              isAdmin
+                                ? "border-b-primary-10"
+                                : "border-b-white "
+                            }`}
+                          ></div>
+
+                          <div className="flex justify-between">
+                            {/* Sender Profile */}
+                            <div className="flex items-center gap-2">
+                              <div>
+                                <h1
+                                  className={`text-sm font-medium ${
+                                    isAdmin ? "text-white" : "text-neutral-90"
+                                  }`}
+                                >
+                                  {isAdmin
+                                    ? "PMGURUKKUL | Admin"
+                                    : thread?.sender?.full_name}
+                                </h1>
+                                <p className="text-neutral-10 text-[11px]">
+                                  {new Date(thread?.createdAt).toLocaleString()}
+                                </p>
+                              </div>
+                            </div>
+                            {user?._id === thread?.sender?._id && (
+                              <p>
+                                {deletingThreadId === thread._id ? (
+                                  <div className="w-3 h-3 border-2 border-primary-10 border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                  <MdDelete
+                                    onClick={() =>
+                                      handleDeleteThread(thread._id)
+                                    }
+                                    className="text-rose-500 mt-[3px] cursor-pointer"
+                                  />
+                                )}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* Message */}
+                          <p
+                            className={`mt-1 text-sm capitalize ${
+                              isAdmin ? "text-white" : "text-neutral-90"
+                            }`}
+                          >
                             {thread?.content}
                           </p>
                         </div>
                       </div>
-
-                      {/* Replies */}
-                      <div
-                        className={`grid transition-all duration-300 rounded-b-xl overflow-hidden ease-in-out bg-[#ebedf0] p-4 max-h-[300px] overflow-y-auto custom-scrollbar ${
-                          isAccordingOpen === index
-                            ? "grid-rows-[1fr] opacity-100"
-                            : "grid-rows-[0fr] h-0 opacity-0"
-                        }`}
-                      >
-                        {thread?.replies?.length > 1 && (
-                          <h1 className="text-neutral-90 font-medium">
-                            All replies from students
-                          </h1>
-                        )}
-                        {/* All replies */}
-                        <div className="flex flex-col gap-4 mt-3">
-                          {thread?.replies?.length < 1 ? (
-                            <p>No replies yet</p>
-                          ) : (
-                            thread?.replies?.map((reply: any) => (
-                              <div
-                                key={reply?._id}
-                                className="flex flex-col gap-3 bg-white rounded-xl p-4"
-                              >
-                               <div className="flex items-center justify-between">
-                                 <div className="flex items-center gap-2">
-                                  <div className="size-8 rounded-full bg-[#ebedf0] flex items-center justify-center font-semibold">
-                                    {reply?.sender?.full_name
-                                      ?.charAt(0)
-                                      .toUpperCase()}
-                                  </div>
-                                  <div>
-                                    <h1 className="text-neutral-90 font-medium text-sm">
-                                      {reply?.sender?.full_name}
-                                    </h1>
-                                    <p className="text-neutral-30/80 text-xs">
-                                      {new Date(
-                                        reply?.createdAt
-                                      ).toLocaleString()}
-                                    </p>
-                                  </div>
-                                </div>
-                                <MdDelete className="text-rose-500" />
-                               </div>
-
-                                <p className="text-neutral-90">
-                                  {reply?.message}
-                                </p>
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                )
+                  );
+                })
               )}
             </div>
           )}
 
-          <AddReplyForm
-            courseId={courseId}
-            selectedThreadId={selectedThreadId}
-            setSelectedThreadId={setSelectedThreadId}
-          />
+          <AddReplyForm courseId={courseId} />
         </div>
       </div>
     </>

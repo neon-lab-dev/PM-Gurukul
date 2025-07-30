@@ -19,7 +19,7 @@ const AdminCourses = () => {
     const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
-  const [courseId, setCourseId] = useState<string | null>(null);
+  const [courseId, setCourseId] = useState<string>("");
 
   const handleDeleteCourse = async (id: string) => {
     try {

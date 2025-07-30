@@ -48,11 +48,10 @@ const courseApi = baseApi.injectEndpoints({
       invalidatesTags: ["course"],
     }),
 
-    addReplyToThread: builder.mutation({
-      query: ({ courseId, messageId, data }) => ({
-        url: `/courses/${courseId}/forum/${messageId}/reply`,
-        method: "POST",
-        body: data,
+    deleteThread: builder.mutation({
+      query: ({ courseId, id }) => ({
+        url: `/${courseId}/forum/${id}`,
+        method: "DELETE",
         credentials: "include",
       }),
       invalidatesTags: ["course"],
@@ -66,5 +65,5 @@ export const {
   useGetCourseLectureQuery,
   useGetAllCategoriesQuery,
   useAddThreadMutation,
-  useAddReplyToThreadMutation,
+  useDeleteThreadMutation,
 } = courseApi;
