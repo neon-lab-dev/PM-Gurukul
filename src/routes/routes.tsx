@@ -43,6 +43,7 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import EmailSent from "../pages/Auth/EmailSent/EmailSent";
 import PaymentSuccessful from "../pages/PaymentSuccessful/PaymentSuccessful";
 import WeeklyPayouts from "../pages/Dashbaord/Admin/WeeklyPayouts/WeeklyPayouts";
+import AddExamQuestion from "../pages/Dashbaord/Admin/AddExamQuestion/AddExamQuestion";
 
 
 export const router = createBrowserRouter([
@@ -234,6 +235,10 @@ export const router = createBrowserRouter([
       {
         path: "view-affiliate/:id",
         element: <ViewAffiliate />,
+      },
+      {
+        path: "course/manage-exam/:courseId",
+        element: <AddExamQuestion />,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../../utils/formatDate";
 import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
@@ -16,6 +16,7 @@ import { useState } from "react";
 import Threads from "./Threads/Threads";
 
 const AdminCourses = () => {
+  const navigate = useNavigate();
   const [isThreadsBarOpen, setIsThreadsBarOpen] = useState(false);
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
@@ -46,6 +47,10 @@ const AdminCourses = () => {
     { key: "action", label: "ACTION", sortable: false },
   ];
 
+  const handleNavigateToManageExam = (id:string) => {
+    navigate(`/admin/course/manage-exam/${id}`);
+  }
+
   // Pending KYC user table data
   const allCoursesTableData = allCourses?.courses?.length
     ? allCourses?.courses?.map((course: TCourse, index: number) => ({
@@ -67,6 +72,11 @@ const AdminCourses = () => {
               setIsThreadsBarOpen(true);
               setCourseId(course?._id);
             },
+          },
+          {
+            label: "Manage Exam",
+            onClick: () => {
+              handleNavigateToManageExam(course?._id);},
           },
         ],
       }))
