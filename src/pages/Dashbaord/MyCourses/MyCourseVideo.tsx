@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import VideoPlayer from "../../../components/MyCoursesPage/VideoPlayer";
 import Playlist from "../../../components/MyCoursesPage/PlaylistAccordion";
 import { ICONS, IMAGES } from "../../../assets";
 import { TLecture } from "../../../types/lecture.types";
 
 const MyCourseVideo = () => {
+  const { id } = useParams();
+  const location = useLocation();
+  const { isAttendedOnExam } = location.state || {};
+
+  // Now you have the value here and can use it
+  console.log("isAttendedOnExam:", isAttendedOnExam);
   const [currentModule, setCurrentModule] = useState<TLecture>({
     _id: "",
     title: "",
@@ -41,19 +47,23 @@ const MyCourseVideo = () => {
             className="w-32 md:w-60"
           />
         </Link>
-        <div className="bg-white flex justify-end items-center">
-          <ul className="flex gap-5">
-            {/* <li>
-              <Link to="/dashboard">
-                <img src={ICONS.Bell} />
-              </Link>
-            </li> */}
-            <li>
-              <Link to="/dashboard/my-profile">
-                <img src={ICONS.UserCircle} />
-              </Link>
-            </li>
-          </ul>
+        <div className="bg-white flex items-center gap-4 justify-end">
+          {!isAttendedOnExam ? (
+            <Link
+              to={`/dashboard/course/attend-exam/${id}`}
+              className="px-4 py-2 bg-[#051539] border-[#051539] rounded-lg text-white"
+            >
+              Attend Exam
+            </Link>
+          ) : (
+            <div className="px-4 py-2 bg-[#051539] border-[#051539] rounded-lg text-white">
+              Already Attended on Exam
+            </div>
+          )}
+
+          <Link to="/dashboard/my-profile">
+            <img src={ICONS.UserCircle} />
+          </Link>
         </div>
       </div>
 

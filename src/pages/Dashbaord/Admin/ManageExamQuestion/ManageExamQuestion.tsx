@@ -13,7 +13,21 @@ import TextInput from "../../../../components/Reusable/TextInput/TextInput";
 import { TiArrowLeft } from "react-icons/ti";
 import { useEffect } from "react";
 
-const AddExamQuestion = () => {
+type Question = {
+  questionText: string;
+  option1: string;
+  option2: string;
+  option3?: string;
+  option4?: string;
+  correctAnswerIndex: number | string;
+};
+
+type FormValues = {
+  title: string;
+  questions: Question[];
+};
+
+const ManageExamQuestion = () => {
   const { courseId } = useParams();
   const { data, isLoading } = useGetAllQuestionsOfCourseQuery(courseId);
   const [addQuestions, { isLoading: isQuestionAdding }] =
@@ -27,7 +41,7 @@ const AddExamQuestion = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<any>({
+  } = useForm<FormValues>({
     defaultValues: {
       title: "",
       questions: [
@@ -48,7 +62,7 @@ const AddExamQuestion = () => {
     name: "questions",
   });
 
-  const handleAddQuestion = async (formData: any) => {
+  const handleAddQuestion = async (formData: FormValues) => {
     try {
       const questions = formData.questions.map((q: any) => {
         return {
@@ -152,7 +166,7 @@ const AddExamQuestion = () => {
             {fields.map((field, index) => (
               <div
                 key={field.id}
-                className="bg-neutral-15/20 p-5 rounded-2xl flex flex-col gap-4"
+                className="bg-neutral-15/20 p-5 rounded-2xl flex flex-col gap-4 relative"
               >
                 <TextInput
                   label={`Question ${index + 1}`}
@@ -160,7 +174,7 @@ const AddExamQuestion = () => {
                   {...register(`questions.${index}.questionText`, {
                     required: "Question text is required",
                   })}
-                  error={errors?.questions?.[index]?.questionText}
+                  error={(errors.questions as any)?.[index]?.questionText}
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -169,10 +183,14 @@ const AddExamQuestion = () => {
                       key={opt}
                       label={`Option ${opt}`}
                       placeholder={`Enter option ${opt}`}
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
                       {...register(`questions.${index}.option${opt}`, {
                         required: `Option ${opt} is required`,
                       })}
-                      error={errors?.questions?.[index]?.[`option${opt}`]}
+                      error={
+                        (errors.questions as any)?.[index]?.[`option${opt}`]
+                      }
                     />
                   ))}
                 </div>
@@ -193,7 +211,7 @@ const AddExamQuestion = () => {
                   <button
                     type="button"
                     onClick={() => remove(index)}
-                    className="text-red-600 text-sm underline self-end"
+                    className="text-red-600 text-sm underline self-end absolute top-4 right-6"
                   >
                     Remove Question
                   </button>
@@ -244,4 +262,4 @@ const AddExamQuestion = () => {
   );
 };
 
-export default AddExamQuestion;
+export default ManageExamQuestion;

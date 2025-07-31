@@ -57,7 +57,7 @@ const courseApi = baseApi.injectEndpoints({
       invalidatesTags: ["course"],
     }),
 
-     addQuestions: builder.mutation({
+    addQuestions: builder.mutation({
       query: (data) => ({
         url: `/exam/add-questions`,
         method: "POST",
@@ -67,8 +67,8 @@ const courseApi = baseApi.injectEndpoints({
       invalidatesTags: ["course"],
     }),
 
-     updateQuestions: builder.mutation({
-      query: ({data, examId}) => ({
+    updateQuestions: builder.mutation({
+      query: ({ data, examId }) => ({
         url: `/exam/questions/${examId}`,
         method: "PUT",
         body: data,
@@ -80,6 +80,25 @@ const courseApi = baseApi.injectEndpoints({
     getAllQuestionsOfCourse: builder.query({
       query: (courseId) => ({
         url: `/exam/questions/${courseId}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["course"],
+    }),
+
+    attendExam: builder.mutation({
+      query: (data) => ({
+        url: `/exam/attend-exam`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["course"],
+    }),
+
+    getSingleExamResult: builder.query({
+      query: (examId) => ({
+        url: `/exam/result/${examId}`,
         method: "GET",
         credentials: "include",
       }),
@@ -98,4 +117,6 @@ export const {
   useAddQuestionsMutation,
   useUpdateQuestionsMutation,
   useGetAllQuestionsOfCourseQuery,
+  useAttendExamMutation,
+  useGetSingleExamResultQuery,
 } = courseApi;

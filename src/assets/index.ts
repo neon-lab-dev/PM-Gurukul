@@ -53,6 +53,8 @@ import eyeClose from "../assets/Icons/eye-open.svg";
 import notFound from "../assets/Icons/404.svg";
 import emailSent from "../assets/Icons/email-sent.svg";
 import notAllowed from "../assets/Icons/not-allowed.svg";
+import sad from "../assets/Icons/sad.svg";
+import trophy from "../assets/Icons/trophy.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -154,6 +156,8 @@ export const ICONS = {
     notFound,
     emailSent,
     notAllowed,
+    sad,
+    trophy,
 };
 
 export const IMAGES = {

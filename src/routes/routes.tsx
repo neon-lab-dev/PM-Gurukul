@@ -34,7 +34,7 @@ import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import AboutUS from "../pages/AboutUS/AboutUS";
 import Disclaimer from "../pages/Disclaimer/Disclaimer";
 import AddCourseVideo from "../pages/Dashbaord/Admin/AddCourse/AddCourseVideo/AddCourseVideo";
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from "./ProtectedRoute";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import ReferralsAndPayouts from "../pages/Dashbaord/Admin/ReferralsAndPayouts/ReferralsAndPayouts";
 import Signup from "../pages/Auth/Signup/Signup";
@@ -43,8 +43,9 @@ import ResetPassword from "../pages/Auth/ResetPassword/ResetPassword";
 import EmailSent from "../pages/Auth/EmailSent/EmailSent";
 import PaymentSuccessful from "../pages/PaymentSuccessful/PaymentSuccessful";
 import WeeklyPayouts from "../pages/Dashbaord/Admin/WeeklyPayouts/WeeklyPayouts";
-import AddExamQuestion from "../pages/Dashbaord/Admin/AddExamQuestion/AddExamQuestion";
-
+import ManageExamQuestion from "../pages/Dashbaord/Admin/ManageExamQuestion/ManageExamQuestion";
+import AttendExam from "../pages/Dashbaord/AttendExam/AttendExam";
+import ExamResult from "../pages/Dashbaord/ExamResult/ExamResult";
 
 export const router = createBrowserRouter([
   {
@@ -70,7 +71,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <ProtectedRoute><Cart /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/terms-and-conditions",
@@ -131,7 +136,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {
@@ -166,11 +175,23 @@ export const router = createBrowserRouter([
         path: "my-orders",
         element: <MyOrders />,
       },
+      {
+        path: "course/attend-exam/:id",
+        element: <AttendExam />,
+      },
+      {
+        path: "course/exam-result/:examId",
+        element: <ExamResult />,
+      },
     ],
   },
   {
     path: "course-video",
-    element: <ProtectedRoute><CourseVideoLayout /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <CourseVideoLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {
@@ -181,7 +202,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "admin",
-    element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {
@@ -238,7 +263,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "course/manage-exam/:courseId",
-        element: <AddExamQuestion />,
+        element: <ManageExamQuestion />,
       },
     ],
   },
