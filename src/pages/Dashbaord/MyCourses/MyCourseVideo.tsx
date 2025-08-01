@@ -8,10 +8,8 @@ import { TLecture } from "../../../types/lecture.types";
 const MyCourseVideo = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { isAttendedOnExam } = location.state || {};
+  const {  examLimitLeft } = location.state || {};
 
-  // Now you have the value here and can use it
-  console.log("isAttendedOnExam:", isAttendedOnExam);
   const [currentModule, setCurrentModule] = useState<TLecture>({
     _id: "",
     title: "",
@@ -48,7 +46,7 @@ const MyCourseVideo = () => {
           />
         </Link>
         <div className="bg-white flex items-center gap-4 justify-end">
-          {!isAttendedOnExam ? (
+          {examLimitLeft > 0 ? (
             <Link
               to={`/dashboard/course/attend-exam/${id}`}
               className="px-4 py-2 bg-[#051539] border-[#051539] rounded-lg text-white"

@@ -55,6 +55,7 @@ import emailSent from "../assets/Icons/email-sent.svg";
 import notAllowed from "../assets/Icons/not-allowed.svg";
 import sad from "../assets/Icons/sad.svg";
 import trophy from "../assets/Icons/trophy.svg";
+import timer from "../assets/Icons/timer.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -158,6 +159,7 @@ export const ICONS = {
     notAllowed,
     sad,
     trophy,
+    timer,
 };
 
 export const IMAGES = {
@@ -182,4 +184,5 @@ export const IMAGES = {
     courseImg5,
     whyPMGurukkul,
     chatBg,
+
 };

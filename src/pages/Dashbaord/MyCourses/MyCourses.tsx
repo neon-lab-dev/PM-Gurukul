@@ -10,7 +10,6 @@ const MyCourses = () => {
   const { data: myPurchasedCourses, isLoading } = useGetMyPurchasedCoursesQuery(
     {}
   );
-  console.log(myPurchasedCourses);
 
   return (
     <>
@@ -34,7 +33,7 @@ const MyCourses = () => {
                   <MyCoursesCardLoader key={index} />
                 ))
               : myPurchasedCourses?.purchasedCourses?.map((item:any, index:number) => {
-                  return <MyCoursesCard key={index} {...item.courseId} isAttendedOnExam={item?.isAttendedOnExam} />;
+                  return <MyCoursesCard key={index} {...item.courseId} examLimitLeft={item?.examLimitLeft} />;
                 })}
           </div>
         )}

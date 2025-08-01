@@ -9,17 +9,16 @@ type TMyCoursesCard = {
   author: string;
   numOfVideos: number;
   poster: { public_id: string; url: string };
-  isAttendedOnExam: boolean;
+  examLimitLeft ?: number
 };
 const MyCoursesCard: React.FC<TMyCoursesCard> = ({
   _id,
   title,
-  author,
+  // author,
   numOfVideos,
   poster,
-  isAttendedOnExam,
+  examLimitLeft,
 }) => {
-  console.log(isAttendedOnExam);
   const completedLesson = 1;
   const progress = (completedLesson / numOfVideos) * 100;
 
@@ -34,12 +33,12 @@ const MyCoursesCard: React.FC<TMyCoursesCard> = ({
           alt=""
           className="rounded-t-2xl w-full h-[130px] object-cover"
         />
-        <div className="rounded-full bg-[rgba(5,21,57,0.65)] backdrop-blur-[7.5px] py-[3px] px-1 pr-[9px] flex items-center gap-1 w-fit absolute top-3 left-3">
+        {/* <div className="rounded-full bg-[rgba(5,21,57,0.65)] backdrop-blur-[7.5px] py-[3px] px-1 pr-[9px] flex items-center gap-1 w-fit absolute top-3 left-3">
           <img src={ICONS.avatar} alt={""} className="size-5 rounded-full" />
           <h1 className="text-white font-normal text-[13px] leading-6">
             {author}
           </h1>
-        </div>
+        </div> */}
         <div className="flex items-center gap-1 px-4 py-[10px] bg-neutral-60 w-full">
           <img src={ICONS.Calendar} alt="user-icon" className="size-[14px]" />
           <p className="text-primary-10 text-sm">Enrolled On 22nd JAN, 2025</p>
@@ -81,7 +80,7 @@ const MyCoursesCard: React.FC<TMyCoursesCard> = ({
 
             <Link
               to={`/course-video/my-course-video/${_id}`}
-               state={{ isAttendedOnExam }}
+               state={{ examLimitLeft }}
               className="bg-secondary-20 flex justify-center items-center gap-2 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center"
             >
               {progress === 0 ? "Start" : "Resume"}

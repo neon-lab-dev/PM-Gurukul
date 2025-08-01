@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetSingleExamResultQuery } from "../../../redux/Features/Course/courseApi";
 import { ICONS } from "../../../assets";
 import { useSelector } from "react-redux";
@@ -10,7 +10,6 @@ const ExamResult = () => {
   const { examId } = useParams();
 
   const { data, isLoading } = useGetSingleExamResultQuery(examId);
-  console.log(data);
 
   if (isLoading) {
     return <div className="text-center py-10 text-lg">Loading result...</div>;
@@ -21,8 +20,6 @@ const ExamResult = () => {
       <div className="text-center py-10 text-red-500">Result not found.</div>
     );
   }
-
-  console.log(data?.examResult?.answers?.length);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -59,12 +56,25 @@ const ExamResult = () => {
               </h1>
               <div>
                 <p className="text-lg text-gray-700 mb-2">
-                  Unfortunately, you did not pass the exam. Continue studying.
+                  Unfortunately, you did not pass the exam. Continue studying
+                  and try again.
                 </p>
-                <p className="text-xl font-semibold text-red-700">
+                <p className="text-xl font-semibold text-red-700 mb-6">
                   Score: {data?.examResult.score} /{" "}
                   {data?.examResult?.answers?.length}
                 </p>
+                <Link
+                  to={`/dashboard/my-courses`}
+                  className="px-4 py-2 bg-[#051539] text-white border border-[#DFE2E6] rounded-lg"
+                >
+                  Start Studying
+                </Link>
+                {/* <Link
+                  to={`/course-video/my-course-video/${data?.examResult?.courseId}`}
+                  className="px-4 py-2 bg-[#051539] text-white border border-[#DFE2E6] rounded-lg"
+                >
+                  Start Studying
+                </Link> */}
               </div>
             </div>
           </>
