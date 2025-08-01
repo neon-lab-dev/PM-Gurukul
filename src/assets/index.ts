@@ -56,6 +56,7 @@ import notAllowed from "../assets/Icons/not-allowed.svg";
 import sad from "../assets/Icons/sad.svg";
 import trophy from "../assets/Icons/trophy.svg";
 import timer from "../assets/Icons/timer.svg";
+import timeOut from "../assets/Icons/time-out.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -160,6 +161,7 @@ export const ICONS = {
     sad,
     trophy,
     timer,
+    timeOut,
 };
 
 export const IMAGES = {

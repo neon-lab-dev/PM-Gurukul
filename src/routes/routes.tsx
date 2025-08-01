@@ -46,6 +46,7 @@ import WeeklyPayouts from "../pages/Dashbaord/Admin/WeeklyPayouts/WeeklyPayouts"
 import ManageExamQuestion from "../pages/Dashbaord/Admin/ManageExamQuestion/ManageExamQuestion";
 import AttendExam from "../pages/Dashbaord/AttendExam/AttendExam";
 import ExamResult from "../pages/Dashbaord/ExamResult/ExamResult";
+import ExamTimeOut from "../pages/Dashbaord/ExamTimeOut/ExamTimeOut";
 
 export const router = createBrowserRouter([
   {
@@ -182,6 +183,10 @@ export const router = createBrowserRouter([
       {
         path: "course/exam-result/:examId",
         element: <ExamResult />,
+      },
+      {
+        path: "exam/time-out",
+        element: <ExamTimeOut />,
       },
     ],
   },

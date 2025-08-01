@@ -65,7 +65,7 @@ const AttendExam = () => {
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      navigate("/exam/time-out");
+      navigate("/dashboard/exam/time-out");
       return;
     }
 
