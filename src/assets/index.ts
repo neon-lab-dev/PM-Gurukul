@@ -57,6 +57,13 @@ import sad from "../assets/Icons/sad.svg";
 import trophy from "../assets/Icons/trophy.svg";
 import timer from "../assets/Icons/timer.svg";
 import timeOut from "../assets/Icons/time-out.svg";
+import users from "../assets/Icons/users.svg";
+import earning from "../assets/Icons/earning.svg";
+import referral from "../assets/Icons/referral.svg";
+import kyc from "../assets/Icons/kyc.svg";
+import course from "../assets/Icons/course.svg";
+import payouts from "../assets/Icons/payouts.svg";
+import purchasedCourses from "../assets/Icons/purchased-courses.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -162,6 +169,13 @@ export const ICONS = {
     trophy,
     timer,
     timeOut,
+    users,
+    earning,
+    referral,
+    kyc,
+    course,
+    payouts,
+    purchasedCourses
 };
 
 export const IMAGES = {

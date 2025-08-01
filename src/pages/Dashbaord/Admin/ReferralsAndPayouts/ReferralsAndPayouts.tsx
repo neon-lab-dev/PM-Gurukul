@@ -74,7 +74,7 @@ const ReferralsAndPayouts = () => {
     },
     {
       title: "Yearly",
-      value: referralSummary?.data?.yearlyEarnings,
+      value: referralSummary?.data?.yearlyEarnings || 0,
     },
   ];
 

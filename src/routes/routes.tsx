@@ -47,6 +47,7 @@ import ManageExamQuestion from "../pages/Dashbaord/Admin/ManageExamQuestion/Mana
 import AttendExam from "../pages/Dashbaord/AttendExam/AttendExam";
 import ExamResult from "../pages/Dashbaord/ExamResult/ExamResult";
 import ExamTimeOut from "../pages/Dashbaord/ExamTimeOut/ExamTimeOut";
+import AdminDashboardHome from "../pages/Dashbaord/Admin/AdminDashboardHome/AdminDashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -217,6 +218,10 @@ export const router = createBrowserRouter([
       {
         path: "referrals-and-payouts",
         element: <ReferralsAndPayouts />,
+      },
+      {
+        path: "dashboard",
+        element: <AdminDashboardHome />,
       },
       {
         path: "courses",
