@@ -82,7 +82,7 @@ const AdminDashboardHome = () => {
     },
   ];
 
-  const { data: allUsers, isLoading } = useGetAllUserQuery({});
+  const { data: allUsers } = useGetAllUserQuery({});
 
   // Recent users of 5 days
   const fiveDaysAgo = new Date();
