@@ -39,9 +39,10 @@ const styles = StyleSheet.create({
   },
   studentName: {
     fontSize: 32,
-    fontWeight: "bold",
+    fontWeight: 900,
     color: "#0D3B66",
     textAlign: "center",
+    fontFamily: "Times New Roman",
   },
   courseNameContainer: {
     position: "absolute",
@@ -53,23 +54,37 @@ const styles = StyleSheet.create({
   courseName: {
     fontSize: 18,
     color: "#0D3B66",
+    fontFamily: "Times New Roman",
   },
+  certificateId: {
+    position: "absolute",
+    top: 70,
+    left: "50%",
+    transform: "translateX(-50%)",
+    fontSize: 12,
+    color: "#0D3B66",
+    fontFamily: "Times New Roman",
+  },
+
   date: {
     position: "absolute",
     bottom: 95,
     left: 140,
     fontSize: 14,
     color: "#555555",
+    fontFamily: "Times New Roman",
   },
 });
 
 interface CertificateProps {
+  certificateId: string;
   studentName: string;
   courseName: string;
   date: string;
 }
 
 export const CertificatePdf = ({
+  certificateId,
   studentName,
   courseName,
   date,
@@ -78,6 +93,8 @@ export const CertificatePdf = ({
     <Page size="A4" orientation="landscape" style={styles.page}>
       {/* Background frame */}
       <Image src={certificateFrame} style={styles.frame} fixed />
+
+      <Text style={styles.certificateId}>Certificate ID: {certificateId}</Text>
 
       <View style={styles.studentNameContainer}>
         <Text style={styles.studentName}>{studentName}</Text>

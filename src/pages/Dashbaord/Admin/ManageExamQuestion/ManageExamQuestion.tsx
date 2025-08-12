@@ -41,6 +41,8 @@ const ManageExamQuestion = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
+    setValue,
   } = useForm<FormValues>({
     defaultValues: {
       title: "",
@@ -104,6 +106,10 @@ const ManageExamQuestion = () => {
     }
   };
 
+  const handleCorrectAnswerChange = (questionIndex: number, optionIndex: number) => {
+    setValue(`questions.${questionIndex}.correctAnswerIndex`, optionIndex);
+  };
+
   useEffect(() => {
     if (data?.exam) {
       const exam = data.exam;
@@ -116,7 +122,7 @@ const ManageExamQuestion = () => {
           option2: q.options[1]?.text || "",
           option3: q.options[2]?.text || "",
           option4: q.options[3]?.text || "",
-          correctAnswerIndex: q.correctAnswerIndex.toString(),
+          correctAnswerIndex: q.correctAnswerIndex,
         })),
       };
 
@@ -163,54 +169,53 @@ const ManageExamQuestion = () => {
               error={errors.title}
             />
 
-            {fields.map((field, index) => (
+            {fields.map((field, questionIndex) => (
               <div
                 key={field.id}
                 className="bg-neutral-15/20 p-5 rounded-2xl flex flex-col gap-4 relative"
               >
                 <TextInput
-                  label={`Question ${index + 1}`}
+                  label={`Question ${questionIndex + 1}`}
                   placeholder="Enter question text"
-                  {...register(`questions.${index}.questionText`, {
+                  {...register(`questions.${questionIndex}.questionText`, {
                     required: "Question text is required",
                   })}
-                  error={(errors.questions as any)?.[index]?.questionText}
+                  error={(errors.questions as any)?.[questionIndex]?.questionText}
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[1, 2, 3, 4].map((opt) => (
-                    <TextInput
-                      key={opt}
-                      label={`Option ${opt}`}
-                      placeholder={`Enter option ${opt}`}
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                      {...register(`questions.${index}.option${opt}`, {
-                        required: `Option ${opt} is required`,
-                      })}
-                      error={
-                        (errors.questions as any)?.[index]?.[`option${opt}`]
-                      }
-                    />
+                    <div key={opt} className="flex items-center gap-2">
+                      <TextInput
+                        label={`Option ${opt}`}
+                        placeholder={`Enter option ${opt}`}
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        {...register(`questions.${questionIndex}.option${opt}`, {
+                          required: `Option ${opt} is required`,
+                        })}
+                        error={
+                          (errors.questions as any)?.[questionIndex]?.[`option${opt}`]
+                        }
+                      />
+                      <input
+                        type="radio"
+                        name={`correctAnswer-${questionIndex}`}
+                        checked={
+  watch(`questions.${questionIndex}.correctAnswerIndex`) === (opt - 1)
+}
+                        onChange={() => handleCorrectAnswerChange(questionIndex, opt - 1)}
+                        className="h-5 w-5"
+                      />
+                      <span>Correct</span>
+                    </div>
                   ))}
                 </div>
-
-                <TextInput
-                  label="Correct Answer Index"
-                  type="number"
-                  placeholder="Correct option index (e.g. 1)"
-                  {...register(`questions.${index}.correctAnswerIndex`, {
-                    required: "Correct answer index is required",
-                    min: 0,
-                    max: 3,
-                  })}
-                  error={errors?.questions?.[index]?.correctAnswerIndex}
-                />
 
                 {fields.length > 1 && (
                   <button
                     type="button"
-                    onClick={() => remove(index)}
+                    onClick={() => remove(questionIndex)}
                     className="text-red-600 text-sm underline self-end absolute top-4 right-6"
                   >
                     Remove Question
