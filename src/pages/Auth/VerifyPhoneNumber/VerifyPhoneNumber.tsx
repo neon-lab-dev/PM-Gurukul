@@ -26,11 +26,10 @@ const VerifyPhoneNumber = () => {
   // Getting OTP data from localstorage
   const [otpData] = useOtpDataFromLocalStorage<OtpFormData>("otpData");
   const navigate = useNavigate();
-  const [timeLeft, setTimeLeft] = useState(59);
+  const [timeLeft, setTimeLeft] = useState(119); // 2 minutes in seconds
   const [isTimerFinished, setIsTimerFinished] = useState(false);
 
   useEffect(() => {
-    // Function to update the timer every second
     const timerInterval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft > 0) {
@@ -42,10 +41,15 @@ const VerifyPhoneNumber = () => {
         }
       });
     }, 1000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(timerInterval);
   }, []);
+
+  const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes}:${secs.toString().padStart(2, "0")}`;
+};
+
 
   const {
     register,
@@ -131,7 +135,7 @@ const VerifyPhoneNumber = () => {
           </Link>
         ) : (
           <p className="font-Inter text-neutral-65 text-center">
-            Resend In <strong>0:{timeLeft.toString().padStart(2, "0")}</strong>
+            Resend In <strong>{formatTime(timeLeft)}</strong>
           </p>
         )}
       </form>
