@@ -48,6 +48,7 @@ import AttendExam from "../pages/Dashbaord/AttendExam/AttendExam";
 import ExamResult from "../pages/Dashbaord/ExamResult/ExamResult";
 import ExamTimeOut from "../pages/Dashbaord/ExamTimeOut/ExamTimeOut";
 import AdminDashboardHome from "../pages/Dashbaord/Admin/AdminDashboardHome/AdminDashboardHome";
+import Certificates from "../pages/Dashbaord/User/Certificates/Certificates";
 
 export const router = createBrowserRouter([
   {
@@ -188,6 +189,10 @@ export const router = createBrowserRouter([
       {
         path: "exam/time-out",
         element: <ExamTimeOut />,
+      },
+      {
+        path: "certificates",
+        element: <Certificates />,
       },
     ],
   },

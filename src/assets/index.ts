@@ -64,6 +64,7 @@ import kyc from "../assets/Icons/kyc.svg";
 import course from "../assets/Icons/course.svg";
 import payouts from "../assets/Icons/payouts.svg";
 import purchasedCourses from "../assets/Icons/purchased-courses.svg";
+import certificate from "../assets/Icons/certificate.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -175,7 +176,8 @@ export const ICONS = {
     kyc,
     course,
     payouts,
-    purchasedCourses
+    purchasedCourses,
+    certificate,
 };
 
 export const IMAGES = {

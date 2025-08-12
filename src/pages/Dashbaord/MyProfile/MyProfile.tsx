@@ -47,7 +47,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (user?.user?.bankInfo) {
-      const bankData = user.user.bankInfo.map((bank: TBankInfo) => ({
+      const bankData = user?.user?.bankInfo?.map((bank: TBankInfo) => ({
         ...bank,
       }));
       setBankInfo(bankData);
@@ -55,14 +55,28 @@ const MyProfile = () => {
   }, [user]);
 
   const handleBankInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: BankInfoField) => {
-    setBankInfo(prev => {
-      const updatedBankInfo = [...prev];
-      updatedBankInfo[0][field] = e.target.value;
-      return updatedBankInfo;
-    });
-  };
+  setBankInfo(prev => {
+    const updatedBankInfo = [...prev];
 
-  console.log(user);
+    if (updatedBankInfo.length === 0) {
+      // Initialize with one empty bank object if empty
+      updatedBankInfo.push({
+        accholderName: "",
+        accNumber: "",
+        accType: "Savings",
+        ifscCode: "",
+        bankName: "",
+        bankBranch: "",
+        nominName: "",
+        nomiRelation: "",
+      });
+    }
+
+    updatedBankInfo[0][field] = e.target.value;
+    return updatedBankInfo;
+  });
+};
+
 
   useEffect(() => {
     if (user) {

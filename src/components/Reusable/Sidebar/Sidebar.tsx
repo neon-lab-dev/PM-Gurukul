@@ -13,6 +13,7 @@ import {
 import { FiUsers, FiDollarSign, FiShoppingBag } from "react-icons/fi";
 import { MdOutlinePayment, MdOutlineHistoryEdu } from "react-icons/md";
 import { RiUser3Line } from "react-icons/ri";
+import { FaRegFileAlt } from "react-icons/fa";
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,11 @@ const Sidebar: React.FC = () => {
       name: "My Profile / KYC",
       link: "/dashboard/my-profile",
       icon: <HiOutlineUser />,
+    },
+    {
+      name: "Certificates",
+      link: "/dashboard/certificates",
+      icon: <FaRegFileAlt />,
     },
     {
       name: "My Orders",
