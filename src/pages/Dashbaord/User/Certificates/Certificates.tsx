@@ -1,8 +1,28 @@
 import { HiDownload } from "react-icons/hi";
 import { ICONS } from "../../../../assets";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
+import { pdf } from "@react-pdf/renderer";
+import { CertificatePdf } from "./CertificatePdf";
 
 const Certificates = () => {
+  const handleDownload = async () => {
+    const blob = await pdf(
+      <CertificatePdf
+        studentName="Rahul"
+        courseName="Advanced Digital Marketing"
+        date="August 12, 2023"
+      />
+    ).toBlob();
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "certificate.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
   return (
     <div className="font-Inter">
       <DashboardHeader
@@ -27,7 +47,10 @@ const Certificates = () => {
               </p>
             </div>
 
-            <button className="p-3 bg-primary-10 hover:bg-blue-10 transition duration-300 text-white rounded-lg text-xs font-semibold mt-5 flex items-center gap-2">
+            <button
+              onClick={handleDownload}
+              className="p-3 bg-primary-10 hover:bg-blue-10 transition duration-300 text-white rounded-lg text-xs font-semibold mt-5 flex items-center gap-2"
+            >
               {/* {isLoading ? <LoadingSpinner /> : "Login"} */}
               Download Certificate <HiDownload className="text-lg" />
             </button>

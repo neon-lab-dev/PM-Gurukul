@@ -178,6 +178,7 @@ export const ICONS = {
     payouts,
     purchasedCourses,
     certificate,
+    
 };
 
 export const IMAGES = {
