@@ -40,12 +40,12 @@ const ExamResult = () => {
               </p>
             </div>
 
-            <Link
-              to={`/dashboard/certificates`}
+            <a
+              href={`/dashboard/certificates`}
               className="px-4 py-2 bg-[#051539] text-white border border-[#DFE2E6] rounded-lg"
             >
               View Certificate
-            </Link>
+            </a>
           </div>
         ) : (
           <>

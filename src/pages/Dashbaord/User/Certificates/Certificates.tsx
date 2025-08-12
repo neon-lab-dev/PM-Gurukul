@@ -5,6 +5,7 @@ import { pdf } from "@react-pdf/renderer";
 import { CertificatePdf } from "./CertificatePdf";
 import { useGetMyCertificatesQuery } from "../../../../redux/Features/Certificate/certificateApi";
 import { formatDate } from "../../../../utils/formatDate";
+import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
 
 type TCertificate = {
   _id : string;
@@ -42,7 +43,13 @@ const Certificates = () => {
         pageDesc="Your achieved certificates"
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
+      {
+        data?.certificates?.length < 1 ?
+        <div className="flex items-center justify-center mt-10">
+          <NoDataFound message="You haven’t received any certificate."/>
+        </div>
+        :
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
        {
         data?.certificates?.map((certificate:TCertificate) => 
            <div key={certificate?._id} className="flex items-center justify-between bg-white border border-neutral-15/40 px-2 rounded-2xl">
@@ -74,6 +81,7 @@ const Certificates = () => {
         )
        }
       </div>
+      }
     </div>
   );
 };
