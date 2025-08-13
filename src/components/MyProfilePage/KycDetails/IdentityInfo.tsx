@@ -16,26 +16,43 @@ type TIdentityInfo = {
   handleFileChange?: (name: string, file: File | null) => void;
 };
 
-const IdentityInfo: React.FC<TIdentityInfo> = ({ register, errors, selectedDocument, setSelectedDocument, onFileChangeFront, onFileChangeBack, fileNames, frontFileNames, backFileNames, handleFileChange }) => {
-
+const IdentityInfo: React.FC<TIdentityInfo> = ({
+  register,
+  errors,
+  selectedDocument,
+  setSelectedDocument,
+  onFileChangeFront,
+  onFileChangeBack,
+  fileNames,
+  frontFileNames,
+  backFileNames,
+  handleFileChange,
+}) => {
   const documentLabel1 =
-    selectedDocument === "Aadhar Card" ? "Aadhaar Card Image (Front Side)" :
-      selectedDocument === "Pan Card" ? "PAN Card Image (Front Side)" :
-        selectedDocument === "Driving License" ? "Driving License Image (Front Side)" :
-          selectedDocument === "Voter ID" ? "Voter ID Image (Front Side)" :
-            selectedDocument === "Passport" ? "Passport Image (Front Side)" :
-              "Identity Proof Image";
+    selectedDocument === "Aadhar Card"
+      ? "Aadhaar Card Image (Front Side)"
+      : selectedDocument === "Pan Card"
+      ? "PAN Card Image (Front Side)"
+      : selectedDocument === "Driving License"
+      ? "Driving License Image (Front Side)"
+      : selectedDocument === "Voter ID"
+      ? "Voter ID Image (Front Side)"
+      : selectedDocument === "Passport"
+      ? "Passport Image (Front Side)"
+      : "Identity Proof Image";
 
   const documentLabel2 =
-    selectedDocument === "Aadhar Card" ? "Aadhaar Card Image (Back Side)" :
-      selectedDocument === "Pan Card" ? "PAN Card Image (Back Side)" :
-        selectedDocument === "Driving License" ? "Driving License Image (Back Side)" :
-          selectedDocument === "Voter ID" ? "Voter ID Image (Back Side)" :
-            selectedDocument === "Passport" ? "Passport Image (Back Side)" :
-              "Identity Proof Image";
-
-              console.log(documentLabel1);
-              console.log(documentLabel2);
+    selectedDocument === "Aadhar Card"
+      ? "Aadhaar Card Image (Back Side)"
+      : selectedDocument === "Pan Card"
+      ? "PAN Card Image (Back Side)"
+      : selectedDocument === "Driving License"
+      ? "Driving License Image (Back Side)"
+      : selectedDocument === "Voter ID"
+      ? "Voter ID Image (Back Side)"
+      : selectedDocument === "Passport"
+      ? "Passport Image (Back Side)"
+      : "Identity Proof Image";
 
   return (
     <div className="bg-white w-full rounded-2xl p-6">
@@ -61,18 +78,20 @@ const IdentityInfo: React.FC<TIdentityInfo> = ({ register, errors, selectedDocum
           accept="image/*"
           error={errors?.panImageFile || ""}
           fileName={fileNames?.panImageFile || ""}
-          onFileChange={handleFileChange || (() => { })}
+          onFileChange={handleFileChange || (() => {})}
           isRequired={false}
         />
 
         {/* Dropdown for selecting document type */}
         <SelectDropdown
-        selected={selectedDocument}
+          selected={selectedDocument}
           label="Document Type"
           options={["Aadhar Card", "Driving License", "Voter ID", "Passport"]}
           error={errors?.documentType}
           {...register?.("document.documentType")}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedDocument?.(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            setSelectedDocument?.(e.target.value)
+          }
           isRequired={false}
         />
 
@@ -95,8 +114,7 @@ const IdentityInfo: React.FC<TIdentityInfo> = ({ register, errors, selectedDocum
         {selectedDocument === "Driving License" && (
           <TextInput
             label="Driving License"
-            {...register?.("document.documentNumber", {
-            })}
+            {...register?.("document.documentNumber", {})}
             error={errors?.documentNumber}
             placeholder="Enter your Driving License Number"
             isRequired={false}
@@ -106,8 +124,7 @@ const IdentityInfo: React.FC<TIdentityInfo> = ({ register, errors, selectedDocum
         {selectedDocument === "Voter ID" && (
           <TextInput
             label="Voter ID"
-            {...register?.("document.documentNumber", {
-            })}
+            {...register?.("document.documentNumber", {})}
             error={errors?.documentNumber}
             placeholder="Enter your Voter ID"
             isRequired={false}
@@ -117,37 +134,34 @@ const IdentityInfo: React.FC<TIdentityInfo> = ({ register, errors, selectedDocum
         {selectedDocument === "Passport" && (
           <TextInput
             label="Passport"
-            {...register?.("document.documentNumber", {
-            })}
+            {...register?.("document.documentNumber", {})}
             error={errors?.documentNumber}
             placeholder="Enter your Passport Number"
             isRequired={false}
           />
         )}
 
-        {
-          selectedDocument &&
+        {selectedDocument && (
           <UploadInput
             label={documentLabel1}
             name="docFrontImageFile"
             accept="image/*"
             error={errors?.docFrontImageFile || ""}
             fileName={frontFileNames?.docFrontImageFile || ""}
-            onFileChange={onFileChangeFront || (() => { })}
+            onFileChange={onFileChangeFront || (() => {})}
           />
-        }
+        )}
 
-        {
-          selectedDocument &&
+        {selectedDocument && (
           <UploadInput
             label={documentLabel2}
             name="docBackImageFile"
             accept="image/*"
             error={errors?.docBackImageFile || ""}
             fileName={backFileNames?.docBackImageFile || ""}
-            onFileChange={onFileChangeBack || (() => { })}
+            onFileChange={onFileChangeBack || (() => {})}
           />
-        }
+        )}
       </div>
     </div>
   );
