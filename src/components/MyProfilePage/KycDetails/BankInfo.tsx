@@ -25,7 +25,7 @@ const BankInfo: React.FC<TBankInfoProps> = ({
   handleFileChange,
 }) => {
   return (
-    <div className="bg-white w-full rounded-2xl p-6">
+    <div className="bg-white w-full rounded-2xl p-6 h-fit">
       <div className="flex flex-col gap-4">
         <p className="text-neutral-90 font-semibold">Bank Information</p>
         <div className="flex flex-col xl:flex-row gap-4">
