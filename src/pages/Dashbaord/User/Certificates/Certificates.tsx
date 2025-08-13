@@ -6,6 +6,7 @@ import { CertificatePdf } from "./CertificatePdf";
 import { useGetMyCertificatesQuery } from "../../../../redux/Features/Certificate/certificateApi";
 import { formatDate } from "../../../../utils/formatDate";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
+import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 
 type TCertificate = {
   _id : string;
@@ -16,7 +17,7 @@ type TCertificate = {
 
 }
 const Certificates = () => {
-  const {data} = useGetMyCertificatesQuery({});
+  const {data, isLoading} = useGetMyCertificatesQuery({});
   const handleDownload = async (certificate:TCertificate) => {
     const blob = await pdf(
       <CertificatePdf
@@ -44,6 +45,11 @@ const Certificates = () => {
       />
 
       {
+        isLoading ?
+        <div className="flex items-center justify-center mt-5">
+                  <Spinner />
+                </div>
+                :
         data?.certificates?.length < 1 ?
         <div className="flex items-center justify-center mt-10">
           <NoDataFound message="You haven’t received any certificate."/>
