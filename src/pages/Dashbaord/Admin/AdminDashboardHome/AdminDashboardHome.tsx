@@ -4,8 +4,8 @@ import DashboardHeader from "../../../../components/Reusable/DashboardHeader/Das
 import { ICONS, IMAGES } from "../../../../assets";
 import { useMyReferralSummaryQuery } from "../../../../redux/Features/User/userApi";
 import {
+  useGetAdminStatsQuery,
   useGetAllOrdersQuery,
-  useGetAllUserQuery,
 } from "../../../../redux/Features/Admin/adminApi";
 import {
   BarChart,
@@ -16,50 +16,57 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { formatDate } from "../../../../utils/formatDate";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../../redux/Features/Auth/authSlice";
+import { TLoggedInUser } from "../../../../types/user.types";
 
 const AdminDashboardHome = () => {
+  const user = useSelector(useCurrentUser) as TLoggedInUser;
+  const { data: adminStats } = useGetAdminStatsQuery({});
   const { data: referralSummary } = useMyReferralSummaryQuery({});
   const { data: allOrdersHistory } = useGetAllOrdersQuery({});
   const data = [
     {
       title: "Total Earnings",
-      valueCount: 0,
+      valueCount: `₹${referralSummary?.data?.totalEarnings || 0}`,
       icon: ICONS.earning,
     },
     {
       title: "Total Registered Users",
-      valueCount: 0,
+      valueCount: adminStats?.stats?.totalUsers || 0,
       icon: ICONS.users,
     },
     {
       title: "Total Referrals",
-      valueCount: 0,
+      valueCount: referralSummary?.data?.totalReferredUsers || 0,
       icon: ICONS.referral,
     },
     {
       title: "Total Affiliates",
-      valueCount: 0,
+      valueCount: adminStats?.stats?.totalAffiliates || 0,
       icon: ICONS.users,
     },
     {
       title: "Pending KYC",
-      valueCount: 0,
+      valueCount: adminStats?.stats?.pendingKyc || 0,
       icon: ICONS.kyc,
     },
     {
       title: "Available Courses",
-      valueCount: 0,
+      valueCount: adminStats?.stats?.totalCourses || 0,
       icon: ICONS.course,
     },
-    {
-      title: "Total Payouts",
-      valueCount: 0,
-      icon: ICONS.payouts,
-    },
+    
     {
       title: "Total Course Purchased",
-      valueCount: 0,
+      valueCount: adminStats?.stats?.totalOrders || 0,
       icon: ICONS.purchasedCourses,
+    },
+    {
+      title: "Referral Code",
+      valueCount: user?.referralCode,
+      icon: ICONS.referralCode,
     },
   ];
 
@@ -81,17 +88,6 @@ const AdminDashboardHome = () => {
       value: referralSummary?.data?.yearlyEarnings || 0,
     },
   ];
-
-  const { data: allUsers } = useGetAllUserQuery({});
-
-  // Recent users of 5 days
-  const fiveDaysAgo = new Date();
-  fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
-
-  const recentUsers = allUsers?.users?.filter((user: any) => {
-    const joinedDate = new Date(user.createdAt);
-    return joinedDate >= fiveDaysAgo;
-  });
 
   // Ensure you have this somewhere at the top:
   const monthLabels = [
@@ -193,15 +189,15 @@ const AdminDashboardHome = () => {
                   <th className="px-4 py-2">Joined Date</th>
                 </tr>
               </thead>
-              {recentUsers?.length > 0 ? (
+              {adminStats?.recentUsers?.length > 0 ? (
                 <tbody>
-                  {recentUsers?.map((user: any, index: number) => (
+                  {adminStats?.recentUsers?.map((user: any, index: number) => (
                     <tr key={index}>
                       <td className="px-4 py-2 border-b">{user?._id}</td>
-                      <td className="px-4 py-2 border-b">{user?.name}</td>
+                      <td className="px-4 py-2 border-b">{user?.full_name}</td>
                       <td className="px-4 py-2 border-b">{user?.email}</td>
-                      <td className="px-4 py-2 border-b">{user?.mobile}</td>
-                      <td className="px-4 py-2 border-b">{user?.joinedDate}</td>
+                      <td className="px-4 py-2 border-b">{user?.mobileNumber}</td>
+                      <td className="px-4 py-2 border-b">{formatDate(user?.createdAt)}</td>
                     </tr>
                   ))}
                 </tbody>

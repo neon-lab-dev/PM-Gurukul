@@ -65,6 +65,7 @@ import course from "../assets/Icons/course.svg";
 import payouts from "../assets/Icons/payouts.svg";
 import purchasedCourses from "../assets/Icons/purchased-courses.svg";
 import certificate from "../assets/Icons/certificate.svg";
+import referralCode from "../assets/Icons/referral-code.svg";
 
 // Social Media icons
 import facebook from "../assets/Icons/facebook.svg";
@@ -178,6 +179,7 @@ export const ICONS = {
     payouts,
     purchasedCourses,
     certificate,
+    referralCode,
     
 };
 

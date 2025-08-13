@@ -2,6 +2,15 @@ import { baseApi } from "../../Api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAdminStats: builder.query({
+      query: () => ({
+        url: "/admin/stats",
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["user"],
+    }),
+
     getAllUser: builder.query({
       query: () => ({
         url: "/all/user",
@@ -166,6 +175,7 @@ const adminApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetAdminStatsQuery,
   useGetAllUserQuery,
   useGetAllPendingKYCQuery,
   useGetAllEarningsQuery,
