@@ -46,7 +46,7 @@ const MyCoursesCard: React.FC<TMyCoursesCard> = ({
 
         <div className="p-4 flex flex-col gap-4">
           <h1 className="text-primary-10 text-xl leading-7 font-semibold">
-            {title.length > 20 ? `${title.slice(0, 20)}...` : title}
+            {title?.length > 20 ? `${title?.slice(0, 20)}...` : title}
           </h1>
 
           <div>
