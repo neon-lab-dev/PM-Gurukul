@@ -54,7 +54,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
         description: "Test Transaction",
         image: "https://i.ibb.co/yBPFg2BJ/pmgurukul-favicon.png",
         order_id: response?.data?.order?.id, // the order id
-        callback_url: "https://pmgurukkul.com/api/v1/paymentVerification",
+        callback_url: "https://api.pmgurukkul.com/api/v1/paymentVerification",
         prefill: {
           name: user?.name,
           email: user?.email,
