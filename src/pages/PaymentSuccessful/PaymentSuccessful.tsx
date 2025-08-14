@@ -29,6 +29,7 @@ const PaymentSuccessful = () => {
         setSuccess(true);
         localStorage.removeItem("orderedCourses");
         localStorage.removeItem("cart");
+        localStorage.removeItem("orderedCourses");
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
