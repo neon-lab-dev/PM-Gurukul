@@ -20,7 +20,6 @@ import CourseVideoLayout from "../layouts/CourseVideoLayout/CourseVideoLayout";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import Cart from "../pages/Cart/Cart";
 import AdminCourses from "../pages/Dashbaord/Admin/Courses/Courses";
-import AddCourse from "../pages/Dashbaord/Admin/AddCourse/AddCourse";
 import OrderDetails from "../pages/Dashbaord/Admin/OrderDetails/OrderDetails";
 import Payouts from "../pages/Dashbaord/Admin/Payouts/Payouts";
 import Affiliates from "../pages/Dashbaord/Admin/Affiliates/Affiliates";
@@ -33,7 +32,6 @@ import MyOrders from "../pages/Dashbaord/User/MyOrders/MyOrders";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import AboutUS from "../pages/AboutUS/AboutUS";
 import Disclaimer from "../pages/Disclaimer/Disclaimer";
-import AddCourseVideo from "../pages/Dashbaord/Admin/AddCourse/AddCourseVideo/AddCourseVideo";
 import ProtectedRoute from "./ProtectedRoute";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import ReferralsAndPayouts from "../pages/Dashbaord/Admin/ReferralsAndPayouts/ReferralsAndPayouts";
@@ -49,6 +47,8 @@ import ExamResult from "../pages/Dashbaord/ExamResult/ExamResult";
 import ExamTimeOut from "../pages/Dashbaord/ExamTimeOut/ExamTimeOut";
 import AdminDashboardHome from "../pages/Dashbaord/Admin/AdminDashboardHome/AdminDashboardHome";
 import Certificates from "../pages/Dashbaord/User/Certificates/Certificates";
+import AddOrUpdateCourse from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddOrUpdateCourse";
+import AddCourseVideo from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddCourseVideo/AddCourseVideo";
 
 export const router = createBrowserRouter([
   {
@@ -233,8 +233,8 @@ export const router = createBrowserRouter([
         element: <AdminCourses />,
       },
       {
-        path: "add-course",
-        element: <AddCourse />,
+        path: "course/:action",
+        element: <AddOrUpdateCourse />,
       },
       {
         path: "add-course-video/:id",

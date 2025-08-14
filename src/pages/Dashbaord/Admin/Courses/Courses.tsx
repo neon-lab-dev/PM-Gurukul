@@ -47,9 +47,9 @@ const AdminCourses = () => {
     { key: "action", label: "ACTION", sortable: false },
   ];
 
-  const handleNavigateToManageExam = (id:string) => {
+  const handleNavigateToManageExam = (id: string) => {
     navigate(`/admin/course/manage-exam/${id}`);
-  }
+  };
 
   // Pending KYC user table data
   const allCoursesTableData = allCourses?.courses?.length
@@ -62,6 +62,10 @@ const AdminCourses = () => {
         discountedPrice: `₹${course?.discountedPrice}`,
         publishedOn: formatDate(course?.createdAt),
         action: [
+          {
+            label: "Update Course",
+            onClick: () => navigate("/admin/course/update", { state: { id: course?._id } }),
+          },
           {
             label: "Delete Course",
             onClick: () => handleDeleteCourse(course._id),
@@ -76,7 +80,8 @@ const AdminCourses = () => {
           {
             label: "Manage Exam",
             onClick: () => {
-              handleNavigateToManageExam(course?._id);},
+              handleNavigateToManageExam(course?._id);
+            },
           },
         ],
       }))
@@ -92,7 +97,7 @@ const AdminCourses = () => {
           pageName="All Courses"
           pageDesc="All your courses in one place."
         />
-        <Link to="/admin/add-course">
+        <Link to="/admin/course/add">
           <button className="px-[14px] py-4 bg-primary-10 text-white text-base font-medium leading-5 tracking-tighter rounded-[10px]">
             Add a course
           </button>

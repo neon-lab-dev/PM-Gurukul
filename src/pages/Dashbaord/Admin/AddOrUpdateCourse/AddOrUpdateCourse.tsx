@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { ICONS } from "../../../../assets";
 import TextInput from "../../../../components/Reusable/TextInput/TextInput";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import JoditEditor from "jodit-react";
-import { useCreateCourseMutation } from "../../../../redux/Features/Admin/adminApi";
+import {
+  useCreateCourseMutation,
+  useUpdateCourseMutation,
+} from "../../../../redux/Features/Admin/adminApi";
 import UploadInput from "../../../../components/Reusable/UploadInput/UploadInput";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../../../../components/Loaders/LoadingSpinner/LoadingSpinner";
 import { Helmet } from "react-helmet-async";
+import { useGetSingleCourseByIdQuery } from "../../../../redux/Features/Course/courseApi";
+import { toast } from "sonner";
 
 type TCourseFormData = {
   title: string;
@@ -20,20 +25,43 @@ type TCourseFormData = {
   file: File | null;
   author: string;
   totalDuration: string;
-}
-const AddCourse = () => {
+};
+const AddOrUpdateCourse = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = location.state || {};
+  const { data: singleCourseData } = useGetSingleCourseByIdQuery(id);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<TCourseFormData>();
+
   const [createCourse, { isLoading }] = useCreateCourseMutation();
+  const [updateCourse, { isLoading: isUpdating }] = useUpdateCourseMutation();
   const editor = useRef(null);
   const [content, setContent] = useState("");
   const [contentError, setContentError] = useState("");
   const [fileName, setFileName] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // Setting values
+  useEffect(() => {
+    if (id && singleCourseData) {
+      setValue("title", singleCourseData?.course?.title);
+      setValue("description", singleCourseData?.course?.description);
+      setValue("courseOverview", singleCourseData?.course?.courseOverview);
+      setValue("courseObjective", singleCourseData?.course?.courseObjective);
+      setValue("category", singleCourseData?.course?.category);
+      setValue("basePrice", singleCourseData?.course?.basePrice);
+      setValue("discountedPrice", singleCourseData?.course?.discountedPrice);
+      // setValue("numOfVideos", singleCourseData?.course?.numOfVideos);
+      setValue("author", singleCourseData?.course?.author);
+      setValue("totalDuration", singleCourseData?.course?.totalDuration);
+      setContent(singleCourseData?.course?.courseObjective);
+    }
+  }, [id, singleCourseData, setValue]);
 
   // To validate the description text editor
   useEffect(() => {
@@ -52,7 +80,7 @@ const AddCourse = () => {
     setSelectedFile(file);
   };
 
-  const handleCreateCourse = async (data: TCourseFormData) => {
+  const handleSubmitCourse = async (data: TCourseFormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
@@ -68,10 +96,18 @@ const AddCourse = () => {
       formData.append("file", selectedFile);
     }
 
-    const response = await createCourse(formData).unwrap();
-    if (response?.success) {
-      const id = response?.course?._id;
-      navigate(`/admin/add-course-video/${id}`);
+    if (id) {
+      const response = await updateCourse({ id, courseData:formData }).unwrap();
+      if (response?.success) {
+        toast.success("Course updated successfully");
+        navigate(`/admin/courses`);
+      }
+    } else {
+      const response = await createCourse(formData).unwrap();
+      if (response?.success) {
+        const id = response?.course?._id;
+        navigate(`/admin/add-course-video/${id}`);
+      }
     }
   };
 
@@ -93,9 +129,11 @@ const AddCourse = () => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col lg:w-[80%] w-full p-6 bg-white gap-6 rounded-2xl mx-auto">
-          <form onSubmit={handleSubmit(handleCreateCourse)} className="flex flex-col gap-4 w-full">
-
+        <div className="flex flex-col lg:w-[60%] w-full p-6 bg-white gap-6 rounded-2xl mx-auto">
+          <form
+            onSubmit={handleSubmit(handleSubmitCourse)}
+            className="flex flex-col gap-4 w-full"
+          >
             <TextInput
               label="Course Title"
               placeholder="Enter course title"
@@ -142,7 +180,9 @@ const AddCourse = () => {
             <TextInput
               label="Course Duration"
               placeholder="Enter course duration"
-              {...register("totalDuration", { required: "Course duration is required" })}
+              {...register("totalDuration", {
+                required: "Course duration is required",
+              })}
               error={errors.totalDuration}
             />
             <div className="flex flex-col gap-2 font-Inter">
@@ -154,12 +194,17 @@ const AddCourse = () => {
                 rows={3}
                 id="Description"
                 placeholder="Enter description"
-                className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border focus:outline-none focus:border-primary-10 transition duration-300 ${errors.description ? "border-red-500" : "border-neutral-75"
-                  }`}
-                {...register("description", { required: "Course description is required" })}
+                className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border focus:outline-none focus:border-primary-10 transition duration-300 ${
+                  errors.description ? "border-red-500" : "border-neutral-75"
+                }`}
+                {...register("description", {
+                  required: "Course description is required",
+                })}
               />
               {errors?.description?.message && (
-                <span className="text-red-500 text-sm">{String(errors.description.message)}</span>
+                <span className="text-red-500 text-sm">
+                  {String(errors.description.message)}
+                </span>
               )}
             </div>
 
@@ -172,12 +217,17 @@ const AddCourse = () => {
                 rows={3}
                 id="Course Overview"
                 placeholder="Enter course overview"
-                className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border focus:outline-none focus:border-primary-10 transition duration-300 ${errors.courseOverview ? "border-red-500" : "border-neutral-75"
-                  }`}
-                {...register("courseOverview", { required: "Course course overview is required" })}
+                className={`px-[18px] py-[14px] rounded-lg bg-neutral-70 border focus:outline-none focus:border-primary-10 transition duration-300 ${
+                  errors.courseOverview ? "border-red-500" : "border-neutral-75"
+                }`}
+                {...register("courseOverview", {
+                  required: "Course course overview is required",
+                })}
               />
               {errors?.courseOverview?.message && (
-                <span className="text-red-500 text-sm">{String(errors.courseOverview.message)}</span>
+                <span className="text-red-500 text-sm">
+                  {String(errors.courseOverview.message)}
+                </span>
               )}
             </div>
             <div>
@@ -211,7 +261,7 @@ const AddCourse = () => {
                 type="submit"
                 className="px-4 py-2 bg-[#051539] border-[#051539] rounded-lg text-white"
               >
-                {isLoading ? <LoadingSpinner /> : "Submit"}
+                {isLoading || isUpdating ? <LoadingSpinner /> : "Submit"}
               </button>
             </div>
           </form>
@@ -221,4 +271,4 @@ const AddCourse = () => {
   );
 };
 
-export default AddCourse;
+export default AddOrUpdateCourse;

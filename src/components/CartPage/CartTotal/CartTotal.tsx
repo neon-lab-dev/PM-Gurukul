@@ -42,7 +42,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
       );
     try {
       setLoading(true);
-      const keyData = await axios.get("https://pmgurkulbackend.vercel.app/api/v1/getKey");
+      const keyData = await axios.get("https://pmgurukkul.com/api/v1/getKey");
 
       const response = await makePayment({ amount: Number(totalAmount) });
 
@@ -54,7 +54,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
         description: "Test Transaction",
         image: "https://i.ibb.co/yBPFg2BJ/pmgurukul-favicon.png",
         order_id: response?.data?.order?.id, // the order id
-        callback_url: "https://pmgurkulbackend.vercel.app/api/v1/paymentVerification",
+        callback_url: "https://pmgurukkul.com/api/v1/paymentVerification",
         prefill: {
           name: user?.name,
           email: user?.email,

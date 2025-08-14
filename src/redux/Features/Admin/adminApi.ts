@@ -153,6 +153,16 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["course"],
     }),
 
+    updateCourse: builder.mutation({
+      query: ({id, courseData}) => ({
+        url: `/update-course/${id}`,
+        method: "PUT",
+        body: courseData,
+        credentials: "include",
+      }),
+      invalidatesTags: ["course"],
+    }),
+
     addVideo: builder.mutation({
       query: ({ formData, courseId }) => ({
         url: `/course/${courseId}`,
@@ -191,6 +201,7 @@ export const {
   useApproveWeeklyPayoutMutation,
   useDeleteCourseMutation,
   useCreateCourseMutation,
+  useUpdateCourseMutation,
   useAddVideoMutation,
   useDeleteVideoMutation,
 } = adminApi;
