@@ -63,8 +63,12 @@ const AdminCourses = () => {
         publishedOn: formatDate(course?.createdAt),
         action: [
           {
-            label: "Update Course",
+            label: "Update Course Details",
             onClick: () => navigate("/admin/course/update", { state: { id: course?._id } }),
+          },
+          {
+            label: "Manage Lectures",
+            onClick: () => navigate(`/admin/add-course-video/${course?._id}`),
           },
           {
             label: "Delete Course",

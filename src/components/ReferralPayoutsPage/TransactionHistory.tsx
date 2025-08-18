@@ -208,7 +208,7 @@ export const Table = ({
                             {/* Dropdown menu */}
                             {openDropdownId === index && (
                               <div
-                                className="absolute top-8 right-0 z-10 bg-white shadow-md border rounded-md w-40"
+                                className="absolute top-8 right-0 z-10 bg-white shadow-md border rounded-md w-44"
                                 // optional: use onMouseLeave or blur logic elsewhere to close
                               >
                                 {row[header.key].map(
