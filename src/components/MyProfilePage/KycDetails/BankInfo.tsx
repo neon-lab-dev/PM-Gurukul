@@ -9,7 +9,10 @@ type TBankInfoProps = {
   register?: any;
   errors?: any;
   index?: number;
-  handleBankInfoChange?: (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>, field: BankInfoField) => void;
+  handleBankInfoChange?: (
+    e: ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+    field: BankInfoField
+  ) => void;
   fileNames?: { [key: string]: string };
   // onFileChange?: (name: string, file: File | null) => void;
   handleFileChange?: (name: string, file: File | null) => void;
@@ -19,7 +22,7 @@ const BankInfo: React.FC<TBankInfoProps> = ({
   register = () => ({}),
   errors = {},
   index = 0,
-  handleBankInfoChange = () => { },
+  handleBankInfoChange = () => {},
   fileNames,
   // onFileChange,
   handleFileChange,
@@ -39,12 +42,7 @@ const BankInfo: React.FC<TBankInfoProps> = ({
           />
           <TextInput
             label="Account Number"
-            {...register(`bankInfo.${index}.accNumber`, {
-              pattern: {
-                value: /^[0-9]*$/,
-                message: "Enter a valid Account Number",
-              },
-            })}
+            {...register(`bankInfo.${index}.accNumber`)}
             error={errors?.bankInfo?.[index]?.accNumber}
             placeholder="Enter Account Number"
             onChange={(e) => handleBankInfoChange(e, "accNumber")}
@@ -56,17 +54,14 @@ const BankInfo: React.FC<TBankInfoProps> = ({
           {...register(`bankInfo.${index}.accType`)}
           error={errors?.bankInfo?.[index]?.accType}
           options={["Savings", "Current", "Other"]}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => handleBankInfoChange(e, "accType")}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            handleBankInfoChange(e, "accType")
+          }
           isRequired={false}
         />
         <TextInput
           label="IFSC Code"
-          {...register(`bankInfo.${index}.ifscCode`, {
-            pattern: {
-              value: /^[A-Z]{4}[0][A-Z0-9]{6}$/,
-              message: "Enter a valid IFSC Code",
-            },
-          })}
+          {...register(`bankInfo.${index}.ifscCode`)}
           error={errors?.bankInfo?.[index]?.ifscCode}
           placeholder="Enter IFSC Code"
           onChange={(e) => handleBankInfoChange(e, "ifscCode")}
@@ -114,7 +109,7 @@ const BankInfo: React.FC<TBankInfoProps> = ({
           accept="image/*"
           error={errors?.passbookImageFile || ""}
           fileName={fileNames?.passbookImageFile || ""}
-          onFileChange={handleFileChange || (() => { })}
+          onFileChange={handleFileChange || (() => {})}
           isRequired={false}
         />
       </div>

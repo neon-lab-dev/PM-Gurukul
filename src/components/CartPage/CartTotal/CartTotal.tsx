@@ -42,7 +42,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
       );
     try {
       setLoading(true);
-      const keyData = await axios.get("https://pmgurukkul.com/api/v1/getKey");
+      const keyData = await axios.get("https://api.pmgurukkul.com/api/v1/getKey");
 
       const response = await makePayment({ amount: Number(totalAmount) });
 
