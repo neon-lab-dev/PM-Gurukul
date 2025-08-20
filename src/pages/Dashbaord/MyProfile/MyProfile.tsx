@@ -362,18 +362,40 @@ const MyProfile = () => {
                   passBookImage={user?.user?.passbookImage?.url}
                 />
               </div>
-              {(user?.user?.bankInfo?.length ? user.user.bankInfo : [{}]).map(
-                (_: TBankInfo, index: number) => (
-                  <BankInfo
-                    handleBankInfoChange={handleBankInfoChange}
-                    key={index}
-                    index={index}
-                    register={register}
-                    errors={errors}
-                    handleFileChange={handleFileChange}
-                  />
-                )
-              )}
+              <div className="flex flex-col gap-4">
+                {(user?.user?.bankInfo?.length ? user.user.bankInfo : [{}]).map(
+                  (_: TBankInfo, index: number) => (
+                    <BankInfo
+                      handleBankInfoChange={handleBankInfoChange}
+                      key={index}
+                      index={index}
+                      register={register}
+                      errors={errors}
+                      handleFileChange={handleFileChange}
+                    />
+                  )
+                )}
+
+                {
+                  user?.user?.passbookImage?.url &&
+                  <div className="bg-white w-full rounded-2xl p-6 h-fit">
+                  <div className="w-1/2">
+                    <p>Pass Book Image</p>
+                    {user?.user?.passbookImage?.url ? (
+                      <img
+                        src={user?.user?.passbookImage?.url}
+                        alt=""
+                        className={
+                          "w-full mt-1 rounded-xl border border-neutral-65/40 min-h-[170px]"
+                        }
+                      />
+                    ) : (
+                      <p className={"text-neutral-90"}>No document submitted</p>
+                    )}
+                  </div>
+                </div>
+                }
+              </div>
             </div>
           </div>
         )}
