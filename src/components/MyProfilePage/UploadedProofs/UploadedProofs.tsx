@@ -8,6 +8,7 @@ type TUploadedProofs = {
 }
 
 const UploadedProofs: React.FC<TUploadedProofs> = ({ docName, docImageFront, docImageBack, panCardImage, passBookImage }) => {
+    console.log(passBookImage);
     const paragraphStyle = "text-neutral-90";
     const imageStyle = "w-full mt-1 rounded-xl border border-neutral-65/40 min-h-[170px]";
     return (
@@ -48,7 +49,7 @@ const UploadedProofs: React.FC<TUploadedProofs> = ({ docName, docImageFront, doc
                                     <p className={paragraphStyle}>No document submitted</p>
                             }
                         </div>
-                        <div className="w-1/2">
+                        {/* <div className="w-1/2">
                             <p>Pass Book Image</p>
                             {
                                 passBookImage ?
@@ -56,7 +57,7 @@ const UploadedProofs: React.FC<TUploadedProofs> = ({ docName, docImageFront, doc
                                     :
                                     <p className={paragraphStyle}>No document submitted</p>
                             }
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

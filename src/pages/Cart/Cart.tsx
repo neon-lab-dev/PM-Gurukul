@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Helmet } from "react-helmet-async";
 import CartItem from "../../components/CartPage/CartItem/CartItem";
 import CartTotal from "../../components/CartPage/CartTotal/CartTotal";
@@ -24,7 +25,9 @@ const Cart = () => {
                 const purchasedCourses = data?.user?.purchasedCourses || [];
 
                 // Check if this item was purchased already
-                const isPurchased = purchasedCourses.includes(item._id);
+                const isPurchased = purchasedCourses.some(
+                  (course:any) => course.courseId === item._id
+                );
 
                 return <CartItem key={index} item={item} match={isPurchased} />;
               })

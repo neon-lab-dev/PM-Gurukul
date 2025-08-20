@@ -372,6 +372,7 @@ const MyProfile = () => {
                       register={register}
                       errors={errors}
                       handleFileChange={handleFileChange}
+                      fileNames={fileNames}
                     />
                   )
                 )}

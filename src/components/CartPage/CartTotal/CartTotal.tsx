@@ -10,7 +10,7 @@ import { useGetMeQuery } from "../../../redux/Features/User/userApi";
 import { toast } from "sonner";
 
 // Add Razorpay type to window
-declare global { 
+declare global {
   interface Window {
     Razorpay: any;
   }
@@ -27,7 +27,9 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
   const user = useSelector(useCurrentUser) as any;
 
   const cartItems = cartData?.map((item) => item._id);
-  const isPurchased = cartItems?.some((id) => purchasedCourses.includes(id));
+  const isPurchased = cartItems?.some((id) =>
+    purchasedCourses.some((course: any) => course.courseId === id)
+  );
 
   const [makePayment] = useMakePaymentMutation();
 
@@ -35,14 +37,16 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
 
   const totalAmount = discountedPriceTotal + gst;
   const handleCheckout = async () => {
-    if(cartItems?.length === 0) return toast.error("Cart is empty!");
+    if (cartItems?.length === 0) return toast.error("Cart is empty!");
     if (isPurchased)
       return toast.error(
         "Maybe you have already purchased some of these courses! Please check your purchased courses or remove it from cart to continue with other courses."
       );
     try {
       setLoading(true);
-      const keyData = await axios.get("https://api.pmgurukkul.com/api/v1/getKey");
+      const keyData = await axios.get(
+        "https://api.pmgurukkul.com/api/v1/getKey"
+      );
 
       const response = await makePayment({ amount: Number(totalAmount) });
 

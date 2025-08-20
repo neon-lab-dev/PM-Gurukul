@@ -24,12 +24,10 @@ const PaymentSuccessful = () => {
         const orderInfo = {
           courseId: orderedCourses,
         };
-        console.log(orderInfo);
         await createOrder(orderInfo).unwrap();
         setSuccess(true);
         localStorage.removeItem("orderedCourses");
         localStorage.removeItem("cart");
-        localStorage.removeItem("orderedCourses");
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
