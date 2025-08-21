@@ -20,7 +20,9 @@ const AttendExam = () => {
   const { data, isLoading } = useGetAllQuestionsOfCourseQuery(id);
   const [attendExam, { isLoading: isSubmitting }] = useAttendExamMutation();
 
-  const [selectedOptions, setSelectedOptions] = useState<Record<number, number | null>>({});
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<number, number | null>
+  >({});
   console.log(selectedOptions);
 
   // Calculate total questions and initialize timer in seconds
@@ -44,7 +46,7 @@ const AttendExam = () => {
     }
 
     const interval = setInterval(() => {
-      setTimeLeft((prev) => (prev! - 1));
+      setTimeLeft((prev) => prev! - 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -64,10 +66,12 @@ const AttendExam = () => {
 
       if (!examId) return console.error("Missing examId");
 
-      const answers = data?.exam?.questions.map((question: any, idx: number) => ({
-        questionId: question._id,
-        selectedOptionIndex: selectedOptions[idx] ?? null,
-      }));
+      const answers = data?.exam?.questions.map(
+        (question: any, idx: number) => ({
+          questionId: question._id,
+          selectedOptionIndex: selectedOptions[idx] ?? null,
+        })
+      );
 
       const payload = {
         examId,
@@ -113,64 +117,75 @@ const AttendExam = () => {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full ">
             {/* Render questions */}
-            {data?.exam?.questions?.map((question: any, idx: number) => (
-              <div key={idx} className="mb-4 bg-neutral-15/30 p-5 rounded-2xl">
-                <h1 className="text-[#0F172A] font-semibold leading-7 tracking-tighter text-xl capitalize">
-                  Q{`${idx + 1}. ${question.questionText}`}
-                </h1>
-                <h1 className="text-[#0F172A] leading-7 tracking-tighter mt-2">Options</h1>
+            {!data?.exam?.questions ? (
+              <p>No questions found</p>
+            ) : (
+              data?.exam?.questions?.map((question: any, idx: number) => (
+                <div
+                  key={idx}
+                  className="mb-4 bg-neutral-15/30 p-5 rounded-2xl"
+                >
+                  <h1 className="text-[#0F172A] font-semibold leading-7 tracking-tighter text-xl capitalize">
+                    Q{`${idx + 1}. ${question.questionText}`}
+                  </h1>
+                  <h1 className="text-[#0F172A] leading-7 tracking-tighter mt-2">
+                    Options
+                  </h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                  {question?.options?.map((opt: any, optIdx: number) => (
-                    <button
-                      key={optIdx}
-                      type="button"
-                      className="flex items-center gap-2 w-full"
-                      onClick={() =>
-                        setSelectedOptions((prev) => ({
-                          ...prev,
-                          [idx]: optIdx,
-                        }))
-                      }
-                    >
-                      <div
-                        className={`size-9 rounded-full flex items-center justify-center font-semibold text-center ${
-                          selectedOptions[idx] === optIdx
-                            ? "bg-blue-500 text-white"
-                            : "bg-white text-primary-10"
-                        }`}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+                    {question?.options?.map((opt: any, optIdx: number) => (
+                      <button
+                        key={optIdx}
+                        type="button"
+                        className="flex items-center gap-2 w-full"
+                        onClick={() =>
+                          setSelectedOptions((prev) => ({
+                            ...prev,
+                            [idx]: optIdx,
+                          }))
+                        }
                       >
-                        {optIdx + 1}
-                      </div>
-                      <div
-                        className={`px-4 py-2 rounded-lg font-medium w-[92%] ${
-                          selectedOptions[idx] === optIdx
-                            ? "bg-blue-500 text-white"
-                            : "bg-white text-primary-10"
-                        }`}
-                      >
-                        {opt?.text}
-                      </div>
-                    </button>
-                  ))}
+                        <div
+                          className={`size-9 rounded-full flex items-center justify-center font-semibold text-center ${
+                            selectedOptions[idx] === optIdx
+                              ? "bg-blue-500 text-white"
+                              : "bg-white text-primary-10"
+                          }`}
+                        >
+                          {optIdx + 1}
+                        </div>
+                        <div
+                          className={`px-4 py-2 rounded-lg font-medium w-[92%] ${
+                            selectedOptions[idx] === optIdx
+                              ? "bg-blue-500 text-white"
+                              : "bg-white text-primary-10"
+                          }`}
+                        >
+                          {opt?.text}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
 
-            <div className="flex items-center justify-end gap-[10px] mt-4">
-              <button
-                type="button"
-                className="px-4 py-2 text-[#091E42] bg-[#FAFBFB] border border-[#DFE2E6] rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-[#051539] text-white border border-[#DFE2E6] rounded-lg"
-              >
-                {isSubmitting ? <LoadingSpinner /> : "Submit"}
-              </button>
-            </div>
+            {data?.exam?.questions && (
+              <div className="flex items-center justify-end gap-[10px] mt-4">
+                <button
+                  type="button"
+                  className="px-4 py-2 text-[#091E42] bg-[#FAFBFB] border border-[#DFE2E6] rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#051539] text-white border border-[#DFE2E6] rounded-lg"
+                >
+                  {isSubmitting ? <LoadingSpinner /> : "Submit"}
+                </button>
+              </div>
+            )}
           </form>
         )}
       </div>
