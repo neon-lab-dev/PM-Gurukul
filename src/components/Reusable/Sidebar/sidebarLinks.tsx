@@ -68,4 +68,9 @@ export const adminMenus = [
     link: "/admin/purchase-history",
     icon: <MdOutlineHistoryEdu />,
   },
+  {
+    name: "Talents",
+    link: "/admin/talents",
+    icon: <HiOutlineSparkles />,
+  },
 ];

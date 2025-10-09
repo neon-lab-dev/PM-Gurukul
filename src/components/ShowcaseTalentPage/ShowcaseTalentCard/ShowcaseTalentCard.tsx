@@ -3,6 +3,8 @@ import React from "react";
 import { FiCalendar, FiTrash2 } from "react-icons/fi";
 import { toast } from "sonner";
 import { useDeleteTalentMutation } from "../../../redux/Features/Talent/talentApi";
+import { BsEye } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export interface TalentCardProps {
   _id: string;
@@ -13,6 +15,7 @@ export interface TalentCardProps {
   description: string;
   skills: string[];
   createdAt: Date;
+  isAdmin: boolean;
 }
 
 const ShowcaseTalentCard: React.FC<TalentCardProps> = ({
@@ -23,6 +26,7 @@ const ShowcaseTalentCard: React.FC<TalentCardProps> = ({
   description,
   skills,
   createdAt,
+  isAdmin,
 }) => {
   const [deleteTalent] = useDeleteTalentMutation();
 
@@ -84,13 +88,24 @@ const ShowcaseTalentCard: React.FC<TalentCardProps> = ({
             <FiCalendar className="w-4 h-4" />
             <span>{new Date(createdAt).toLocaleDateString()}</span>
           </div>
-          <button
-            onClick={() => handleDeleteTalent(_id)}
-            className="flex items-center gap-2 text-red-600 hover:text-red-800 text-sm font-medium transition-colors"
-          >
-            <FiTrash2 className="w-4 h-4" />
-            Delete
-          </button>
+          <div className="flex items-center gap-3">
+            {isAdmin && (
+              <Link
+                to={`/admin/talent/${_id}`}
+                className="flex items-center gap-2 text-gray-500 text-sm font-medium transition-colors"
+              >
+                <BsEye className="w-4 h-4" />
+                View
+              </Link>
+            )}
+            <button
+              onClick={() => handleDeleteTalent(_id)}
+              className="flex items-center gap-2 text-red-600 hover:text-red-800 text-sm font-medium transition-colors"
+            >
+              <FiTrash2 className="w-4 h-4" />
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

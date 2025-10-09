@@ -25,7 +25,7 @@ const talentApi = baseApi.injectEndpoints({
 
     getSingleTalentById: builder.query({
       query: (id) => ({
-        url: `/talent/single/${id}`,
+        url: `/talent/${id}`,
         method: "GET",
         credentials: "include",
       }),
