@@ -3,6 +3,8 @@ import TextInput from "../../Reusable/TextInput/TextInput";
 import { useForm } from "react-hook-form";
 import SelectDropdown from "../../Reusable/Dropdown/SelectDropdown";
 import Textarea from "../../Reusable/TextArea/TextArea";
+import { useAddTalentMutation } from "../../../redux/Features/Talent/talentApi";
+import { toast } from "sonner";
 
 export interface TalentSubmission {
   title: string;
@@ -12,7 +14,6 @@ export interface TalentSubmission {
   video: File | null;
   description: string;
   skills: string[];
-  videoDuration: string;
 }
 
 type TFormData = {
@@ -25,7 +26,7 @@ type TFormData = {
   video: FileList | null;
 };
 
-const TalentSubmissionForm = () => {
+const TalentSubmissionForm = ({setActiveTab} : {setActiveTab: React.Dispatch<React.SetStateAction<"browse" | "submit">>}) => {
   const {
     register,
     handleSubmit,
@@ -33,9 +34,10 @@ const TalentSubmissionForm = () => {
     reset,
   } = useForm<TFormData>();
 
+  const [addTalent, {isLoading}] = useAddTalentMutation();
+
   const [currentSkill, setCurrentSkill] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -78,7 +80,7 @@ const TalentSubmissionForm = () => {
   };
 
   const handleFormSubmit = async (data: TFormData) => {
-    console.log(data);
+    console.log("object", data);
     if (!selectedVideo) {
       alert("Please select a video file");
       return;
@@ -89,7 +91,27 @@ const TalentSubmissionForm = () => {
       return;
     }
 
-    setIsSubmitting(true);
+    try{
+        const formData = new FormData();
+        formData.append("title", data.title);
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("talentType", data.talentType);
+        formData.append("description", data.description);
+        skills.forEach((skill) => formData.append("skills[]", skill));
+        formData.append("file", selectedVideo);
+
+        const response = await addTalent(formData).unwrap();
+        if (response?.success) {
+          toast.success("Talent submitted successfully");
+          reset();
+          setSkills([]);
+          setSelectedVideo(null);
+          setActiveTab("browse");
+        }
+    } catch (error) {
+        console.log(error);
+    }
   };
 
   return (
@@ -162,7 +184,6 @@ const TalentSubmissionForm = () => {
           </label>
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-all hover:border-[#051539]">
             <input
-              {...register("video", { required: "Video is required" })}
               ref={fileInputRef}
               type="file"
               accept="video/*"
@@ -202,11 +223,6 @@ const TalentSubmissionForm = () => {
                 Selected: {selectedVideo.name}
               </p>
             )}
-            {errors.video && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.video.message}
-              </p>
-            )}
           </div>
         </div>
 
@@ -221,7 +237,7 @@ const TalentSubmissionForm = () => {
               value={currentSkill}
               onChange={(e) => setCurrentSkill(e.target.value)}
               onKeyPress={(e) =>
-                e.key === "Enter" && (e.preventDefault(), handleAddSkill())
+                e.key === "Enter" && (handleAddSkill())
               }
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#051539] focus:border-transparent"
               placeholder="Add a skill"
@@ -256,10 +272,10 @@ const TalentSubmissionForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="w-full bg-[#051539] text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Submitting..." : "Showcase My Talent"}
+          {isLoading ? "Submitting..." : "Showcase My Talent"}
         </button>
       </form>
     </div>

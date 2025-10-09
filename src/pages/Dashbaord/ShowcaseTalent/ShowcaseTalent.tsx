@@ -1,39 +1,12 @@
 // pages/ShowcaseTalent.tsx (Tab Version)
 import React, { useState } from "react";
-import ShowcaseTalentCard, {
-  TalentCardProps,
-} from "../../../components/ShowcaseTalentPage/ShowcaseTalentCard/ShowcaseTalentCard";
+import ShowcaseTalentCard from "../../../components/ShowcaseTalentPage/ShowcaseTalentCard/ShowcaseTalentCard";
 import TalentSubmissionForm from "../../../components/ShowcaseTalentPage/TalentSubmissionForm/TalentSubmissionForm";
-
-// Mock initial data
-const initialTalents: TalentCardProps[] = [
-  {
-    id: "1",
-    name: "Sarah Johnson",
-    email: "sarah.j@example.com",
-    talentType: "Music",
-    videoUrl: "/sample-video-1.mp4",
-    description:
-      "Classical pianist with 8 years of experience. Specializing in Beethoven and Chopin compositions.",
-    skills: ["Piano", "Music Theory", "Composition"],
-    submittedDate: "2024-01-15",
-  },
-  {
-    id: "2",
-    name: "Mike Chen",
-    email: "mike.chen@example.com",
-    talentType: "Dance",
-    videoUrl: "/sample-video-2.mp4",
-    description:
-      "Contemporary dancer and choreographer. Passionate about expressing emotions through movement.",
-    skills: ["Contemporary", "Choreography", "Hip Hop"],
-    submittedDate: "2024-01-14",
-  },
-];
+import { useGetMyTalentsQuery } from "../../../redux/Features/Talent/talentApi";
 
 const ShowcaseTalent: React.FC = () => {
-  const [talents, setTalents] = useState<TalentCardProps[]>(initialTalents);
-  const [filter, setFilter] = useState("All");
+    const [filter, setFilter] = useState("All");
+    const {data:myTalents} = useGetMyTalentsQuery({talentType: filter});
   const [activeTab, setActiveTab] = useState<"browse" | "submit">("browse");
 
   const talentTypes = [
@@ -47,11 +20,6 @@ const ShowcaseTalent: React.FC = () => {
     "Writing",
     "Other",
   ];
-
-  const filteredTalents =
-    filter === "All"
-      ? talents
-      : talents.filter((talent) => talent.talentType === filter);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -116,17 +84,17 @@ const ShowcaseTalent: React.FC = () => {
             {/* Results Count */}
             <div className="mb-6">
               <p className="text-gray-600">
-                Showing {filteredTalents.length} talent
-                {filteredTalents.length !== 1 ? "s" : ""}
+                Showing {myTalents?.data?.length || 0} talent
+                {myTalents?.data?.length !== 1 ? "s" : ""}
                 {filter !== "All" && ` in ${filter}`}
               </p>
             </div>
 
             {/* Talent Grid */}
-            {filteredTalents.length > 0 ? (
+            {myTalents?.data?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredTalents.map((talent) => (
-                  <ShowcaseTalentCard key={talent.id} {...talent} />
+                {myTalents?.data?.map((talent) => (
+                  <ShowcaseTalentCard key={talent._id} {...talent} />
                 ))}
               </div>
             ) : (
@@ -158,7 +126,7 @@ const ShowcaseTalent: React.FC = () => {
             )}
           </>
         ) : (
-          <TalentSubmissionForm />
+          <TalentSubmissionForm setActiveTab={setActiveTab} />
         )}
       </div>
     </div>
