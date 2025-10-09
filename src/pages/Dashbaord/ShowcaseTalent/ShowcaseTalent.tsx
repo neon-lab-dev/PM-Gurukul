@@ -48,15 +48,6 @@ const ShowcaseTalent: React.FC = () => {
     "Other",
   ];
 
-  const handleNewSubmission = (submission: Omit<TalentCardProps, "id">) => {
-    const newTalent: TalentCardProps = {
-      ...submission,
-      id: Date.now().toString(),
-    };
-    setTalents((prev) => [newTalent, ...prev]);
-    setActiveTab("browse");
-  };
-
   const filteredTalents =
     filter === "All"
       ? talents
@@ -167,7 +158,7 @@ const ShowcaseTalent: React.FC = () => {
             )}
           </>
         ) : (
-          <TalentSubmissionForm onSubmit={handleNewSubmission} />
+          <TalentSubmissionForm />
         )}
       </div>
     </div>

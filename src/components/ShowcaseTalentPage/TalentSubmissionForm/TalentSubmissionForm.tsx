@@ -1,4 +1,3 @@
-// components/TalentSubmissionForm.tsx
 import React, { useState, useRef } from "react";
 import TextInput from "../../Reusable/TextInput/TextInput";
 import { useForm } from "react-hook-form";
@@ -16,16 +15,6 @@ export interface TalentSubmission {
   videoDuration: string;
 }
 
-interface TalentSubmissionFormProps {
-  onSubmit: (
-    submission: TalentSubmission & {
-      videoUrl: string;
-      id: string;
-      submittedDate: string;
-    }
-  ) => void;
-}
-
 type TFormData = {
   title: string;
   name: string;
@@ -36,9 +25,7 @@ type TFormData = {
   video: FileList | null;
 };
 
-const TalentSubmissionForm: React.FC<TalentSubmissionFormProps> = ({
-  onSubmit,
-}) => {
+const TalentSubmissionForm = () => {
   const {
     register,
     handleSubmit,
@@ -91,6 +78,7 @@ const TalentSubmissionForm: React.FC<TalentSubmissionFormProps> = ({
   };
 
   const handleFormSubmit = async (data: TFormData) => {
+    console.log(data);
     if (!selectedVideo) {
       alert("Please select a video file");
       return;
@@ -102,41 +90,6 @@ const TalentSubmissionForm: React.FC<TalentSubmissionFormProps> = ({
     }
 
     setIsSubmitting(true);
-
-    // Simulate file upload process
-    setTimeout(() => {
-      const submission: TalentSubmission & {
-        videoUrl: string;
-        id: string;
-        submittedDate: string;
-      } = {
-        title: data.title,
-        name: data.name,
-        email: data.email,
-        talentType: data.talentType,
-        description: data.description,
-        videoDuration: data.videoDuration,
-        video: selectedVideo,
-        skills: skills,
-        videoUrl: URL.createObjectURL(selectedVideo),
-        id: Date.now().toString(),
-        submittedDate: new Date().toISOString(),
-      };
-
-      onSubmit(submission);
-
-      // Reset form
-      reset();
-      setSkills([]);
-      setSelectedVideo(null);
-      setCurrentSkill("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      setIsSubmitting(false);
-
-      alert("Talent submitted successfully!");
-    }, 1000);
   };
 
   return (
