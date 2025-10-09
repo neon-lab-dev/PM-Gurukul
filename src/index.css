@@ -56,3 +56,43 @@
   scrollbar-width: thin;
   scrollbar-color: #9ca3af transparent;
 }
+
+
+/* --- General Cleanup --- */
+
+/* Hide top banner injected by Google */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+
+/* Make the widget cleaner */
+#google_translate_element {
+  /* width: 100%; */
+  display: inline-block;
+  background: #f9fafb;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid #ddd;
+}
+
+/* Style the dropdown */
+#google_translate_element select {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Optional: make the Google text smaller and lighter */
+.goog-te-gadget span {
+  font-size: 10px !important;
+  color: #aaa !important;
+}
+
+

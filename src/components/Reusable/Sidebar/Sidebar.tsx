@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Ripple from "../Ripple/Ripple";
 import { TLoggedInUser } from "../../../types/user.types";
 import { adminMenus, userMenus } from "./sidebarLinks";
+import GoogleTranslate from "../../Shared/Navbar/GoogleTranslate";
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,8 @@ const Sidebar: React.FC = () => {
           </ul>
         </div>
       </div>
+      <div className="flex flex-col gap-3">
+          <GoogleTranslate/>
       <Ripple styles="rounded-xl">
         <button
           onClick={handleLogout}
@@ -69,6 +72,7 @@ const Sidebar: React.FC = () => {
           Logout
         </button>
       </Ripple>
+      </div>
     </div>
   );
 };

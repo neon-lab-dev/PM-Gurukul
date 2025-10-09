@@ -8,6 +8,7 @@ import Ripple from "./../../Reusable/Ripple/Ripple";
 import { useSelector } from "react-redux";
 import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 import { TLoggedInUser } from "../../../types/user.types";
+import GoogleTranslate from "./GoogleTranslate";
 
 const Navbar = () => {
   const user = useSelector(useCurrentUser) as TLoggedInUser;
@@ -45,6 +46,7 @@ const Navbar = () => {
 
             <div className="flex items-center gap-5 lg:gap-8">
               <div className="flex flex-row-reverse lg:flex-row items-center gap-5 lg:gap-8">
+                <GoogleTranslate/>
                 <Link to={"/cart"} className="relative">
                   <img
                     src={ICONS.cartDark}

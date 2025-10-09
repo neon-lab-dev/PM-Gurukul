@@ -25,11 +25,6 @@ const HeaderDashboard = () => {
             </li>
           </>
         )}
-        {/* <li>
-          <Link to="/dashboard">
-            <img src={ICONS.Bell} />
-          </Link>
-        </li> */}
         <li>
           <Link to="/dashboard">
             <img src={ICONS.UserCircle} />
