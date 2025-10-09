@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import ShowcaseTalentCard from "../../../components/ShowcaseTalentPage/ShowcaseTalentCard/ShowcaseTalentCard";
 import TalentSubmissionForm from "../../../components/ShowcaseTalentPage/TalentSubmissionForm/TalentSubmissionForm";
-import { useGetAllTalentsQuery, useGetMyTalentsQuery } from "../../../redux/Features/Talent/talentApi";
+import {
+  useGetAllTalentsQuery,
+  useGetMyTalentsQuery,
+} from "../../../redux/Features/Talent/talentApi";
 import { TTalent } from "../../../types/talent.types";
 import { useSelector } from "react-redux";
 import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
@@ -12,15 +15,17 @@ import { TUser } from "../../../types/user.types";
 const ShowcaseTalent: React.FC = () => {
   const user = useSelector(useCurrentUser) as TUser;
   const isAdmin = user?.role === "admin";
-  
+
   const [keyword, setKeyword] = useState<string>("");
   const [filter, setFilter] = useState("All");
   const { data: myTalents } = useGetMyTalentsQuery({ talentType: filter });
-  const { data: allTalents } = useGetAllTalentsQuery({ 
-    talentType: filter === "All" ? "" : filter, 
-    keyword: keyword 
+  const { data: allTalents } = useGetAllTalentsQuery({
+    talentType: filter === "All" ? "" : filter,
+    keyword: keyword,
   });
-  const [activeTab, setActiveTab] = useState<"browse" | "submit">(isAdmin ? "browse" : "browse");
+  const [activeTab, setActiveTab] = useState<"browse" | "submit">(
+    isAdmin ? "browse" : "browse"
+  );
 
   const talentTypes = [
     "All",
@@ -34,7 +39,6 @@ const ShowcaseTalent: React.FC = () => {
     "Other",
   ];
 
-  // Determine which data to use based on user role
   const talentsData = isAdmin ? allTalents?.data : myTalents?.data;
   const talentsCount = talentsData?.length || 0;
 
@@ -44,7 +48,6 @@ const ShowcaseTalent: React.FC = () => {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // The search will be handled by the RTK Query with the keyword state
   };
 
   return (
@@ -56,10 +59,9 @@ const ShowcaseTalent: React.FC = () => {
             {isAdmin ? "Manage Talents" : "Talent Showcase"}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {isAdmin 
-              ? "Manage and review all talents submitted by users. Search, filter, and oversee talent submissions." 
-              : "Discover amazing talents from our community of students and creators. Share your own talent and inspire others!"
-            }
+            {isAdmin
+              ? "Manage and review all talents submitted by users. Search, filter, and oversee talent submissions."
+              : "Discover amazing talents from our community of students and creators. Share your own talent and inspire others!"}
           </p>
         </div>
 
@@ -83,7 +85,7 @@ const ShowcaseTalent: React.FC = () => {
           </div>
         )}
 
-        {/* Tab Navigation - Hide for admin */}
+        {/* Tab Navigation - Hidden for admin */}
         {!isAdmin && (
           <div className="flex border-b border-gray-200 mb-8">
             <button
@@ -132,19 +134,19 @@ const ShowcaseTalent: React.FC = () => {
             </div>
 
             {/* Results Count */}
-              <p className="text-gray-600 mb-6">
-                Showing {talentsCount} talent{talentsCount !== 1 ? "s" : ""}
-                {filter !== "All" && ` in ${filter}`}
-                {isAdmin && keyword && ` matching "${keyword}"`}
-              </p>
+            <p className="text-gray-600 mb-6">
+              Showing {talentsCount} talent{talentsCount !== 1 ? "s" : ""}
+              {filter !== "All" && ` in ${filter}`}
+              {isAdmin && keyword && ` matching "${keyword}"`}
+            </p>
 
             {/* Talent Grid */}
             {talentsCount > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {talentsData?.map((talent: TTalent) => (
-                  <ShowcaseTalentCard 
-                    key={talent?._id} 
-                    {...talent} 
+                  <ShowcaseTalentCard
+                    key={talent?._id}
+                    {...talent}
                     isAdmin={isAdmin}
                   />
                 ))}

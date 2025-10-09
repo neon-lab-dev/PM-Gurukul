@@ -39,6 +39,15 @@ const userApi = baseApi.injectEndpoints({
       providesTags: ["user"],
     }),
 
+    cancelOrder: builder.mutation({
+      query: (id) => ({
+        method: "PUT",
+        url: `/order/cancel/${id}`,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+
     updateProfile: builder.mutation({
       query: (profileUpdatedData) => ({
         method: "PUT",
@@ -56,5 +65,6 @@ export const {
   useMyReferralSummaryQuery,
   useGetMeQuery,
   useMyOrdersQuery,
+  useCancelOrderMutation,
   useUpdateProfileMutation,
 } = userApi;
