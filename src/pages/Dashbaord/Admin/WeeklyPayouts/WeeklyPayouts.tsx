@@ -2,20 +2,16 @@
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
 import {
-  // useApprovePayoutMutation,
   useApproveWeeklyPayoutMutation,
-  // useGetAllEarningsQuery,
   useGetWeeklyPayoutsQuery,
 } from "../../../../redux/Features/Admin/adminApi";
-// import { formatDate } from "../../../../utils/formatDate";
 import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 import NoDataFound from "../../../../components/Shared/NoDataFound/NoDataFound";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
-import Ripple from "../../../../components/Reusable/Ripple/Ripple";
 import usePayoutStatus from "../../../../Providers/PayoutStatusProvider/usePayoutStatus";
-import { ICONS } from "../../../../assets";
+import { FaCalendarDay, FaLock, FaRegCalendarCheck } from "react-icons/fa";
 
 const WeeklyPayouts = () => {
   const { data: allWeeklyPayouts, isLoading } = useGetWeeklyPayoutsQuery({});
@@ -89,19 +85,74 @@ const WeeklyPayouts = () => {
       )}
 
       {!showPayouts && (
-        <div className="flex flex-col gap-5 items-center justify-center mt-10">
-          <img src={ICONS.notAllowed} alt="" className="size-[200px]" />
-          <h1 className="text-2xl font-semibold">
-            Payouts can only be generated on Tuesdays!
-          </h1>
-          <Ripple styles="rounded-xl">
-            <button
-              onClick={generatePayouts}
-              className="px-7 py-[14px] border border-primary-10 rounded-[14px] bg-primary-10 text-white font-semibold text-xl leading-6"
-            >
-              Generate Payouts
-            </button>
-          </Ripple>
+        <div className="min-h-[60vh] flex items-center justify-center p-6">
+          <div className="max-w-md w-full text-center">
+            {/* Icon Section */}
+            <div className="mb-8">
+              <div className="relative inline-block">
+                <div className="w-24 h-24 bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg border border-orange-200">
+                  <FaLock className="w-12 h-12 text-orange-500" />
+                </div>
+                <div className="absolute -top-2 -right-2 w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                  <FaCalendarDay className="w-5 h-5 text-white" />
+                </div>
+              </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+                  Payout Schedule Restriction
+                </h1>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Payouts can only be generated on{" "}
+                  <span className="font-semibold text-orange-600">
+                    Tuesdays
+                  </span>
+                </p>
+              </div>
+
+              {/* Current Day Info */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <div className="flex items-center justify-center gap-3 text-blue-700">
+                  <FaRegCalendarCheck className="w-5 h-5" />
+                  <span className="font-medium">
+                    Today is{" "}
+                    {new Date().toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+
+              {/* Next Available Date */}
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <p className="text-gray-600 text-sm">
+                  <span className="font-semibold">Next available:</span> Coming
+                  Tuesday
+                </p>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-4">
+                <button
+                  onClick={generatePayouts}
+                  disabled
+                  className="w-full max-w-xs mx-auto px-8 py-4 bg-gray-300 text-gray-500 rounded-xl font-semibold text-lg leading-6 cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-3 shadow-sm"
+                >
+                  <FaLock className="w-5 h-5" />
+                  Generate Payouts
+                </button>
+                <p className="text-sm text-gray-500 mt-3">
+                  This feature will be available on Tuesday
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {showPayouts &&
