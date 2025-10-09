@@ -49,6 +49,7 @@ import AdminDashboardHome from "../pages/Dashbaord/Admin/AdminDashboardHome/Admi
 import Certificates from "../pages/Dashbaord/User/Certificates/Certificates";
 import AddOrUpdateCourse from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddOrUpdateCourse";
 import AddCourseVideo from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddCourseVideo/AddCourseVideo";
+import ShowcaseTalent from "../pages/Dashbaord/ShowcaseTalent/ShowcaseTalent";
 
 export const router = createBrowserRouter([
   {
@@ -193,6 +194,10 @@ export const router = createBrowserRouter([
       {
         path: "certificates",
         element: <Certificates />,
+      },
+      {
+        path: "showcase-talent",
+        element: <ShowcaseTalent />,
       },
     ],
   },
