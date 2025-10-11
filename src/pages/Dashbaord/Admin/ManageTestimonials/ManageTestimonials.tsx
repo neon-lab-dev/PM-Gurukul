@@ -1,11 +1,17 @@
 import { FaTrash } from "react-icons/fa";
-import { useDeleteTestimonialMutation, useGetAllTestimonialsQuery } from "../../../../redux/Features/Testimonial/testimonialApi";
+import {
+  useDeleteTestimonialMutation,
+  useGetAllTestimonialsQuery,
+} from "../../../../redux/Features/Testimonial/testimonialApi";
 import { TTestimonial } from "../../../../components/TestimonialSection/TestimonialSection";
 import TestimonialCard from "../../../../components/HomePage/Testimonials/TestimonialCard";
 import { toast } from "sonner";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
+import { useState } from "react";
+import AddTestimonialModal from "../../../../components/Dashboard/Admin/ManageTestimonialsPage/AddTestimonialModal/AddTestimonialModal";
 
 const ManageTestimonials = () => {
+    const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState<boolean>(false);
   const { data, isLoading, error } = useGetAllTestimonialsQuery({});
 
   const [deleteTestimonial] = useDeleteTestimonialMutation();
@@ -46,26 +52,33 @@ const ManageTestimonials = () => {
 
   return (
     <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between">
         <DashboardHeader
           pageName="Testimonials"
           pageDesc="Manage all testimonials"
         />
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {data.testimonials.map((testimonial: TTestimonial) => (
-        <div key={testimonial._id} className="relative">
-          <TestimonialCard {...testimonial} />
-          {/* Delete / Edit Buttons */}
-          <div className="top-2 right-[86px] absolute">
-            <button
-              onClick={() => handleDeleteTestimonial(testimonial?._id)}
-              className="bg-red-500 text-white p-[6px] rounded-full hover:bg-red-600 transition"
-            >
-              <FaTrash size={10} />
-            </button>
+        <button onClick={() => setIsTestimonialModalOpen(true)} className="px-[14px] py-3 bg-primary-10 text-white text-base font-medium leading-5 tracking-tighter rounded-[10px]">
+          Add a Testimonial
+        </button>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {data.testimonials.map((testimonial: TTestimonial) => (
+          <div key={testimonial._id} className="relative">
+            <TestimonialCard {...testimonial} />
+            {/* Delete / Edit Buttons */}
+            <div className="top-2 right-[86px] absolute">
+              <button
+                onClick={() => handleDeleteTestimonial(testimonial?._id)}
+                className="bg-red-500 text-white p-[6px] rounded-full hover:bg-red-600 transition"
+              >
+                <FaTrash size={10} />
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
+      <AddTestimonialModal isTestimonialModalOpen={isTestimonialModalOpen} setIsTestimonialModalOpen={setIsTestimonialModalOpen} />
     </div>
   );
 };
