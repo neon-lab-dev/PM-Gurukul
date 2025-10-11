@@ -9,7 +9,7 @@ import { FaRegComment } from "react-icons/fa";
 type TestimonialType = "Video" | "Text" | "all";
 
 export type TTestimonial = {
-  _id?: string;
+  _id: string;
   name: string;
   designation: string;
   testimonialType: "Video" | "Text";

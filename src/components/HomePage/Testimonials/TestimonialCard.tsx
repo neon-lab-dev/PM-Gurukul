@@ -11,6 +11,7 @@ const TestimonialCard: React.FC<TTestimonial> = ({
   poster,
   rating,
   video,
+  testimonialType,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -19,7 +20,7 @@ const TestimonialCard: React.FC<TTestimonial> = ({
 
   return (
     <div
-      className={`bg-white p-6 rounded-2xl font-Inter h-[264px] flex flex-col justify-between gap-10 w-[450px] mr-6 relative overflow-hidden`}
+      className={`bg-white p-6 rounded-2xl font-Inter border border-neutral-10/20 h-[264px] flex flex-col justify-between gap-10 w-[450px] mr-6 relative overflow-hidden`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -29,13 +30,15 @@ const TestimonialCard: React.FC<TTestimonial> = ({
 
       {/* icon overlay */}
       {hasVideo && (
-        <div className="absolute inset-0 bg-gray-50 flex items-center justify-center pt-10">
+        <div className="absolute inset-0 flex items-center justify-center pt-10">
           <FaPlayCircle className="text-6xl text-primary-500 opacity-70" />
         </div>
       )}
 
       <div className="flex flex-col gap-5 z-10">
-        <div className="bg-neutral-25 w-[196px] h-[2px]" />
+        {testimonialType === "Text" && (
+          <div className="bg-neutral-25 w-[196px] h-[2px]" />
+        )}
 
         <div className="flex items-center gap-3">
           <img

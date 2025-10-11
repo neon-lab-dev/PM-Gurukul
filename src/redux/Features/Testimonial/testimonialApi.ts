@@ -10,7 +10,16 @@ const testimonialApi = baseApi.injectEndpoints({
       }),
       providesTags: ["testimonial"],
     }),
+
+    deleteTestimonial: builder.mutation({
+      query: (id) => ({
+        url: `/testimonial/delete/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["testimonial"],
+    }),
   }),
 });
 
-export const { useGetAllTestimonialsQuery } = testimonialApi;
+export const { useGetAllTestimonialsQuery, useDeleteTestimonialMutation } = testimonialApi;

@@ -3,6 +3,8 @@ import {
   HiOutlineUser,
   HiOutlineBookOpen,
   HiOutlineSparkles,
+  HiOutlineAnnotation,
+  HiOutlinePhotograph,
 } from "react-icons/hi";
 import { FiUsers, FiDollarSign, FiShoppingBag } from "react-icons/fi";
 import { MdOutlinePayment, MdOutlineHistoryEdu } from "react-icons/md";
@@ -72,5 +74,15 @@ export const adminMenus = [
     name: "Talents",
     link: "/admin/talents",
     icon: <HiOutlineSparkles />,
+  },
+  {
+    name: "Testimonials",
+    link: "/admin/manage-testimonials",
+    icon: <HiOutlineAnnotation />,
+  },
+  {
+    name: "Photo Gallery",
+    link: "/admin/manage-photo-gallery",
+    icon: <HiOutlinePhotograph />,
   },
 ];

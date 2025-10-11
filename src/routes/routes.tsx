@@ -51,6 +51,8 @@ import AddOrUpdateCourse from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddOrU
 import AddCourseVideo from "../pages/Dashbaord/Admin/AddOrUpdateCourse/AddCourseVideo/AddCourseVideo";
 import ShowcaseTalent from "../pages/Dashbaord/ShowcaseTalent/ShowcaseTalent";
 import TalentDetails from "../pages/Dashbaord/ShowcaseTalent/TalentDetails";
+import ManageTestimonials from "../pages/Dashbaord/Admin/ManageTestimonials/ManageTestimonials";
+import ManagePhotoGallery from "../pages/Dashbaord/Admin/ManagePhotoGallery/ManagePhotoGallery";
 
 export const router = createBrowserRouter([
   {
@@ -286,13 +288,21 @@ export const router = createBrowserRouter([
         path: "course/manage-exam/:courseId",
         element: <ManageExamQuestion />,
       },
-       {
+      {
         path: "talents",
         element: <ShowcaseTalent />,
       },
-       {
+      {
         path: "talent/:id",
         element: <TalentDetails />,
+      },
+      {
+        path: "manage-testimonials",
+        element: <ManageTestimonials />,
+      },
+      {
+        path: "manage-photo-gallery",
+        element: <ManagePhotoGallery />,
       },
     ],
   },

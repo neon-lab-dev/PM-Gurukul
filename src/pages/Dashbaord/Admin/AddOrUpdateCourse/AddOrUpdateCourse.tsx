@@ -22,6 +22,7 @@ type TCourseFormData = {
   category: string;
   basePrice: string;
   discountedPrice: string;
+  referBonus: string;
   file: File | null;
   author: string;
   totalDuration: string;
@@ -89,6 +90,7 @@ const AddOrUpdateCourse = () => {
     formData.append("category", data.category);
     formData.append("basePrice", data.basePrice);
     formData.append("discountedPrice", data.discountedPrice);
+    formData.append("referBonus", data.referBonus);
     // formData.append("numOfVideos", data.numOfVideos);
     formData.append("author", data.author);
     formData.append("totalDuration", data.totalDuration);
@@ -184,6 +186,14 @@ const AddOrUpdateCourse = () => {
                 required: "Course duration is required",
               })}
               error={errors.totalDuration}
+            />
+            <TextInput
+              label="Refer Bonus(%)"
+              placeholder="Enter referal bonus for this course. Ex: 40"
+              {...register("referBonus", {
+                required: "Referal bonus is required",
+              })}
+              error={errors.referBonus}
             />
             <div className="flex flex-col gap-2 font-Inter">
               <label htmlFor="Description" className="text-neutral-65">
