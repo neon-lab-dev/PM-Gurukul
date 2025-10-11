@@ -54,6 +54,7 @@ import TalentDetails from "../pages/Dashbaord/ShowcaseTalent/TalentDetails";
 import ManageTestimonials from "../pages/Dashbaord/Admin/ManageTestimonials/ManageTestimonials";
 import ManagePhotoGallery from "../pages/Dashbaord/Admin/ManagePhotoGallery/ManagePhotoGallery";
 import Leaderboard from "../pages/Dashbaord/Leaderboard/Leaderboard";
+import WelcomeLetter from "../pages/Dashbaord/WelcomeLetter/WelcomeLetter";
 
 export const router = createBrowserRouter([
   {
@@ -206,6 +207,10 @@ export const router = createBrowserRouter([
       {
         path: "leaderboard",
         element: <Leaderboard />,
+      },
+      {
+        path: "welcome-letter",
+        element: <WelcomeLetter />,
       },
     ],
   },

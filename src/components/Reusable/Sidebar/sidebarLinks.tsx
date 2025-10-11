@@ -11,12 +11,18 @@ import {
   MdOutlinePayment,
   MdOutlineHistoryEdu,
   MdOutlineLeaderboard,
+  MdOutlineMail,
 } from "react-icons/md";
 import { RiUser3Line } from "react-icons/ri";
 import { FaRegFileAlt } from "react-icons/fa";
 
 export const userMenus = [
   { name: "Dashboard", link: "/dashboard", icon: <HiOutlineHome /> },
+  {
+    name: "Welcome Letter",
+    link: "/dashboard/welcome-letter",
+    icon: <MdOutlineMail />,
+  },
   {
     name: "My Courses",
     link: "/dashboard/my-courses",
