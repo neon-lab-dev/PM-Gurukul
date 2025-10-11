@@ -218,7 +218,7 @@ const ReferralPayouts = () => {
                   <div>
                     <p className="text-neutral-10 ">Total Earnings</p>
                     <p className="text-primary-10 text-xl font-semibold">
-                      ₹{referralSummary?.data?.totalEarnings}
+                      ₹{referralSummary?.data?.totalEarnings}123123
                     </p>
                   </div>
                 </div>

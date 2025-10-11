@@ -53,6 +53,7 @@ export type TUser = {
     pinCode: string;
     refralCode: string;
     state: string;
+    status : "active" | "suspended"
   };
 
   export type TLoggedInUser = {

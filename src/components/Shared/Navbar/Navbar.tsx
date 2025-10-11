@@ -58,8 +58,8 @@ const Navbar = () => {
                   </div>
                 </Link>
                 <Ripple styles="rounded-xl">
-                  <Link
-                    to={
+                  <a
+                    href={
                       user
                         ? user.role === "user"
                           ? "/dashboard"
@@ -71,7 +71,7 @@ const Navbar = () => {
                     className="bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow hidden sm:block"
                   >
                     {user ? "Dashboard" : "Get Started"}
-                  </Link>
+                  </a>
                 </Ripple>
               </div>
               <HamburgerMenu />

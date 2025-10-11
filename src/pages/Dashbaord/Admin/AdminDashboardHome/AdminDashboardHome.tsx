@@ -28,10 +28,14 @@ const AdminDashboardHome = () => {
   const { data: allOrdersHistory } = useGetAllOrdersQuery({});
   const data = [
     {
-      title: "Total Earnings",
-      valueCount: `₹${referralSummary?.data?.totalEarnings || 0}`,
-      icon: ICONS.earning,
-    },
+  title: "Total Earnings",
+  valueCount: (() => {
+    const amount = Number(referralSummary?.data?.totalEarnings ?? 0);
+    return `₹${isNaN(amount) ? "0.00" : amount.toFixed(2)}`;
+  })(),
+  icon: ICONS.earning,
+}
+,
     {
       title: "Total Registered Users",
       valueCount: adminStats?.stats?.totalUsers || 0,

@@ -19,13 +19,38 @@ import { toast } from "sonner";
 import { BankInfoField } from "../../Auth/SetupProfile/SetupProfile";
 import Ripple from "../../../components/Reusable/Ripple/Ripple";
 import { Link } from "react-router-dom";
+import { MdOutlineAnnouncement } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 
 const MyProfile = () => {
+  const loggedInUserData = useSelector(useCurrentUser) as any;
   // Getting loggedin user profile data
   const { data: user } = useGetMeQuery({});
   const [isKycClicked, setIsKycClicked] = useState<boolean>(false);
   const [selectedDocument, setSelectedDocument] = useState<string>("");
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
+
+  const userInfo = user?.user;
+
+  const hasKycDetails =
+    userInfo?.bankInfo ||
+    userInfo?.panCard ||
+    userInfo?.passbookImage ||
+    userInfo?.document ||
+    userInfo?.passbookImage ||
+    userInfo?.document;
+
+    const isInputFieldsDisabled = loggedInUserData?.role !== "admin" && hasKycDetails;
+
+  useEffect(() => {
+    if (isKycClicked) {
+      setTimeout(() => {
+        const section = document.getElementById("kycDetails");
+        section?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [isKycClicked]);
 
   const {
     register,
@@ -291,14 +316,22 @@ const MyProfile = () => {
   };
 
   return (
-    <div>
+    <div className="font-Inter">
       <Helmet>
         <title>PMGURUKKUL | My Profile</title>
       </Helmet>
       <div className="flex items-center justify-between">
-        <div className="flex items-center justify-start gap-3">
-          <img src={ICONS.ArrowLeft} alt="Profile" className="size-9" />
-          <h1 className="text-2xl font-semibold text-neutral-90">My Profile</h1>
+        <div>
+          <div className="flex items-center justify-start gap-3">
+            <img src={ICONS.ArrowLeft} alt="Profile" className="size-9" />
+            <h1 className="text-2xl font-semibold text-neutral-90">
+              My Profile
+            </h1>
+          </div>
+          <span className="text-sm mt-1 inline">
+            <MdOutlineAnnouncement className="inline mr-2" />
+            After submitting your kyc, you cannot change your details
+          </span>
         </div>
 
         <div className="flex gap-5 justify-end">
@@ -318,7 +351,11 @@ const MyProfile = () => {
             <p>Submit Your KYC Information</p>
             <Ripple styles="rounded-xl w-full">
               <button
-                onClick={() => setIsKycClicked(!isKycClicked)}
+                onClick={() => {
+                  setIsKycClicked((prev) => !prev);
+                  const section = document.getElementById("kycDetails");
+                  section?.scrollIntoView({ behavior: "smooth" });
+                }}
                 type="button"
                 className="mt-2 bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center"
               >
@@ -333,38 +370,41 @@ const MyProfile = () => {
         onSubmit={handleSubmit(handleUpdateProfileData)}
         className="flex flex-col gap-8 mt-8"
       >
-        <PersonalInfo register={register} errors={errors} />
+        <fieldset disabled={isInputFieldsDisabled} className="space-y-4">
+          <PersonalInfo register={register} errors={errors} />
 
-        {isKycClicked && (
-          <div className="flex flex-col gap-4">
-            <p className="text-neutral-90 font-semibold">KYC Details</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-4">
-                <KYCStatus kycStatus={user?.user?.kyc_status} />
-                <IdentityInfo
-                  register={register}
-                  errors={errors}
-                  setSelectedDocument={setSelectedDocument}
-                  selectedDocument={selectedDocument}
-                  frontFileNames={frontFileNames}
-                  backFileNames={backFileNames}
-                  onFileChangeFront={handleFileChangeFront}
-                  onFileChangeBack={handleFileChangeBack}
-                  handleFileChange={handleFileChange}
-                  fileNames={fileNames}
-                />
-                {/* <UploadProof register={register} errors={errors} /> */}
-                <UploadedProofs
-                  docName={user?.user?.document?.doctype}
-                  docImageFront={user?.user?.document?.docFrontImage?.url}
-                  docImageBack={user?.user?.document?.docBackImage?.url}
-                  panCardImage={user?.user?.panCard?.panImage?.url}
-                  passBookImage={user?.user?.passbookImage?.url}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                {(user?.user?.bankInfo?.length ? user.user.bankInfo : [{}]).map(
-                  (_: TBankInfo, index: number) => (
+          {isKycClicked && (
+            <div id="kycDetails" className="flex flex-col gap-4">
+              <p className="text-neutral-90 font-semibold">KYC Details</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-4">
+                  <KYCStatus kycStatus={user?.user?.kyc_status} />
+                  <IdentityInfo
+                    register={register}
+                    errors={errors}
+                    setSelectedDocument={setSelectedDocument}
+                    selectedDocument={selectedDocument}
+                    frontFileNames={frontFileNames}
+                    backFileNames={backFileNames}
+                    onFileChangeFront={handleFileChangeFront}
+                    onFileChangeBack={handleFileChangeBack}
+                    handleFileChange={handleFileChange}
+                    fileNames={fileNames}
+                  />
+                  {/* <UploadProof register={register} errors={errors} /> */}
+                  <UploadedProofs
+                    docName={user?.user?.document?.doctype}
+                    docImageFront={user?.user?.document?.docFrontImage?.url}
+                    docImageBack={user?.user?.document?.docBackImage?.url}
+                    panCardImage={user?.user?.panCard?.panImage?.url}
+                    passBookImage={user?.user?.passbookImage?.url}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  {(user?.user?.bankInfo?.length
+                    ? user.user.bankInfo
+                    : [{}]
+                  ).map((_: TBankInfo, index: number) => (
                     <BankInfo
                       handleBankInfoChange={handleBankInfoChange}
                       key={index}
@@ -374,51 +414,52 @@ const MyProfile = () => {
                       handleFileChange={handleFileChange}
                       fileNames={fileNames}
                     />
-                  )
-                )}
+                  ))}
 
-                {
-                  user?.user?.passbookImage?.url &&
-                  <div className="bg-white w-full rounded-2xl p-6 h-fit">
-                  <div className="w-1/2">
-                    <p>Pass Book Image</p>
-                    {user?.user?.passbookImage?.url ? (
-                      <img
-                        src={user?.user?.passbookImage?.url}
-                        alt=""
-                        className={
-                          "w-full mt-1 rounded-xl border border-neutral-65/40 min-h-[170px]"
-                        }
-                      />
-                    ) : (
-                      <p className={"text-neutral-90"}>No document submitted</p>
-                    )}
-                  </div>
+                  {user?.user?.passbookImage?.url && (
+                    <div className="bg-white w-full rounded-2xl p-6 h-fit">
+                      <div className="w-1/2">
+                        <p>Pass Book Image</p>
+                        {user?.user?.passbookImage?.url ? (
+                          <img
+                            src={user?.user?.passbookImage?.url}
+                            alt=""
+                            className={
+                              "w-full mt-1 rounded-xl border border-neutral-65/40 min-h-[170px]"
+                            }
+                          />
+                        ) : (
+                          <p className={"text-neutral-90"}>
+                            No document submitted
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                }
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex items-center justify-end gap-4">
-          <Ripple styles="rounded-xl">
-            <Link
-              to={"/admin/affiliates"}
-              className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center"
-            >
-              Go Back
-            </Link>
-          </Ripple>
-          <Ripple styles="rounded-xl">
-            <button
-              type="submit"
-              className="bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center"
-            >
-              {isUpdating ? "Loading..." : "Save Details"}
-            </button>
-          </Ripple>
-        </div>
+          <div className="flex items-center justify-end gap-4">
+            <Ripple styles="rounded-xl">
+              <Link
+                to={"/admin/affiliates"}
+                className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center"
+              >
+                Go Back
+              </Link>
+            </Ripple>
+            <Ripple styles="rounded-xl">
+              <button
+                type="submit"
+                className="bg-primary-10 border border-neutral-55 py-[10px] px-4 text-white text-sm leading-5 font-semibold w-full rounded-lg text-center"
+              >
+                {isUpdating ? "Loading..." : "Save Details"}
+              </button>
+            </Ripple>
+          </div>
+        </fieldset>
       </form>
     </div>
   );

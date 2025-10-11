@@ -181,6 +181,26 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["course"],
     }),
+
+    suspendUser: builder.mutation({
+      query: (data) => ({
+        url: `/user/suspend`,
+        method: "PUT",
+        body : data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+
+    withdrawSuspension: builder.mutation({
+      query: (data) => ({
+        url: `/user/withdraw-suspension`,
+        method: "PUT",
+        body : data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -204,4 +224,6 @@ export const {
   useUpdateCourseMutation,
   useAddVideoMutation,
   useDeleteVideoMutation,
+  useSuspendUserMutation,
+  useWithdrawSuspensionMutation
 } = adminApi;

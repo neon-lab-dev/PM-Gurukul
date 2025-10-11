@@ -1,6 +1,11 @@
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
-import { useApproveKycMutation, useGetAllPendingKYCQuery, useGetAllUserQuery, useRejectKycMutation } from "../../../../redux/Features/Admin/adminApi";
+import {
+  useApproveKycMutation,
+  useGetAllPendingKYCQuery,
+  useGetAllUserQuery,
+  useRejectKycMutation,
+} from "../../../../redux/Features/Admin/adminApi";
 import { TUser } from "../../../../types/user.types";
 import { formatDate } from "../../../../utils/formatDate";
 import Spinner from "../../../../components/Loaders/Spinner/Spinner";
@@ -11,25 +16,21 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
 
-
-
 const Affiliates = () => {
   const navigate = useNavigate();
   const { data: allUsers, isLoading } = useGetAllUserQuery({});
-  const { data: pendingKyc, isLoading: isPendingKycLoading } = useGetAllPendingKYCQuery({});
+  const { data: pendingKyc, isLoading: isPendingKycLoading } =
+    useGetAllPendingKYCQuery({});
   const [approveKyc] = useApproveKycMutation();
   const [rejectKyc] = useRejectKycMutation();
 
   const handleApproveKyc = async (id: string) => {
     try {
-      await toast.promise(
-        approveKyc(id).unwrap(),
-        {
-          loading: "Loading...",
-          success: "KYC approved successfully!",
-          error: "Failed to approve KYC. Please try again.",
-        }
-      );
+      await toast.promise(approveKyc(id).unwrap(), {
+        loading: "Loading...",
+        success: "KYC approved successfully!",
+        error: "Failed to approve KYC. Please try again.",
+      });
     } catch (err) {
       console.error("Error approving KYC:", err);
     }
@@ -37,14 +38,11 @@ const Affiliates = () => {
 
   const handleRejectKyc = async (id: string) => {
     try {
-      await toast.promise(
-        rejectKyc(id).unwrap(),
-        {
-          loading: "Loading...",
-          success: "KYC rejected!",
-          error: "Failed to reject KYC. Please try again.",
-        }
-      );
+      await toast.promise(rejectKyc(id).unwrap(), {
+        loading: "Loading...",
+        success: "KYC rejected!",
+        error: "Failed to reject KYC. Please try again.",
+      });
     } catch (err) {
       console.error("Error rejecting KYC:", err);
     }
@@ -61,10 +59,32 @@ const Affiliates = () => {
     { key: "action", label: "ACTION", sortable: false },
   ];
 
-  const allUsersData = allUsers?.users?.filter((user:TUser) => user?.role !== "admin");
+  const allUsersData = allUsers?.users?.filter(
+    (user: TUser) => user?.role !== "admin"
+  );
   // Pending KYC user table data
-  const pendingKycUserData = allUsersData?.length ? 
-    allUsersData?.map((user: TUser, index: number) => ({
+  const pendingKycUserData = allUsersData?.length
+    ? allUsersData?.map((user: TUser, index: number) => ({
+        no: `${index + 1}`,
+        fullName: user?.full_name,
+        email: user?.email,
+        mobile: user?.mobileNumber,
+        joined: formatDate(user?.createdAt),
+        kycStatus: user?.kyc_status,
+        action: [
+          {
+            label: "View Affiliate",
+            onClick: () => navigate(`/admin/view-affiliate/${user._id}`),
+          },
+          { label: "Approve", onClick: () => handleApproveKyc(user._id) },
+          { label: "Reject", onClick: () => handleRejectKyc(user._id) },
+        ],
+      }))
+    : [];
+
+  const pendingKYC = allUsers?.users
+    ?.filter((user: TUser) => user?.kyc_status === "Pending")
+    .map((user: TUser, index: number) => ({
       no: `${index + 1}`,
       fullName: user?.full_name,
       email: user?.email,
@@ -72,53 +92,50 @@ const Affiliates = () => {
       joined: formatDate(user?.createdAt),
       kycStatus: user?.kyc_status,
       action: [
-        { label: "View Affiliate", onClick: () => navigate(`/admin/view-affiliate/${user._id}`) },
+        {
+          label: "View Affiliate",
+          onClick: () => navigate(`/admin/view-affiliate/${user._id}`),
+        },
         { label: "Approve", onClick: () => handleApproveKyc(user._id) },
         { label: "Reject", onClick: () => handleRejectKyc(user._id) },
       ],
-    }))
-    : [];
+    }));
 
-  const pendingKYC = allUsers?.users?.filter((user: TUser) => user?.kyc_status === "Pending").map((user: TUser, index: number) => ({
-    no: `${index + 1}`,
-    fullName: user?.full_name,
-    email: user?.email,
-    mobile: user?.mobileNumber,
-    joined: formatDate(user?.createdAt),
-    kycStatus: user?.kyc_status,
-    action: [
-      { label: "View Affiliate", onClick: () => navigate(`/admin/view-affiliate/${user._id}`) },
-      { label: "Approve", onClick: () => handleApproveKyc(user._id) },
-      { label: "Reject", onClick: () => handleRejectKyc(user._id) },
-    ],
-  }));
+  const approvedKyc = allUsersData
+    ?.filter((user: TUser) => user?.kyc_status === "Approved")
+    .map((user: TUser, index: number) => ({
+      no: `${index + 1}`,
+      fullName: user?.full_name,
+      email: user?.email,
+      mobile: user?.mobileNumber,
+      joined: formatDate(user?.createdAt),
+      kycStatus: user?.kyc_status,
+      action: [
+        {
+          label: "View Affiliate",
+          onClick: () => navigate(`/admin/view-affiliate/${user._id}`),
+        },
+        { label: "Reject", onClick: () => handleRejectKyc(user._id) },
+      ],
+    }));
 
-  const approvedKyc =allUsersData?.filter((user: TUser) => user?.kyc_status === "Approved").map((user: TUser, index: number) => ({
-    no: `${index + 1}`,
-    fullName: user?.full_name,
-    email: user?.email,
-    mobile: user?.mobileNumber,
-    joined: formatDate(user?.createdAt),
-    kycStatus: user?.kyc_status,
-    action: [
-      { label: "View Affiliate", onClick: () => navigate(`/admin/view-affiliate/${user._id}`) },
-      { label: "Reject", onClick: () => handleRejectKyc(user._id) },
-    ],
-  }));
-
-  const rejectedKyc = allUsers?.users?.filter((user: TUser) => user?.kyc_status === "Rejected").map((user: TUser, index: number) => ({
-    no: `${index + 1}`,
-    fullName: user?.full_name,
-    email: user?.email,
-    mobile: user?.mobileNumber,
-    joined: formatDate(user?.createdAt),
-    kycStatus: user?.kyc_status,
-    action: [
-      { label: "View Affiliate", onClick: () => navigate(`/admin/view-affiliate/${user._id}`) },
-      { label: "Approve", onClick: () => handleApproveKyc(user._id) },
-    ],
-  }));
-
+  const rejectedKyc = allUsers?.users
+    ?.filter((user: TUser) => user?.kyc_status === "Rejected")
+    .map((user: TUser, index: number) => ({
+      no: `${index + 1}`,
+      fullName: user?.full_name,
+      email: user?.email,
+      mobile: user?.mobileNumber,
+      joined: formatDate(user?.createdAt),
+      kycStatus: user?.kyc_status,
+      action: [
+        {
+          label: "View Affiliate",
+          onClick: () => navigate(`/admin/view-affiliate/${user._id}`),
+        },
+        { label: "Approve", onClick: () => handleApproveKyc(user._id) },
+      ],
+    }));
 
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
 
@@ -127,7 +144,7 @@ const Affiliates = () => {
   }, [selectedFilter]);
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>PMGURUKKUL | All Affiliates</title>
       </Helmet>
       <div className="flex items-center justify-between w-full">
@@ -168,13 +185,29 @@ const Affiliates = () => {
       ) : (
         <>
           {selectedFilter === "All" ? (
-            <Table headers={pendingKycTableHeader} data={pendingKycUserData} showHeader={true} />
+            <Table
+              headers={pendingKycTableHeader}
+              data={pendingKycUserData}
+              showHeader={true}
+            />
           ) : selectedFilter === "Pending" ? (
-            <Table headers={pendingKycTableHeader} data={pendingKYC} showHeader={true} />
+            <Table
+              headers={pendingKycTableHeader}
+              data={pendingKYC}
+              showHeader={true}
+            />
           ) : selectedFilter === "Approved" ? (
-            <Table headers={pendingKycTableHeader} data={approvedKyc} showHeader={true} />
+            <Table
+              headers={pendingKycTableHeader}
+              data={approvedKyc}
+              showHeader={true}
+            />
           ) : selectedFilter === "Rejected" ? (
-            <Table headers={pendingKycTableHeader} data={rejectedKyc} showHeader={true} />
+            <Table
+              headers={pendingKycTableHeader}
+              data={rejectedKyc}
+              showHeader={true}
+            />
           ) : (
             <NoDataFound message={"No user found."} />
           )}
