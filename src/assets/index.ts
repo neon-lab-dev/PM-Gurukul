@@ -102,6 +102,7 @@ import courseImg4 from "../assets/Images/gurukul website poster 4.jpg";
 import courseImg5 from "../assets/Images/gurukul website poster 5.jpg";
 
 import whyPMGurukkul from "../assets/Images/whyPMGurukkul.png";
+import videoPlaceholder from "../assets/Images/video-placeholder.webp";
 
 export const ICONS = {
     hamburgerMenu,
@@ -205,5 +206,6 @@ export const IMAGES = {
     courseImg5,
     whyPMGurukkul,
     chatBg,
+    videoPlaceholder
 
 };
