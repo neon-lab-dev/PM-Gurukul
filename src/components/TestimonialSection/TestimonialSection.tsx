@@ -2,83 +2,42 @@ import React, { useState, useRef } from 'react';
 import SectionHeading from '../Reusable/SectionHeading/SectionHeading';
 import Container from '../Shared/Container/Container';
 import StarRatings from 'react-star-ratings';
+import { useGetAllTestimonialsQuery } from '../../redux/Features/Testimonial/testimonialApi';
 
-type TestimonialType = 'text' | 'video' | 'all';
+type TestimonialType = "Video" | "Text" | "all";
 
-interface Testimonial {
-  id: number;
-  type: TestimonialType;
+export type TTestimonial = {
+  _id?: string;
   name: string;
-  role: string;
-  company: string;
-  content?: string;
-  avatar: string;
+  designation: string;
+  testimonialType: "Video" | "Text";
+  review?: string;
   rating: number;
-  videoThumbnail?: string;
-  videoUrl?: string;
-  duration?: string;
-}
+  poster?: {
+    public_id?: string;
+    url?: string;
+  };
+  video?: {
+    public_id?: string;
+    url?: string;
+  };
+  createdAt?: Date;
+};
+
 
 const TestimonialSection: React.FC = () => {
+    const {data} = useGetAllTestimonialsQuery({});
+    console.log(data);
   const [activeFilter, setActiveFilter] = useState<TestimonialType>('all');
-
-  const testimonials: Testimonial[] = [
-    {
-      id: 1,
-      type: 'text',
-      name: "Sarah Johnson",
-      role: "Marketing Director",
-      company: "TechCorp",
-      content: "This service completely transformed our workflow. The efficiency gains we've experienced are incredible. Our team is more productive than ever before!",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-    },
-    {
-      id: 2,
-      type: 'video',
-      name: "David Wilson",
-      role: "CTO",
-      company: "DataSystems Inc",
-      content: "The platform's scalability and robust features have been crucial for our growing data infrastructure needs.",
-      videoThumbnail: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=250&fit=crop",
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-      duration: "2:30",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-    },
-    {
-      id: 3,
-      type: 'text',
-      name: "Michael Chen",
-      role: "Product Manager",
-      company: "InnovateLab",
-      content: "Outstanding support and incredible features. The platform is intuitive and has helped us scale our operations seamlessly.",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      rating: 5,
-    },
-    {
-      id: 4,
-      type: 'video',
-      name: "Lisa Thompson",
-      role: "Operations Manager",
-      company: "Global Solutions",
-      content: "Implementation was smooth and the results were immediate. Our operational efficiency improved by 40% in the first month.",
-      videoThumbnail: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=250&fit=crop",
-      videoUrl: "https://www.w3schools.com/html/movie.mp4",
-      duration: "1:45",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      rating: 4,
-    },
-  ];
 
   const filteredTestimonials =
     activeFilter === 'all'
-      ? testimonials
-      : testimonials.filter((t) => t.type === activeFilter);
+      ? data?.testimonials
+      : data?.testimonials?.filter((t: TTestimonial) => t?.testimonialType === activeFilter);
 
  
 
-  const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({
+  const TestimonialCard: React.FC<{ testimonial: TTestimonial }> = ({
     testimonial,
   }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -96,22 +55,16 @@ const TestimonialSection: React.FC = () => {
           }
         }}
       >
-        {testimonial.type === 'video' && (
+        {testimonial.testimonialType === 'Video' && (
           <div className="relative">
             <video
               ref={videoRef}
-              src={testimonial.videoUrl}
-              poster={testimonial.videoThumbnail}
+              src={testimonial?.video?.url}
               muted
               playsInline
               controls
               className="w-full h-48 object-cover transition-opacity duration-500"
             />
-            {testimonial.duration && (
-              <div className="absolute bottom-3 right-3 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs">
-                {testimonial.duration}
-              </div>
-            )}
           </div>
         )}
 
@@ -126,26 +79,26 @@ const TestimonialSection: React.FC = () => {
               starSpacing="2px"
             />
             <span className="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs font-medium">
-              {testimonial.type === 'text' ? 'Text' : 'Video'}
+              {testimonial?.testimonialType === 'Text' ? 'Text' : 'Video'}
             </span>
           </div>
 
-          {!testimonial.videoUrl && (
+          {!testimonial.video?.url && (
             <blockquote className="text-gray-700 mb-4 leading-relaxed">
-              "{testimonial.content}"
+              "{testimonial.review}"
             </blockquote>
           )}
 
           <div className="flex items-center space-x-3">
             <img
-              src={testimonial.avatar}
-              alt={testimonial.name}
+              src={testimonial?.poster?.url}
+              alt={testimonial?.name}
               className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
             />
             <div>
               <div className="font-semibold text-gray-900">{testimonial.name}</div>
               <div className="text-sm text-gray-600">
-                {testimonial.role}, {testimonial.company}
+                {testimonial.designation}
               </div>
             </div>
           </div>
@@ -169,7 +122,7 @@ const TestimonialSection: React.FC = () => {
 
         <div className="flex justify-center my-8">
           <div className="bg-white rounded-lg p-1 shadow-sm border">
-            {(['all', 'text', 'video'] as TestimonialType[]).map((filter) => (
+            {(['all', 'Text', 'Video'] as TestimonialType[]).map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
@@ -181,17 +134,17 @@ const TestimonialSection: React.FC = () => {
               >
                 {filter === 'all'
                   ? 'All Testimonials'
-                  : filter === 'text'
+                  : filter === 'Text'
                   ? 'Text Reviews'
-                  : 'Video Stories'}
+                  : 'Video Reviews'}
               </button>
             ))}
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTestimonials.map((t) => (
-            <TestimonialCard key={t.id} testimonial={t} />
+          {filteredTestimonials?.map((t:TTestimonial) => (
+            <TestimonialCard key={t?._id} testimonial={t} />
           ))}
         </div>
       </Container>
