@@ -1,5 +1,4 @@
 import Enrollment from "../../components/HomePage/Enrollment/Enrollment";
-import Testimonials from "../../components/HomePage/Testimonials/Testimonials";
 import Hero from "../../components/HomePage/Hero/Hero";
 import SessionAnnouncement from "../../components/HomePage/SessionAnnouncement/SessionAnnouncement";
 // import WhyUs from "../../components/HomePage/WhyUs/WhyUs";
@@ -8,6 +7,8 @@ import CustomerSupport from "../../components/Shared/CustomerSupport/CustomerSup
 import { Helmet } from "react-helmet-async";
 import UpcomingCourses from "../../components/HomePage/UpcomingCourses/UpcomingCourses";
 import WhyPMGurukkul from "../../components/HomePage/WhyPMGurukkul/WhyPMGurukkul";
+import TestimonialSection from "../../components/TestimonialSection/TestimonialSection";
+import Gallery from "../../components/HomePage/Gallery/Gallery";
 
 const Home = () => {
   return (
@@ -21,7 +22,9 @@ const Home = () => {
       <SessionAnnouncement />
       {/* <WhyUs /> */}
       <WhyPMGurukkul/>
-      <Testimonials />
+      {/* <Testimonials /> */}
+      <TestimonialSection/>
+      <Gallery />
       <FAQ />
       <CustomerSupport />
     </div>

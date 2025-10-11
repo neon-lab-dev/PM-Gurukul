@@ -11,7 +11,9 @@ export type Testimonial = {
   name: string;
   role: string;
   image: string | any;
+  video?: string;
   rating: number;
+  thumbnail?: string;
 };
 
 const Testimonials = () => {
@@ -23,6 +25,9 @@ const Testimonials = () => {
       name: "Aarav Sharma",
       role: "Student",
       image: ICONS.avatar,
+      video: "https://www.w3schools.com/html/mov_bbb.mp4",
+      thumbnail:
+        "https://images.unsplash.com/photo-1581091870622-2c8d1e30f70b?w=800&q=80",
       rating: 5,
     },
     {
@@ -32,6 +37,8 @@ const Testimonials = () => {
       name: "Priya Verma",
       role: "Professional",
       image: ICONS.avatar,
+      video: "",
+      thumbnail: "",
       rating: 5,
     },
     {
@@ -41,6 +48,9 @@ const Testimonials = () => {
       name: "Neha Patel",
       role: "Housewife",
       image: ICONS.avatar,
+      video: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+      thumbnail:
+        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80",
       rating: 5,
     },
     {
@@ -50,6 +60,8 @@ const Testimonials = () => {
       name: "Rajesh Iyer",
       role: "Entrepreneur",
       image: ICONS.avatar,
+      video: "",
+      thumbnail: "",
       rating: 5,
     },
   ];
