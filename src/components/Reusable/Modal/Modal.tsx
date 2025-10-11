@@ -23,7 +23,7 @@ const Modal: React.FC<TModalProps> = ({
       <div
         className={`${
           isModalOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"
-        } ${width} bg-white rounded-lg p-3 md:p-6 transition-all duration-300 relative h-[70vh] overflow-y-auto`}
+        } ${width} bg-white rounded-lg p-3 md:p-6 transition-all duration-300 relative max-h-[70vh] overflow-y-auto`}
       >
         <div className="flex items-center justify-between w-full">
           <h1 className="text-base md:text-xl font-semibold ">{heading}</h1>

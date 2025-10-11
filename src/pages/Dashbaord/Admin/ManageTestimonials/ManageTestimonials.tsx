@@ -11,7 +11,8 @@ import { useState } from "react";
 import AddTestimonialModal from "../../../../components/Dashboard/Admin/ManageTestimonialsPage/AddTestimonialModal/AddTestimonialModal";
 
 const ManageTestimonials = () => {
-    const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState<boolean>(false);
+  const [isTestimonialModalOpen, setIsTestimonialModalOpen] =
+    useState<boolean>(false);
   const { data, isLoading, error } = useGetAllTestimonialsQuery({});
 
   const [deleteTestimonial] = useDeleteTestimonialMutation();
@@ -57,7 +58,10 @@ const ManageTestimonials = () => {
           pageName="Testimonials"
           pageDesc="Manage all testimonials"
         />
-        <button onClick={() => setIsTestimonialModalOpen(true)} className="px-[14px] py-3 bg-primary-10 text-white text-base font-medium leading-5 tracking-tighter rounded-[10px]">
+        <button
+          onClick={() => setIsTestimonialModalOpen(true)}
+          className="px-[14px] py-3 bg-primary-10 text-white text-base font-medium leading-5 tracking-tighter rounded-[10px]"
+        >
           Add a Testimonial
         </button>
       </div>
@@ -78,7 +82,10 @@ const ManageTestimonials = () => {
         ))}
       </div>
 
-      <AddTestimonialModal isTestimonialModalOpen={isTestimonialModalOpen} setIsTestimonialModalOpen={setIsTestimonialModalOpen} />
+      <AddTestimonialModal
+        isTestimonialModalOpen={isTestimonialModalOpen}
+        setIsTestimonialModalOpen={setIsTestimonialModalOpen}
+      />
     </div>
   );
 };

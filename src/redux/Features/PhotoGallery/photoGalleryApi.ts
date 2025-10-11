@@ -10,7 +10,26 @@ const photoGalleryApi = baseApi.injectEndpoints({
       }),
       providesTags: ["photoGallery"],
     }),
+
+    addPhoto: builder.mutation({
+      query: (data) => ({
+        url: `/photoGallery/add`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["photoGallery"],
+    }),
+
+    deletePhoto: builder.mutation({
+      query: (id) => ({
+        url: `/photoGallery/delete/${id}`,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["photoGallery"],
+    }),
   }),
 });
 
-export const { useGetAllPhotosQuery } = photoGalleryApi;
+export const { useGetAllPhotosQuery, useAddPhotoMutation, useDeletePhotoMutation } = photoGalleryApi;

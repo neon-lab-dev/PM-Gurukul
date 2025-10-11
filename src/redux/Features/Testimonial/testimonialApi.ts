@@ -32,4 +32,8 @@ const testimonialApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllTestimonialsQuery, useAddTestimonialMutation, useDeleteTestimonialMutation } = testimonialApi;
+export const {
+  useGetAllTestimonialsQuery,
+  useAddTestimonialMutation,
+  useDeleteTestimonialMutation,
+} = testimonialApi;
