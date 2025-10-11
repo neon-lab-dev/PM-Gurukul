@@ -7,7 +7,11 @@ import {
   HiOutlinePhotograph,
 } from "react-icons/hi";
 import { FiUsers, FiDollarSign, FiShoppingBag } from "react-icons/fi";
-import { MdOutlinePayment, MdOutlineHistoryEdu } from "react-icons/md";
+import {
+  MdOutlinePayment,
+  MdOutlineHistoryEdu,
+  MdOutlineLeaderboard,
+} from "react-icons/md";
 import { RiUser3Line } from "react-icons/ri";
 import { FaRegFileAlt } from "react-icons/fa";
 
@@ -42,6 +46,11 @@ export const userMenus = [
     name: "Showcase Talent",
     link: "/dashboard/showcase-talent",
     icon: <HiOutlineSparkles />,
+  },
+  {
+    name: "Leaderboard",
+    link: "/dashboard/leaderboard",
+    icon: <MdOutlineLeaderboard />,
   },
 ];
 
@@ -84,5 +93,10 @@ export const adminMenus = [
     name: "Photo Gallery",
     link: "/admin/manage-photo-gallery",
     icon: <HiOutlinePhotograph />,
+  },
+  {
+    name: "Leaderboard",
+    link: "/admin/leaderboard",
+    icon: <MdOutlineLeaderboard />,
   },
 ];

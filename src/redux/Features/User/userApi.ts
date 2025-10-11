@@ -2,7 +2,6 @@ import { baseApi } from "../../Api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
     getMyPurchasedCourses: builder.query({
       query: () => ({
         url: "/purchased/course",
@@ -15,6 +14,15 @@ const userApi = baseApi.injectEndpoints({
     myReferralSummary: builder.query({
       query: () => ({
         url: "/refral/summary",
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["user"],
+    }),
+
+    getReferralLeaderboard: builder.query({
+      query: () => ({
+        url: "/referral/leaderboard",
         method: "GET",
         credentials: "include",
       }),
@@ -63,6 +71,7 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useGetMyPurchasedCoursesQuery,
   useMyReferralSummaryQuery,
+  useGetReferralLeaderboardQuery,
   useGetMeQuery,
   useMyOrdersQuery,
   useCancelOrderMutation,

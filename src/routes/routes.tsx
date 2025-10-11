@@ -53,6 +53,7 @@ import ShowcaseTalent from "../pages/Dashbaord/ShowcaseTalent/ShowcaseTalent";
 import TalentDetails from "../pages/Dashbaord/ShowcaseTalent/TalentDetails";
 import ManageTestimonials from "../pages/Dashbaord/Admin/ManageTestimonials/ManageTestimonials";
 import ManagePhotoGallery from "../pages/Dashbaord/Admin/ManagePhotoGallery/ManagePhotoGallery";
+import Leaderboard from "../pages/Dashbaord/Leaderboard/Leaderboard";
 
 export const router = createBrowserRouter([
   {
@@ -202,6 +203,10 @@ export const router = createBrowserRouter([
         path: "showcase-talent",
         element: <ShowcaseTalent />,
       },
+      {
+        path: "leaderboard",
+        element: <Leaderboard />,
+      },
     ],
   },
   {
@@ -303,6 +308,10 @@ export const router = createBrowserRouter([
       {
         path: "manage-photo-gallery",
         element: <ManagePhotoGallery />,
+      },
+      {
+        path: "leaderboard",
+        element: <Leaderboard />,
       },
     ],
   },
