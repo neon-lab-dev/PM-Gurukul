@@ -55,6 +55,7 @@ import ManageTestimonials from "../pages/Dashbaord/Admin/ManageTestimonials/Mana
 import ManagePhotoGallery from "../pages/Dashbaord/Admin/ManagePhotoGallery/ManagePhotoGallery";
 import Leaderboard from "../pages/Dashbaord/Leaderboard/Leaderboard";
 import WelcomeLetter from "../pages/Dashbaord/WelcomeLetter/WelcomeLetter";
+import ReferralLink from "../pages/Dashbaord/ReferralLink/ReferralLink";
 
 export const router = createBrowserRouter([
   {
@@ -114,7 +115,7 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
-        path: "signup",
+        path: "signup/:referralCode",
         element: <Signup />,
       },
       {
@@ -211,6 +212,10 @@ export const router = createBrowserRouter([
       {
         path: "welcome-letter",
         element: <WelcomeLetter />,
+      },
+      {
+        path: "referral-link",
+        element: <ReferralLink />,
       },
     ],
   },

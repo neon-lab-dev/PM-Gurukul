@@ -75,6 +75,7 @@ const SetupProfile = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   // Getting OTP data from localstorage
   const [otpData] = useOtpDataFromLocalStorage<OtpFormData>("otpData");
+  const [referralCode, setReferralCode] = useState("");
   // const [selectedDocument, setSelectedDocument] = useState<string>("");
   const {
     register,
@@ -89,7 +90,12 @@ const SetupProfile = () => {
       setValue("mobileNumber", otpData.mobileNumber);
       setValue("email", otpData.email);
     }
-  }, [otpData, setValue]);
+    const storedRef = localStorage.getItem("referralCode");
+    if (storedRef) {
+      setReferralCode(storedRef);
+    }
+    setValue("refralCode", referralCode);
+  }, [otpData, setValue, referralCode]);
 
   const navigate = useNavigate();
 
@@ -179,7 +185,7 @@ const SetupProfile = () => {
       formData.append("pinCode", data.pinCode);
       formData.append("panNumber", data.panNumber);
       formData.append("adNumber", data.adNumber);
-      formData.append("refralCode", data.refralCode);
+      formData.append("refralCode", referralCode? referralCode: data.refralCode);
       formData.append("addline1", data.addline1);
       formData.append("addline2", data.addline2);
       formData.append("gstNumber", data.gstNumber);
@@ -219,6 +225,7 @@ const SetupProfile = () => {
         removeOtpDataFromLocalStorage();
         navigate("/dashboard/my-courses");
         localStorage.removeItem("otpData");
+        localStorage.removeItem("referralCode");
         reset();
       }
     } catch (err) {

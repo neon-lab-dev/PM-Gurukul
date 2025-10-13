@@ -5,6 +5,7 @@ import {
   HiOutlineSparkles,
   HiOutlineAnnotation,
   HiOutlinePhotograph,
+  HiOutlineLink,
 } from "react-icons/hi";
 import { FiUsers, FiDollarSign, FiShoppingBag } from "react-icons/fi";
 import {
@@ -57,6 +58,11 @@ export const userMenus = [
     name: "Leaderboard",
     link: "/dashboard/leaderboard",
     icon: <MdOutlineLeaderboard />,
+  },
+  {
+    name: "Refer",
+    link: "/dashboard/referral-link",
+    icon: <HiOutlineLink />,
   },
 ];
 
