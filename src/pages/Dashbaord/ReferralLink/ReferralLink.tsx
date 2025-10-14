@@ -100,8 +100,8 @@ const ReferralLink = () => {
           <div className="text-center">
             <h4 className="font-semibold text-blue-800 mb-1">How it works</h4>
             <p className="text-blue-600 text-sm">
-              Share your link with friends. When they sign up using your link,
-              you'll both receive special rewards!
+              Share your link with friends. When they sign up using your link and purchase any course,
+              you'll receive your referral commission!
             </p>
           </div>
         </div>

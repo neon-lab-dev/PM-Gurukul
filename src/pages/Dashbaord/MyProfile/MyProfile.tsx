@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { ICONS } from "../../../assets";
 import PersonalInfo from "../../../components/MyProfilePage/PersonalInfo/PersonalInfo";
 import IdentityInfo from "../../../components/MyProfilePage/KycDetails/IdentityInfo";
-// import UploadProof from "../../../components/MyProfilePage/KycDetails/UploadProof";
 import BankInfo from "../../../components/MyProfilePage/KycDetails/BankInfo";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -34,14 +32,14 @@ const MyProfile = () => {
   const userInfo = user?.user;
 
   const hasKycDetails =
-    userInfo?.bankInfo ||
-    userInfo?.panCard ||
-    userInfo?.passbookImage ||
-    userInfo?.document ||
-    userInfo?.passbookImage ||
-    userInfo?.document;
+    (userInfo?.bankInfo && Object.keys(userInfo.bankInfo).length > 0) ||
+    (userInfo?.document?.documentNumber &&
+      userInfo.document.documentNumber !== "undefined") ||
+    (userInfo?.panCard?.panNumber &&
+      userInfo.panCard.panNumber !== "undefined");
 
-    const isInputFieldsDisabled = loggedInUserData?.role !== "admin" && hasKycDetails;
+  const isInputFieldsDisabled =
+    loggedInUserData?.role !== "admin" && hasKycDetails;
 
   useEffect(() => {
     if (isKycClicked) {
@@ -304,6 +302,8 @@ const MyProfile = () => {
       // Appending pass book image
       if (files.passbookImageFile)
         formData.append("passbookImageFile", files.passbookImageFile);
+      // Appending pass book image
+      formData.append("profilePicture", data.profilePicture[0]);
 
       const response = await updateProfile(formData).unwrap();
       if (response?.user) {
@@ -335,16 +335,23 @@ const MyProfile = () => {
         </div>
 
         <div className="flex gap-5 justify-end">
-          <div className="bg-white rounded-lg border border-neutral-75 p-4">
-            <h1 className="">Referred By</h1>
-            <h1 className="font-semibold">
-              {user?.user?.referredBy?.full_name} (
-              {user?.user?.referredBy?.email})
-            </h1>
-            <h1 className="font-semibold">
-              <span className="font-normal">Referral Code : </span>
-              {user?.user?.referredBy?.refralCode}
-            </h1>
+          <div className="bg-white rounded-lg border border-neutral-75 p-4 flex items-center gap-2">
+            <img
+              src={user?.user?.profilePicture?.url}
+              alt=""
+              className="size-20 rounded-full flex-1"
+            />
+            <div>
+              <h1 className="">Referred By</h1>
+              <h1 className="font-semibold">
+                {user?.user?.referredBy?.full_name} (
+                {user?.user?.referredBy?.email})
+              </h1>
+              <h1 className="font-semibold">
+                <span className="font-normal">Referral Code : </span>
+                {user?.user?.referredBy?.refralCode}
+              </h1>
+            </div>
           </div>
 
           <div className="bg-white rounded-lg border border-neutral-75 p-4 flex flex-col items-center justify-center">
@@ -391,14 +398,20 @@ const MyProfile = () => {
                     handleFileChange={handleFileChange}
                     fileNames={fileNames}
                   />
-                  {/* <UploadProof register={register} errors={errors} /> */}
-                  <UploadedProofs
-                    docName={user?.user?.document?.doctype}
-                    docImageFront={user?.user?.document?.docFrontImage?.url}
-                    docImageBack={user?.user?.document?.docBackImage?.url}
-                    panCardImage={user?.user?.panCard?.panImage?.url}
-                    passBookImage={user?.user?.passbookImage?.url}
-                  />
+                  {userInfo?.document?.docFrontImage?.url ||
+                  userInfo?.document?.docBackImage?.url ||
+                  userInfo?.panCard?.panImage?.url ||
+                  userInfo?.passbookImage?.url ? (
+                    <UploadedProofs
+                      docName={user?.user?.document?.doctype}
+                      docImageFront={user?.user?.document?.docFrontImage?.url}
+                      docImageBack={user?.user?.document?.docBackImage?.url}
+                      panCardImage={user?.user?.panCard?.panImage?.url}
+                      passBookImage={user?.user?.passbookImage?.url}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="flex flex-col gap-4">
                   {(user?.user?.bankInfo?.length

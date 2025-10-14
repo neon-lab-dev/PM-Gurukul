@@ -115,6 +115,10 @@ export const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {
+        path: "signup",
+        element: <Signup />,
+      },
+      {
         path: "signup/:referralCode",
         element: <Signup />,
       },

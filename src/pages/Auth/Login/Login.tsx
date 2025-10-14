@@ -45,8 +45,10 @@ const Login = () => {
         dispatch(setUser({ user }));
         if (response?.user?.role === "admin") {
           navigate("/admin/registered-users");
+          setTimeout(() => window.location.reload(), 50);
         } else {
           navigate("/dashboard/my-courses");
+          setTimeout(() => window.location.reload(), 50);
         }
       }
     } catch (err) {

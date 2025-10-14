@@ -58,6 +58,7 @@ export type TSetupProfileData = {
   refralCode: string;
   gstNumber: string;
   gstCompanyName: string;
+  profilePicture : any
 };
 
 export type BankInfoField =
@@ -185,11 +186,15 @@ const SetupProfile = () => {
       formData.append("pinCode", data.pinCode);
       formData.append("panNumber", data.panNumber);
       formData.append("adNumber", data.adNumber);
-      formData.append("refralCode", referralCode? referralCode: data.refralCode);
+      formData.append(
+        "refralCode",
+        referralCode ? referralCode : data.refralCode
+      );
       formData.append("addline1", data.addline1);
       formData.append("addline2", data.addline2);
       formData.append("gstNumber", data.gstNumber);
       formData.append("gstCompanyName", data.gstCompanyName);
+      formData.append("profilePicture", data.profilePicture[0]);
 
       // Appending document details
       // formData.append('doctype', selectedDocument);
@@ -233,7 +238,6 @@ const SetupProfile = () => {
       toast.error((err as any)?.data?.message);
     }
   };
-
 
   // Counting 15 mins time
   const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds

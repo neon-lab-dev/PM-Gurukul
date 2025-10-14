@@ -263,6 +263,14 @@ const PersonalInfo: React.FC<TPersonalInfo> = ({ register, errors, mobileNumber 
             })}
           />
           <TextInput
+            label="Profile Picture"
+            error={errors.profilePicture}
+            type="file"
+            {...register("profilePicture", {
+              required: "Profile picture is required",
+            })}
+          />
+          <TextInput
             label="Referral Code"
             placeholder="Enter your referral Code"
             isDisabled={location.pathname === "/dashboard/my-profile" ? true : false}

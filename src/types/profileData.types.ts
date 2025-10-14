@@ -32,6 +32,7 @@ export type TProfileData = {
   addline2: string;
   gstNumber: string;
   gstCompanyName: string;
+  profilePicture : any;
   document: {
     doctype: string;
     documentNumber: string;
