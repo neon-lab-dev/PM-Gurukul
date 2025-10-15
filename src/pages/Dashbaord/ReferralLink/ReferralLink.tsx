@@ -10,7 +10,7 @@ const ReferralLink = () => {
   const [isCopied, setIsCopied] = useState(false);
   const referralLinkRef = useRef<HTMLInputElement>(null);
 
-  const referralLink = `http://localhost:5173/auth/signup/${user?.referralCode}`;
+  const referralLink = `https://pm-gurukul.vercel.app/auth/signup/${user?.referralCode}`;
 
   const handleCopyLink = async () => {
     if (referralLinkRef.current) {
