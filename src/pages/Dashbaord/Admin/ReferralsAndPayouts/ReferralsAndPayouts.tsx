@@ -253,6 +253,7 @@ const ReferralsAndPayouts = () => {
             data={referralPayoutTableData}
             headers={referralPayoutTableHeaders}
             showHeader={true}
+            pageName={"Referrals And Payouts"}
           />
         ) : (
           <NoDataFound message={"You haven't made any transaction yet."} />

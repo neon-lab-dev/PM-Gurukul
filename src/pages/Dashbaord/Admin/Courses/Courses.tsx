@@ -127,6 +127,7 @@ const AdminCourses = () => {
           headers={allCoursesTableHeaders}
           data={allCoursesTableData}
           showHeader={true}
+          pageName="All Courses"
         />
       ) : (
         <NoDataFound message={"No Course found."} />

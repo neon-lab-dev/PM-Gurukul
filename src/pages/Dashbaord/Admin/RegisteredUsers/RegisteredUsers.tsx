@@ -55,17 +55,18 @@ const RegisteredUsers = () => {
         mobile: user?.mobileNumber,
         joined: formatDate(user?.createdAt),
         role: user?.role,
-        status: (
-          <p
-            className={`font-semibold text-sm px-3 py-1 rounded-full inline-block ${
-              user?.status === "suspended"
-                ? "bg-red-100 text-red-600"
-                : "bg-green-100 text-green-600"
-            }`}
-          >
-            {user?.status === "suspended" ? "Suspended" : "Active"}
-          </p>
-        ),
+        status: user?.status,
+        // status: (
+        //   <p
+        //     className={`font-semibold text-sm px-3 py-1 rounded-full inline-block ${
+        //       user?.status === "suspended"
+        //         ? "bg-red-100 text-red-600"
+        //         : "bg-green-100 text-green-600"
+        //     }`}
+        //   >
+        //     {user?.status === "suspended" ? "Suspended" : "Active"}
+        //   </p>
+        // ),
 
         action: [
           {
@@ -110,7 +111,7 @@ const RegisteredUsers = () => {
           <Spinner />
         </div>
       ) : registeredUsersData?.length > 0 ? (
-        <Table data={registeredUsersData} headers={headers} showHeader={true} />
+        <Table data={registeredUsersData} headers={headers} showHeader={true} pageName="Registered Users" />
       ) : (
         <NoDataFound message={"No registered user found."} />
       )}

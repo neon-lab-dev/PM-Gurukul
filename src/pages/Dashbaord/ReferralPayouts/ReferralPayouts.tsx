@@ -2,7 +2,10 @@
 import { useSelector } from "react-redux";
 import { ICONS } from "../../../assets";
 import { Table } from "../../../components/ReferralPayoutsPage/TransactionHistory";
-import { useMyReferralSummaryQuery } from "../../../redux/Features/User/userApi";
+import {
+  useGetMeQuery,
+  useMyReferralSummaryQuery,
+} from "../../../redux/Features/User/userApi";
 import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 import { useState } from "react";
 import ReferralLoader from "../../../components/Loaders/ReferralLoader/ReferralLoader";
@@ -29,6 +32,8 @@ type TRefferedUser = {
 };
 
 const ReferralPayouts = () => {
+  const { data: myProfile } = useGetMeQuery({});
+  const userInfo = myProfile?.user;
   const user = useSelector(useCurrentUser) as TLoggedInUser;
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const { data: referralSummary, isLoading } = useMyReferralSummaryQuery({});
@@ -56,6 +61,13 @@ const ReferralPayouts = () => {
     "November",
     "December",
   ];
+
+  const hasKycDetails =
+    (userInfo?.bankInfo && Object.keys(userInfo.bankInfo).length > 0) ||
+    (userInfo?.document?.documentNumber &&
+      userInfo.document.documentNumber !== "undefined") ||
+    (userInfo?.panCard?.panNumber &&
+      userInfo.panCard.panNumber !== "undefined");
 
   const currentMonthIndex = new Date().getMonth();
 
@@ -125,13 +137,14 @@ const ReferralPayouts = () => {
             <div className="flex flex-col px-4">
               <p className="text-neutral-10">Referral Code</p>
               <p className="text-primary-10 text-lg font-semibold">
-                {user?.referralCode}
+                {!hasKycDetails ? "Submit KYC first" : user?.referralCode}
               </p>
             </div>
-            <div
+            <button
               onClick={handleCopy}
-              className="bg-neutral-15 p-4 rounded-r-lg cursor-pointer"
+              className="bg-neutral-15 p-4 rounded-r-lg cursor-pointer disabled:cursor-not-allowed"
               title="Copy to clipboard"
+              disabled={!hasKycDetails}
             >
               {isCopied ? (
                 <svg
@@ -151,7 +164,7 @@ const ReferralPayouts = () => {
               ) : (
                 <img src={ICONS.Copy} alt="Copy" className="" />
               )}
-            </div>
+            </button>
           </div>
         </div>
 
@@ -259,6 +272,7 @@ const ReferralPayouts = () => {
               data={referralPayoutTableData}
               headers={referralPayoutTableHeaders}
               showHeader={true}
+              pageName={"Referral And Payouts"}
             />
           ) : (
             <NoDataFound message={"You haven't made any transaction yet."} />

@@ -123,7 +123,7 @@ const MyProfile = () => {
       setValue("pinCode", user?.user?.pinCode);
       setValue("occupation", user?.user?.occupation);
       setValue("language", user?.user?.language);
-      setValue("refralCode", user?.user?.refralCode);
+      setValue("refralCode", !hasKycDetails ? "Submit KYC to get Referral Code" : user?.user?.refralCode);
       setValue("document.documentNumber", user?.user?.document?.documentNumber);
       setValue("document.doctype", user?.user?.document?.doctype);
       setSelectedDocument(user?.user?.document?.doctype);
@@ -335,22 +335,21 @@ const MyProfile = () => {
         </div>
 
         <div className="flex gap-5 justify-end">
-          <div className="bg-white rounded-lg border border-neutral-75 p-4 flex items-center gap-2">
+          <div className={`rounded-lg border border-neutral-75 p-4 flex items-center gap-2 ${!hasKycDetails ? "bg-red-100" : "bg-white"}`}>
             <img
               src={user?.user?.profilePicture?.url}
               alt=""
               className="size-20 rounded-full flex-1"
             />
             <div>
-              <h1 className="">Referred By</h1>
-              <h1 className="font-semibold">
-                {user?.user?.referredBy?.full_name} (
-                {user?.user?.referredBy?.email})
-              </h1>
-              <h1 className="font-semibold">
-                <span className="font-normal">Referral Code : </span>
-                {user?.user?.referredBy?.refralCode}
-              </h1>
+              <h1 className="font-semibold">{user?.user?.full_name}</h1>
+              <h2 >
+                {user?.user?.email}
+              </h2>
+              <h2 className="font-semibold">
+                <span className="font-normal">Referred By : </span>
+                {user?.user?.referredBy?.full_name}
+              </h2>
             </div>
           </div>
 

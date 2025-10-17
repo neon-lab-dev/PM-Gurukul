@@ -189,24 +189,28 @@ const Affiliates = () => {
               headers={pendingKycTableHeader}
               data={pendingKycUserData}
               showHeader={true}
+              pageName="Affiliates"
             />
           ) : selectedFilter === "Pending" ? (
             <Table
               headers={pendingKycTableHeader}
               data={pendingKYC}
               showHeader={true}
+              pageName="Affiliates"
             />
           ) : selectedFilter === "Approved" ? (
             <Table
               headers={pendingKycTableHeader}
               data={approvedKyc}
               showHeader={true}
+              pageName="Affiliates"
             />
           ) : selectedFilter === "Rejected" ? (
             <Table
               headers={pendingKycTableHeader}
               data={rejectedKyc}
               showHeader={true}
+              pageName="Affiliates"
             />
           ) : (
             <NoDataFound message={"No user found."} />

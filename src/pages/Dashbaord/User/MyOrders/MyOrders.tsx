@@ -149,6 +149,7 @@ const MyOrders = () => {
             data={myOrdersTableData}
             headers={myOrdersTableHeaders}
             showHeader={true}
+            pageName="My Orders"
           />
         ) : (
           <NoDataFound

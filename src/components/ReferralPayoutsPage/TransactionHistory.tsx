@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICONS } from "../../assets";
 import { useState } from "react";
+import * as XLSX from 'xlsx';
 
 // Define the type for the header props
 interface Header {
@@ -18,12 +20,14 @@ interface TableProps {
   headers: Header[];
   data: RowData[];
   showHeader: boolean;
+  pageName: string;
 }
 
 export const Table = ({
   headers = [],
   data = [],
   showHeader = true,
+  pageName,
 }: TableProps) => {
   const [openDropdownId, setOpenDropdownId] = useState<number | string | null>(
     null
@@ -54,22 +58,37 @@ export const Table = ({
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Handle export as CSV
-  const handleExport = () => {
-    const csvHeaders = headers.map((header) => header.label).join(",") + "\n";
-    const csvRows = displayData.map((row) =>
-      headers.map((header) => row[header.key] || "").join(",")
-    );
-    const csvContent = csvHeaders + csvRows.join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "TransactionHistory.csv";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  console.log(data);
+
+
+const handleExport = () => {
+  const currentDate = new Date().toISOString().split('T')[0];
+  const exportData = displayData.map((row, index) => {
+    const exportRow: any = {};
+    
+    headers.forEach((header) => {
+      // Skip the action column
+      if (header.key === 'action') {
+        return;
+      }
+      
+      const value = row[header.key];
+      
+      if (typeof value === 'string' && value.includes('₹')) {
+        // Value is already in the correct format for Excel
+      }
+      
+      exportRow[header.label] = value || "";
+    });
+    
+    return exportRow;
+  });
+
+  const ws = XLSX.utils.json_to_sheet(exportData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, pageName);
+  XLSX.writeFile(wb, `${pageName}_Report_${currentDate}.xlsx`);
+};
 
   // Handle sorting by any sortable column
   const handleSort = (key: string) => {
@@ -262,7 +281,7 @@ const TransactionHistory = ({
   headers = [],
   showHeader = true,
 }: TransactionHistoryProps) => {
-  return <Table data={data} headers={headers} showHeader={showHeader} />;
+  return <Table data={data} headers={headers} showHeader={showHeader} pageName="Transaction History" />;
 };
 
 export default TransactionHistory;

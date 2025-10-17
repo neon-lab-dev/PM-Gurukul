@@ -163,6 +163,7 @@ const allOrdersHistoryTableData = allOrdersHistory?.orders?.length
           headers={allOrdersHistoryTableHeaders}
           data={allOrdersHistoryTableData}
           showHeader={true}
+          pageName="Purchase History"
         />
       ) : (
         <NoDataFound message="No order found." />

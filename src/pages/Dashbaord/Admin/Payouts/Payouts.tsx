@@ -120,6 +120,7 @@ const Payouts = () => {
               headers={allEarningsTableHeaders}
               data={allEarningsTableData}
               showHeader={true}
+              pageName="Payouts"
             />
             :
             <NoDataFound message={"No data found."} />

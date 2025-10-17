@@ -165,6 +165,7 @@ const WeeklyPayouts = () => {
             headers={allWeeklyPayoutTableHeaders}
             data={allWeeklyPayoutTableData}
             showHeader={true}
+            pageName="Weekly Pending Payouts"
           />
         ) : (
           <NoDataFound message={"No pending payout found."} />
