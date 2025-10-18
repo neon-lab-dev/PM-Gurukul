@@ -4,9 +4,14 @@ import { ICONS } from "../../../assets";
 import { useGetMyDashboardStatsQuery } from "../../../redux/Features/User/userApi";
 import { FaCalendar, FaDownload, FaFileAlt } from "react-icons/fa";
 import DashboardHeader from "../../../components/Reusable/DashboardHeader/DashboardHeader";
+import DashboardLoader from "../../../components/Loaders/DashboardLoader/DashboardLoader";
 
 const DashboardHome = () => {
-  const { data: userStats } = useGetMyDashboardStatsQuery({});
+  const {
+    data: userStats,
+    isLoading,
+    isFetching,
+  } = useGetMyDashboardStatsQuery({});
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const dashboardCards = [
@@ -53,6 +58,7 @@ const DashboardHome = () => {
 
   const businessPlan = userStats?.stats?.businessPlan;
 
+  if (isLoading || isFetching) return <DashboardLoader />;
   return (
     <div className="flex flex-col gap-8 font-Inter">
       <Helmet>

@@ -20,12 +20,13 @@ import { formatDate } from "../../../../utils/formatDate";
 import { useSelector } from "react-redux";
 import { useCurrentUser } from "../../../../redux/Features/Auth/authSlice";
 import { TLoggedInUser } from "../../../../types/user.types";
+import DashboardLoader from "../../../../components/Loaders/DashboardLoader/DashboardLoader";
 
 const AdminDashboardHome = () => {
   const user = useSelector(useCurrentUser) as TLoggedInUser;
-  const { data: adminStats } = useGetAdminStatsQuery({});
-  const { data: referralSummary } = useMyReferralSummaryQuery({});
-  const { data: allOrdersHistory } = useGetAllOrdersQuery({});
+  const { data: adminStats, isLoading, isFetching } = useGetAdminStatsQuery({});
+  const { data: referralSummary, isLoading:isSummaryLoading, isFetching:isSummaryFetching } = useMyReferralSummaryQuery({});
+  const { data: allOrdersHistory, isLoading:isOrdersLoading, isFetching:isOrdersFetching } = useGetAllOrdersQuery({});
   const data = [
     {
       title: "Total Earnings",
@@ -140,6 +141,8 @@ const AdminDashboardHome = () => {
     month,
     sales: monthlySales[month],
   }));
+
+    if (isLoading || isFetching || isSummaryLoading || isSummaryFetching || isOrdersLoading || isOrdersFetching) return <DashboardLoader />;
 
   return (
     <div className="flex flex-col gap-8 font-Inter">

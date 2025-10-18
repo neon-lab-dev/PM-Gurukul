@@ -47,7 +47,7 @@ const Login = () => {
           navigate("/admin/registered-users");
           setTimeout(() => window.location.reload(), 50);
         } else {
-          navigate("/dashboard/my-courses");
+          navigate("/dashboard");
           setTimeout(() => window.location.reload(), 50);
         }
       }
