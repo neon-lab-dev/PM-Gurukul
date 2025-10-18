@@ -36,42 +36,47 @@ const Sidebar: React.FC = () => {
   const menus = user?.role === "admin" ? adminMenus : userMenus;
 
   return (
-    <div className="w-60 min-w-60 h-screen px-4 py-6 font-Inter flex flex-col justify-between sticky left-0 top-0">
+    <div className="w-60 min-w-60 h-screen px-4 py-6 font-Inter flex flex-col sticky left-0 top-0">
+      {/* Top section: Logo */}
       <div>
         <a href="/" className="flex items-center gap-2 w-full pb-4 mb-4">
           <img src={IMAGES.pmGurukulLogo} alt="PM-Gurukul" className="w-40" />
         </a>
-        <div>
-          <ul className="flex flex-col gap-2">
-            {menus.map((menu) => (
-              <li
-                key={menu.link}
-                className={`px-3 py-2 ${
-                  isActive(menu.link)
-                    ? "bg-neutral-60 text-primary-10 rounded-lg"
-                    : "text-neutral-85"
-                }`}
-              >
-                <Link to={menu.link} className="flex items-center gap-2">
-                  <span className="text-lg">{menu.icon}</span>
-                  {menu.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
-      <div className="flex flex-col gap-3">
-          <GoogleTranslate/>
-      <Ripple styles="rounded-xl">
-        <button
-          onClick={handleLogout}
-          className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center"
-        >
-          <img src={ICONS.logout} alt="logout-icon" className="size-[18px]" />
-          Logout
-        </button>
-      </Ripple>
+
+      {/* Middle section: Navlinks */}
+      <div className="flex-1 overflow-y-auto">
+        <ul className="flex flex-col gap-2">
+          {menus.map((menu) => (
+            <li
+              key={menu.link}
+              className={`px-3 py-2 ${
+                isActive(menu.link)
+                  ? "bg-neutral-60 text-primary-10 rounded-lg"
+                  : "text-neutral-85"
+              }`}
+            >
+              <Link to={menu.link} className="flex items-center gap-2">
+                <span className="text-lg">{menu.icon}</span>
+                {menu.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Bottom section: Google Translate + Logout */}
+      <div className="flex flex-col gap-3 mt-4">
+        <GoogleTranslate />
+        <Ripple styles="rounded-xl">
+          <button
+            onClick={handleLogout}
+            className="bg-neutral-60 border border-neutral-55 py-[10px] px-4 text-primary-10 text-sm leading-5 font-semibold w-full rounded-lg text-center flex items-center gap-2 justify-center"
+          >
+            <img src={ICONS.logout} alt="logout-icon" className="w-4 h-4" />
+            Logout
+          </button>
+        </Ripple>
       </div>
     </div>
   );
