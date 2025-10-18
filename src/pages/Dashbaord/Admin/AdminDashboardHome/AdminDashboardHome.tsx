@@ -28,14 +28,13 @@ const AdminDashboardHome = () => {
   const { data: allOrdersHistory } = useGetAllOrdersQuery({});
   const data = [
     {
-  title: "Total Earnings",
-  valueCount: (() => {
-    const amount = Number(referralSummary?.data?.totalEarnings ?? 0);
-    return `₹${isNaN(amount) ? "0.00" : amount.toFixed(2)}`;
-  })(),
-  icon: ICONS.earning,
-}
-,
+      title: "Total Earnings",
+      valueCount: (() => {
+        const amount = Number(referralSummary?.data?.totalEarnings ?? 0);
+        return `₹${isNaN(amount) ? "0.00" : amount.toFixed(2)}`;
+      })(),
+      icon: ICONS.earning,
+    },
     {
       title: "Total Registered Users",
       valueCount: adminStats?.stats?.totalUsers || 0,
@@ -61,7 +60,7 @@ const AdminDashboardHome = () => {
       valueCount: adminStats?.stats?.totalCourses || 0,
       icon: ICONS.course,
     },
-    
+
     {
       title: "Total Course Purchased",
       valueCount: adminStats?.stats?.totalOrders || 0,
@@ -200,8 +199,12 @@ const AdminDashboardHome = () => {
                       <td className="px-4 py-2 border-b">{user?._id}</td>
                       <td className="px-4 py-2 border-b">{user?.full_name}</td>
                       <td className="px-4 py-2 border-b">{user?.email}</td>
-                      <td className="px-4 py-2 border-b">{user?.mobileNumber}</td>
-                      <td className="px-4 py-2 border-b">{formatDate(user?.createdAt)}</td>
+                      <td className="px-4 py-2 border-b">
+                        {user?.mobileNumber}
+                      </td>
+                      <td className="px-4 py-2 border-b">
+                        {formatDate(user?.createdAt)}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

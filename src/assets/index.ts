@@ -75,6 +75,7 @@ import twitter from "../assets/Icons/twitter.svg";
 import linkedin from "../assets/Icons/linkedin.svg";
 import whatsapp from "../assets/Icons/whatsapp.svg";
 import telegram from "../assets/Icons/telegram.svg";
+import rank from "../assets/Icons/rank.svg";
 
 
 // Importing Images
@@ -181,6 +182,7 @@ export const ICONS = {
     purchasedCourses,
     certificate,
     referralCode,
+    rank,
     
 };
 

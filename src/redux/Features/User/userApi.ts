@@ -47,6 +47,15 @@ const userApi = baseApi.injectEndpoints({
       providesTags: ["user"],
     }),
 
+    getMyDashboardStats: builder.query({
+      query: () => ({
+        url: "/user/stats",
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["user"],
+    }),
+
     cancelOrder: builder.mutation({
       query: (id) => ({
         method: "PUT",
@@ -74,6 +83,7 @@ export const {
   useGetReferralLeaderboardQuery,
   useGetMeQuery,
   useMyOrdersQuery,
+  useGetMyDashboardStatsQuery,
   useCancelOrderMutation,
   useUpdateProfileMutation,
 } = userApi;
