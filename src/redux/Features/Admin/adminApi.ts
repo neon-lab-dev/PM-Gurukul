@@ -83,6 +83,15 @@ const adminApi = baseApi.injectEndpoints({
       providesTags: ["course"],
     }),
 
+    getReferralNetwork: builder.query({
+      query: () => ({
+        url: `/referralNetwork`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["course"],
+    }),
+
     approveKyc: builder.mutation({
       query: (id) => ({
         url: `/user/approve/${id}`,
@@ -215,6 +224,7 @@ export const {
   useGetSingleUserByIdQuery,
   useUpdateUserDetailsMutation,
   useGetAllCoursesQuery,
+  useGetReferralNetworkQuery,
   useApproveKycMutation,
   useRejectKycMutation,
   useApprovePayoutMutation,

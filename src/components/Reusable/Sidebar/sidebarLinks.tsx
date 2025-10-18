@@ -6,6 +6,7 @@ import {
   HiOutlineAnnotation,
   HiOutlinePhotograph,
   HiOutlineLink,
+  HiOutlineDocumentText,
 } from "react-icons/hi";
 import { FiUsers, FiDollarSign, FiShoppingBag } from "react-icons/fi";
 import {
@@ -16,6 +17,7 @@ import {
 } from "react-icons/md";
 import { RiUser3Line } from "react-icons/ri";
 import { FaRegFileAlt } from "react-icons/fa";
+import { BiNetworkChart } from "react-icons/bi";
 
 export const userMenus = [
   { name: "Dashboard", link: "/dashboard", icon: <HiOutlineHome /> },
@@ -110,5 +112,15 @@ export const adminMenus = [
     name: "Leaderboard",
     link: "/admin/leaderboard",
     icon: <MdOutlineLeaderboard />,
+  },
+  {
+    name: "Referral Network",
+    link: "/admin/referral-network",
+    icon: <BiNetworkChart />,
+  },
+  {
+    name: "Business Plan",
+    link: "/admin/business-plan",
+    icon: <HiOutlineDocumentText />,
   },
 ];

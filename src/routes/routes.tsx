@@ -56,6 +56,8 @@ import ManagePhotoGallery from "../pages/Dashbaord/Admin/ManagePhotoGallery/Mana
 import Leaderboard from "../pages/Dashbaord/Leaderboard/Leaderboard";
 import WelcomeLetter from "../pages/Dashbaord/WelcomeLetter/WelcomeLetter";
 import ReferralLink from "../pages/Dashbaord/ReferralLink/ReferralLink";
+import ReferralNetwork from "../pages/Dashbaord/Admin/ReferralNetwork/ReferralNetwork";
+import BusinessPlan from "../pages/Dashbaord/Admin/BusinessPlan/BusinessPlan";
 
 export const router = createBrowserRouter([
   {
@@ -326,6 +328,14 @@ export const router = createBrowserRouter([
       {
         path: "leaderboard",
         element: <Leaderboard />,
+      },
+      {
+        path: "referral-network",
+        element: <ReferralNetwork />,
+      },
+      {
+        path: "business-plan",
+        element: <BusinessPlan />,
       },
     ],
   },
