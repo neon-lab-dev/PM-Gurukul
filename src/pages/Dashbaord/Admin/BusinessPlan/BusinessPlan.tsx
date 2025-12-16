@@ -12,20 +12,14 @@ import {
 import Modal from "../../../../components/Reusable/Modal/Modal";
 import TextInput from "../../../../components/Reusable/TextInput/TextInput";
 import Textarea from "../../../../components/Reusable/TextArea/TextArea";
-import {
-  FaFileAlt,
-  FaCalendar,
-  FaDownload,
-  FaEdit,
-  FaTrash,
-  FaPlus,
-} from "react-icons/fa";
+import { FaFileAlt, FaCalendar, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { formatDate } from "../../../../utils/formatDate";
+import { FiEye } from "react-icons/fi";
 
 interface BusinessPlanFormData {
   title: string;
   description: string;
-  file: FileList;
+  fileUrl: string;
 }
 
 const BusinessPlan = () => {
@@ -55,6 +49,7 @@ const BusinessPlan = () => {
     if (modalType === "edit" && singleDoc) {
       setValue("title", singleDoc.doc.title);
       setValue("description", singleDoc.doc.description);
+      setValue("fileUrl", singleDoc.doc.fileUrl);
     }
   }, [singleDoc, modalType, setValue]);
 
@@ -72,12 +67,11 @@ const BusinessPlan = () => {
 
   const handleSubmitForm = async (formData: BusinessPlanFormData) => {
     try {
-      const payload = new FormData();
-      payload.append("title", formData.title);
-      payload.append("description", formData.description);
-      if (formData.file && formData.file[0]) {
-        payload.append("file", formData.file[0]);
-      }
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        fileUrl: formData.fileUrl,
+      };
 
       if (modalType === "add") {
         await toast.promise(addBusinessPlanDoc(payload).unwrap(), {
@@ -87,7 +81,7 @@ const BusinessPlan = () => {
         });
       } else if (modalType === "edit" && editId) {
         await toast.promise(
-          updateBusinessPlanDoc({ id: editId, payload }).unwrap(),
+          updateBusinessPlanDoc({ id: editId, data: payload }).unwrap(),
           {
             loading: "Updating...",
             success: "Updated successfully!",
@@ -186,13 +180,13 @@ const BusinessPlan = () => {
 
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                         <a
-                          href={plan.file.url}
+                          href={plan?.fileUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors group/download"
                         >
-                          <FaDownload className="w-4 h-4 group-hover/download:scale-110 transition-transform" />
-                          Download Document
+                          <FiEye className="text-lg group-hover/download:scale-110 transition-transform" />
+                          View Business Plan
                         </a>
                         <span className="hidden sm:block text-gray-300">•</span>
                         <span className="text-sm text-gray-500 flex items-center gap-1">
@@ -260,17 +254,14 @@ const BusinessPlan = () => {
                 })}
               />
 
-              <div>
-                <TextInput
-                  label="Document File"
-                  type="file"
-                  error={errors.file}
-                  {...register("file")}
-                />
-                <p className="text-sm text-gray-500 mt-1">
-                  Supported formats: PDF, DOC, DOCX, TXT
-                </p>
-              </div>
+              <TextInput
+                label="Document File URL"
+                placeholder="Enter business doc URL (Google Drive)"
+                error={errors.fileUrl}
+                {...register("fileUrl", {
+                  required: "File URL is required",
+                })}
+              />
             </div>
 
             <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">

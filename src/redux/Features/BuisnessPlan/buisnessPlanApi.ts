@@ -30,9 +30,10 @@ const businessPlanApi = baseApi.injectEndpoints({
     }),
 
     updateBusinessPlanDoc: builder.mutation({
-      query: (id) => ({
+      query: ({id, data}) => ({
         url: `/businessPlan/${id}`,
         method: "PUT",
+        body: data,
         credentials: "include",
       }),
       invalidatesTags: ["businessPlan"],

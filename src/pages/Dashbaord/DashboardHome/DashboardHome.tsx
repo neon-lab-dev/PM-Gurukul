@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { ICONS } from "../../../assets";
 import { useGetMyDashboardStatsQuery } from "../../../redux/Features/User/userApi";
-import { FaCalendar, FaDownload, FaFileAlt } from "react-icons/fa";
+import { FaCalendar, FaFileAlt } from "react-icons/fa";
 import DashboardHeader from "../../../components/Reusable/DashboardHeader/DashboardHeader";
 import DashboardLoader from "../../../components/Loaders/DashboardLoader/DashboardLoader";
+import { FiEye } from "react-icons/fi";
 
 const DashboardHome = () => {
   const {
@@ -151,13 +152,13 @@ const DashboardHome = () => {
             {/* Download Button */}
             <div className="mt-6 relative z-10">
               <a
-                href={businessPlan.file?.url}
+                href={businessPlan.fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-6 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md group/download"
               >
-                <FaDownload className="w-4 h-4 group-hover/download:scale-110 transition-transform" />
-                Download Plan
+                <FiEye className="text-lg group-hover/download:scale-110 transition-transform" />
+                View Business Plan
               </a>
             </div>
           </div>
