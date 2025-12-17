@@ -15,7 +15,7 @@ const SelectDropdown = forwardRef<HTMLSelectElement, DropdownProps>(
   ({ label, options, error, isRequired=true, selected, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 font-Inter">
-        <label className="text-neutral-65">
+        <label className="text-neutral-90">
           {label}
           {
             isRequired && <span className="text-red-600">*</span>

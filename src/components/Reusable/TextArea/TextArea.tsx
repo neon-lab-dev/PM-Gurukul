@@ -61,7 +61,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, name, placeholder = "", rows = 4, error, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 font-Inter">
-        <label htmlFor={name} className="text-neutral-65">
+        <label htmlFor={name} className="text-neutral-90">
           {label}
           <span className="text-red-600"> *</span>
         </label>

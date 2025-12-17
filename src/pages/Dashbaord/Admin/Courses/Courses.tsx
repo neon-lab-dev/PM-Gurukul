@@ -14,6 +14,8 @@ import { Helmet } from "react-helmet-async";
 import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardStatusOrLoader/DashboardStatusOrLoader";
 import { useState } from "react";
 import Threads from "./Threads/Threads";
+import Button from "../../../../components/Reusable/Button/Button";
+import CreateCourseBundle from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/CreateCourseBundle";
 
 const AdminCourses = () => {
   const navigate = useNavigate();
@@ -21,6 +23,9 @@ const AdminCourses = () => {
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
   const [courseId, setCourseId] = useState<string>("");
+  const [isCreateBundleModalOpen, setIsCreateBundleModalOpen] =
+    useState<boolean>(false);
+  const [modalType, setModalType] = useState<"add" | "edit">("add");
 
   const handleDeleteCourse = async (id: string) => {
     try {
@@ -64,7 +69,8 @@ const AdminCourses = () => {
         action: [
           {
             label: "Update Course Details",
-            onClick: () => navigate("/admin/course/update", { state: { id: course?._id } }),
+            onClick: () =>
+              navigate("/admin/course/update", { state: { id: course?._id } }),
           },
           {
             label: "Manage Lectures",
@@ -91,6 +97,11 @@ const AdminCourses = () => {
       }))
     : [];
 
+    const courseIdsWithTitle = allCourses?.courses?.map((course: TCourse) => ({
+      _id: course._id,
+      title: course.title,
+    }));
+
   return (
     <>
       <Helmet>
@@ -101,12 +112,17 @@ const AdminCourses = () => {
           pageName="All Courses"
           pageDesc="All your courses in one place."
         />
-        <Link to="/admin/course/add">
-          <button className="px-[14px] py-4 bg-primary-10 text-white text-base font-medium leading-5 tracking-tighter rounded-[10px]">
-            Add a course
-          </button>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={() => setIsCreateBundleModalOpen(true)}
+            label="Create Bundle"
+          />
+          <Link to="/admin/course/add">
+            <Button label="Add a Course" />
+          </Link>
+        </div>
       </div>
+
       {/* Status cards */}
       <DashboardStatusOrLoader
         statusCardInfo={[
@@ -140,6 +156,13 @@ const AdminCourses = () => {
           setIsThreadsBarOpen={setIsThreadsBarOpen}
         />
       )}
+
+      <CreateCourseBundle
+        isCreateBundleModalOpen={isCreateBundleModalOpen}
+        setIsCreateBundleModalOpen={setIsCreateBundleModalOpen}
+        modalType={modalType}
+        courseIdsWithTitle={courseIdsWithTitle}
+      />
     </>
   );
 };
