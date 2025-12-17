@@ -15,7 +15,8 @@ type TCreateCourseBundle = {
 };
 type TFormData = {
   title: string;
-  price: string;
+  basePrice: string;
+  discountedPrice: string;
   description: string;
   file: any;
 };
@@ -42,7 +43,8 @@ const CreateCourseBundle: React.FC<TCreateCourseBundle> = ({
 
       const formdata = new FormData();
       formdata.append("title", data.title);
-      formdata.append("price", data.price);
+      formdata.append("basePrice", data.basePrice);
+      formdata.append("discountedPrice", data.discountedPrice);
       formdata.append("description", data.description);
       formdata.append("courseIds", JSON.stringify(selectedCourseIds));
       formdata.append("file", data.file[0]);
@@ -86,19 +88,19 @@ const CreateCourseBundle: React.FC<TCreateCourseBundle> = ({
           <div>
             <p className="text-neutral-90">Select Course</p>
             <div className="flex items-center gap-2 w-full overflow-x-auto mt-1">
-              {courseIdsWithTitle.map((course) => (
+              {courseIdsWithTitle?.map((course) => (
                 <button
                   key={course._id}
                   type="button"
-                  onClick={() => toggleCourseSelection(course._id)}
+                  onClick={() => toggleCourseSelection(course?._id)}
                   className={`py-2 px-3 rounded-lg w-fit cursor-pointer text-nowrap transition-colors
         ${
-          selectedCourseIds.includes(course._id)
+          selectedCourseIds.includes(course?._id)
             ? "bg-blue-600 text-white"
             : "bg-neutral-60 text-primary-10"
         }`}
                 >
-                  {course.title}
+                  {course?.title}
                 </button>
               ))}
             </div>
@@ -111,10 +113,17 @@ const CreateCourseBundle: React.FC<TCreateCourseBundle> = ({
           />
 
           <TextInput
-            label="Price"
-            placeholder="Enter price"
-            error={errors.price}
-            {...register("price", { required: "Price is required" })}
+            label="Base Price"
+            placeholder="Enter base price"
+            error={errors.basePrice}
+            {...register("basePrice", { required: "Base Price is required" })}
+          />
+
+          <TextInput
+            label="Discounted Price"
+            placeholder="Enter discounted price"
+            error={errors.discountedPrice}
+            {...register("discountedPrice", { required: "Discounted Price is required" })}
           />
 
           <Textarea

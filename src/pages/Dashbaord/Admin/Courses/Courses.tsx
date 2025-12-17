@@ -16,6 +16,7 @@ import { useState } from "react";
 import Threads from "./Threads/Threads";
 import Button from "../../../../components/Reusable/Button/Button";
 import CreateCourseBundle from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/CreateCourseBundle";
+import AllCourseBundles from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/AllCourseBundles/AllCourseBundles";
 
 const AdminCourses = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const AdminCourses = () => {
     }
   };
 
-  // Pending KYC user table headers
+  // Course table headers
   const allCoursesTableHeaders = [
     { key: "no", label: "SL.NO", sortable: true },
     { key: "courseName", label: "COURSE NAME", sortable: true },
@@ -56,7 +57,7 @@ const AdminCourses = () => {
     navigate(`/admin/course/manage-exam/${id}`);
   };
 
-  // Pending KYC user table data
+  // Course table data
   const allCoursesTableData = allCourses?.courses?.length
     ? allCourses?.courses?.map((course: TCourse, index: number) => ({
         no: `${index + 1}`,
@@ -156,6 +157,8 @@ const AdminCourses = () => {
           setIsThreadsBarOpen={setIsThreadsBarOpen}
         />
       )}
+
+      <AllCourseBundles/>
 
       <CreateCourseBundle
         isCreateBundleModalOpen={isCreateBundleModalOpen}
