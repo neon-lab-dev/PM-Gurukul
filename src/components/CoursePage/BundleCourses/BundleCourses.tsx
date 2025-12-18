@@ -1,11 +1,13 @@
-// components/BundleCourses.tsx
 import BundleCourseCard from "./BundleCourseCard";
 import { Sparkles, Package, Zap, Shield } from "lucide-react";
 import { useGetAllCourseBundlesQuery } from "../../../redux/Features/CourseBundle/courseBundleApi";
 import { TBundleCourse } from "../../../types/bundleCourse.types";
+import { useLocation } from "react-router-dom";
 
 const BundleCourses = () => {
-  const { data: allCourseBundles, isLoading } = useGetAllCourseBundlesQuery({});
+  const pathname = useLocation().pathname;
+  const { data, isLoading } = useGetAllCourseBundlesQuery({});
+  const allCourseBundles = pathname === "/bundle-courses" ? data?.bundles : data?.bundles.slice(0, 3);
   if (isLoading) {
     return (
       <div className="py-16">
@@ -26,7 +28,7 @@ const BundleCourses = () => {
     );
   }
 
-  if (!allCourseBundles?.bundles?.length) {
+  if (!allCourseBundles?.length) {
     return (
       <div className="py-16 text-center">
         <Package size={64} className="mx-auto text-gray-400 mb-4" />
@@ -102,30 +104,29 @@ const BundleCourses = () => {
 
         {/* Bundle Courses Grid */}
         <div className="grid grid-cols-1 gap-8">
-          {allCourseBundles?.bundles?.map((bundle:TBundleCourse) => (
-            <BundleCourseCard
-              key={bundle._id}
-              bundle={bundle}
-            />
+          {allCourseBundles?.map((bundle: TBundleCourse) => (
+            <BundleCourseCard key={bundle._id} bundle={bundle} />
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Ready to Accelerate Your Learning?
-            </h3>
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Join thousands of students who have accelerated their careers with
-              our bundle courses. Start learning today and save big!
-            </p>
-            <button className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-3 px-8 rounded-xl inline-flex items-center gap-2 transition-all duration-300 hover:shadow-lg">
-              <Sparkles size={20} />
-              Explore All Bundles
-            </button>
+        {pathname !== "/bundle-course" && (
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Ready to Accelerate Your Learning?
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                Join thousands of students who have accelerated their careers
+                with our bundle courses. Start learning today and save big!
+              </p>
+              <button className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-3 px-8 rounded-xl inline-flex items-center gap-2 transition-all duration-300 hover:shadow-lg">
+                <Sparkles size={20} />
+                Explore All Bundles
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

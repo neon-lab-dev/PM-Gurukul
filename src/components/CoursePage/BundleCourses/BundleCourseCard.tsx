@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // components/BundleCourseCard.tsx
-import React from 'react';
-import { ShoppingCart, Clock, Star, Tag, CheckCircle, ChevronRight } from 'lucide-react';
-import { TBundleCourse } from '../../../types/bundleCourse.types';
+import React, { useState } from "react";
+import {
+  ShoppingCart,
+  Clock,
+  Star,
+  Tag,
+  CheckCircle,
+  ChevronRight,
+} from "lucide-react";
+import { TBundleCourse } from "../../../types/bundleCourse.types";
+import { toast } from "sonner";
+import { useCart } from "../../../Providers/CartProvider/CartProvider";
+import { useNavigate } from "react-router-dom";
 
 interface BundleCourseCardProps {
   bundle: TBundleCourse;
@@ -10,7 +20,36 @@ interface BundleCourseCardProps {
 
 const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
   const calculateDiscountPercentage = () => {
-    return Math.round(((bundle.basePrice - bundle.discountedPrice) / bundle.basePrice) * 100);
+    return Math.round(
+      ((bundle.basePrice - bundle.discountedPrice) / bundle.basePrice) * 100
+    );
+  };
+  const navigate = useNavigate();
+  const { cartData: cartInfo, addCourseToCart } = useCart();
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const isCourseAlreadyInCart = cartInfo?.some(
+    (item) => item?._id === bundle?._id
+  );
+
+  const handleAddCourseToCartAndRedirect = () => {
+    const cartData = {
+      _id: bundle._id,
+      title: bundle.title,
+      category: "Bundle Course",
+      image: bundle?.thumbnail?.url,
+      basePrice: bundle?.basePrice,
+      discountedPrice: bundle.discountedPrice,
+    };
+
+    if (isCourseAlreadyInCart) {
+      toast.error("Course is already in the cart!");
+      setIsAdded(false);
+      return;
+    }
+
+    addCourseToCart(cartData);
+    setIsAdded(true);
+    navigate("/cart");
   };
 
   return (
@@ -35,13 +74,16 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent lg:bg-gradient-to-t lg:from-black/60 lg:to-transparent" />
-            
+
             {/* Course Count Overlay */}
             <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  {bundle.courseIds.slice(0, 3).map((course:any) => (
-                    <div key={course._id} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                  {bundle.courseIds.slice(0, 3).map((course: any) => (
+                    <div
+                      key={course._id}
+                      className="w-10 h-10 rounded-full border-2 border-white overflow-hidden"
+                    >
                       <img
                         src={course?.poster?.url}
                         alt={course.title}
@@ -51,12 +93,16 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                   ))}
                   {bundle.courseIds.length > 3 && (
                     <div className="w-10 h-10 rounded-full bg-indigo-600 border-2 border-white flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">+{bundle.courseIds.length - 3}</span>
+                      <span className="text-white text-xs font-bold">
+                        +{bundle.courseIds.length - 3}
+                      </span>
                     </div>
                   )}
                 </div>
                 <div className="text-center">
-                  <span className="text-lg font-bold text-gray-900 block">{bundle?.courseIds?.length}</span>
+                  <span className="text-lg font-bold text-gray-900 block">
+                    {bundle?.courseIds?.length}
+                  </span>
                   <span className="text-sm text-gray-600">Courses</span>
                 </div>
               </div>
@@ -97,7 +143,10 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {bundle.courseIds.slice(0, 4).map((course) => (
-                    <div key={course._id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                    <div
+                      key={course._id}
+                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"
+                    >
                       <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
                         <img
                           src={course?.poster?.url}
@@ -106,18 +155,30 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h5 className="text-sm font-medium text-gray-900 truncate">{course.title}</h5>
+                        <h5 className="text-sm font-medium text-gray-900 truncate">
+                          {course.title}
+                        </h5>
                         <div className="flex items-center justify-between mt-1">
-                          <span className="text-xs font-semibold text-gray-700">₹{course.discountedPrice}</span>
+                          <span className="text-xs font-semibold text-gray-700">
+                            ₹{course.discountedPrice}
+                          </span>
                           {course.rating && (
                             <div className="flex items-center gap-1">
-                              <Star size={12} className="text-yellow-400 fill-current" />
-                              <span className="text-xs text-gray-500">{course.rating}</span>
+                              <Star
+                                size={12}
+                                className="text-yellow-400 fill-current"
+                              />
+                              <span className="text-xs text-gray-500">
+                                {course.rating}
+                              </span>
                             </div>
                           )}
                         </div>
                       </div>
-                      <CheckCircle size={16} className="text-green-500 flex-shrink-0" />
+                      <CheckCircle
+                        size={16}
+                        className="text-green-500 flex-shrink-0"
+                      />
                     </div>
                   ))}
                 </div>
@@ -132,22 +193,28 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
 
               {/* Stats */}
               <div className="flex items-center gap-6 mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-blue-50 rounded-lg">
-                      <Clock size={18} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-500">Access</span>
-                      <p className="text-sm font-semibold text-gray-900">Lifetime</p>
-                    </div>
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-blue-50 rounded-lg">
+                    <Clock size={18} className="text-blue-600" />
                   </div>
+                  <div>
+                    <span className="text-sm text-gray-500">Access</span>
+                    <p className="text-sm font-semibold text-gray-900">
+                      Lifetime
+                    </p>
+                  </div>
+                </div>
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-purple-50 rounded-lg">
                     <Star size={18} className="text-purple-600" />
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">Average Rating</span>
-                    <p className="text-sm font-semibold text-gray-900">4.8/5.0</p>
+                    <span className="text-sm text-gray-500">
+                      Average Rating
+                    </span>
+                    <p className="text-sm font-semibold text-gray-900">
+                      4.8/5.0
+                    </p>
                   </div>
                 </div>
               </div>
@@ -176,19 +243,24 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                     )}
                   </div>
                   <div className="mt-2 text-sm text-gray-500">
-                    One-time payment • Lifetime access • 7-day money-back guarantee
+                    One-time payment • Lifetime access • 7-day money-back
+                    guarantee
                   </div>
                 </div>
 
                 {/* CTA Button */}
                 <div className="lg:w-auto">
                   <button
-                    // onClick={() => onAddToCart(bundle._id)}
+                    onClick={handleAddCourseToCartAndRedirect}
                     className="w-full lg:w-auto min-w-[200px] bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:translate-y-0 text-lg"
                   >
                     <ShoppingCart size={22} />
-                    Add to Cart
-                    <span className="hidden lg:inline">• ₹{bundle.discountedPrice.toFixed(2)}</span>
+                    {isAdded || isCourseAlreadyInCart
+                      ? "Already in Cart"
+                      : "Add to Cart"}
+                    <span className="hidden lg:inline">
+                      • ₹{bundle.discountedPrice.toFixed(2)}
+                    </span>
                   </button>
                 </div>
               </div>

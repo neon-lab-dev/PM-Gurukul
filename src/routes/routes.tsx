@@ -58,6 +58,7 @@ import WelcomeLetter from "../pages/Dashbaord/WelcomeLetter/WelcomeLetter";
 import ReferralLink from "../pages/Dashbaord/ReferralLink/ReferralLink";
 import ReferralNetwork from "../pages/Dashbaord/Admin/ReferralNetwork/ReferralNetwork";
 import BusinessPlan from "../pages/Dashbaord/Admin/BusinessPlan/BusinessPlan";
+import BundleCourse from "../pages/BundleCourse/BundleCourse";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "/course/:id",
         element: <CourseDetails />,
+      },
+      {
+        path: "bundle-course",
+        element: <BundleCourse />,
       },
       {
         path: "/contact-us",

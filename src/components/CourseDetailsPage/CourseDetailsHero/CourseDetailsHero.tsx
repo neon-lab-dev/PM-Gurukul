@@ -22,7 +22,6 @@ const CourseDetailsHero: React.FC<TCourseDetailsHero> = ({
   isDetailsLoading,
 }) => {
   const navigate = useNavigate();
-  // console.log(courseDetails);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading2, setIsLoading2] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
