@@ -15,8 +15,8 @@ import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardSt
 import { useState } from "react";
 import Threads from "./Threads/Threads";
 import Button from "../../../../components/Reusable/Button/Button";
-import CreateCourseBundle from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/CreateCourseBundle";
 import AllCourseBundles from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/AllCourseBundles/AllCourseBundles";
+import CreateOrEditCourseBundle from "../../../../components/Dashboard/Admin/ManageCoursePage/CreateCourseBundle/CreateOrEditCourseBundle";
 
 const AdminCourses = () => {
   const navigate = useNavigate();
@@ -24,8 +24,9 @@ const AdminCourses = () => {
   const { data: allCourses, isLoading } = useGetAllCoursesQuery("");
   const [deleteCourse] = useDeleteCourseMutation();
   const [courseId, setCourseId] = useState<string>("");
-  const [isCreateBundleModalOpen, setIsCreateBundleModalOpen] =
-    useState<boolean>(false);
+  const [isBundleModalOpen, setIsBundleModalOpen] = useState<boolean>(false);
+  const [selectedBundleCourseId, setSelectedBundleCourseId] =
+    useState<string>("");
   const [modalType, setModalType] = useState<"add" | "edit">("add");
 
   const handleDeleteCourse = async (id: string) => {
@@ -98,10 +99,10 @@ const AdminCourses = () => {
       }))
     : [];
 
-    const courseIdsWithTitle = allCourses?.courses?.map((course: TCourse) => ({
-      _id: course._id,
-      title: course.title,
-    }));
+  const courseIdsWithTitle = allCourses?.courses?.map((course: TCourse) => ({
+    _id: course._id,
+    title: course.title,
+  }));
 
   return (
     <>
@@ -115,7 +116,10 @@ const AdminCourses = () => {
         />
         <div className="flex items-center gap-4">
           <Button
-            onClick={() => setIsCreateBundleModalOpen(true)}
+            onClick={() => {
+              setModalType("add");
+              setIsBundleModalOpen(true);
+            }}
             label="Create Bundle"
           />
           <Link to="/admin/course/add">
@@ -158,13 +162,18 @@ const AdminCourses = () => {
         />
       )}
 
-      <AllCourseBundles/>
+      <AllCourseBundles
+        setIsBundleModalOpen={setIsBundleModalOpen}
+        setModalType={setModalType}
+        setSelectedBundleCourseId={setSelectedBundleCourseId}
+      />
 
-      <CreateCourseBundle
-        isCreateBundleModalOpen={isCreateBundleModalOpen}
-        setIsCreateBundleModalOpen={setIsCreateBundleModalOpen}
+      <CreateOrEditCourseBundle
+        isBundleModalOpen={isBundleModalOpen}
+        setIsBundleModalOpen={setIsBundleModalOpen}
         modalType={modalType}
         courseIdsWithTitle={courseIdsWithTitle}
+        selectedBundleCourseId={selectedBundleCourseId}
       />
     </>
   );

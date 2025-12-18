@@ -10,7 +10,16 @@ import { toast } from "sonner";
 import { formatDate } from "../../../../../../utils/formatDate";
 import { Table } from "../../../../../ReferralPayoutsPage/TransactionHistory";
 
-const AllCourseBundles = () => {
+type TAllCourseBundles = {
+  setIsBundleModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalType: React.Dispatch<React.SetStateAction<"add" | "edit">>;
+  setSelectedBundleCourseId: React.Dispatch<React.SetStateAction<string>>
+};
+const AllCourseBundles: React.FC<TAllCourseBundles> = ({
+  setIsBundleModalOpen,
+  setModalType,
+  setSelectedBundleCourseId
+}) => {
   const { data: allCourseBundles, isLoading } = useGetAllCourseBundlesQuery({});
   const [deleteCourseBundle] = useDeleteCourseBundleMutation();
 
@@ -49,7 +58,9 @@ const AllCourseBundles = () => {
           {
             label: "Update Bundle",
             onClick: () => {
-              console.log("object");
+              setSelectedBundleCourseId(bundle?._id);
+              setModalType("edit");
+              setIsBundleModalOpen(true);
             },
           },
           {

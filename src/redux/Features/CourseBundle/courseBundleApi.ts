@@ -40,7 +40,7 @@ const courseBundleApi = baseApi.injectEndpoints({
     }),
 
     updateCourseBundle: builder.mutation({
-      query: ({ data, id }) => ({
+      query: ({ id, data }) => ({
         url: `/courseBundle/update/${id}`,
         method: "PUT",
         body: data,
