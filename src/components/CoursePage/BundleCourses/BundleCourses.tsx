@@ -2,12 +2,14 @@ import BundleCourseCard from "./BundleCourseCard";
 import { Sparkles, Package, Zap, Shield } from "lucide-react";
 import { useGetAllCourseBundlesQuery } from "../../../redux/Features/CourseBundle/courseBundleApi";
 import { TBundleCourse } from "../../../types/bundleCourse.types";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Container from "../../Shared/Container/Container";
 
 const BundleCourses = () => {
   const pathname = useLocation().pathname;
   const { data, isLoading } = useGetAllCourseBundlesQuery({});
-  const allCourseBundles = pathname === "/bundle-courses" ? data?.bundles : data?.bundles.slice(0, 3);
+  const allCourseBundles =
+    pathname === "/bundle-courses" ? data?.bundles : data?.bundles.slice(0, 3);
   if (isLoading) {
     return (
       <div className="py-16">
@@ -41,7 +43,7 @@ const BundleCourses = () => {
 
   return (
     <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Container>
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full mb-4">
@@ -65,7 +67,7 @@ const BundleCourses = () => {
                 <Zap className="text-green-600" size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900">
-                Save Up to 60%
+                Save Up to 65%
               </h3>
             </div>
             <p className="text-gray-600">
@@ -103,7 +105,7 @@ const BundleCourses = () => {
         </div>
 
         {/* Bundle Courses Grid */}
-        <div className="grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 gap-8 2xl:max-w-6xl mx-auto">
           {allCourseBundles?.map((bundle: TBundleCourse) => (
             <BundleCourseCard key={bundle._id} bundle={bundle} />
           ))}
@@ -120,14 +122,17 @@ const BundleCourses = () => {
                 Join thousands of students who have accelerated their careers
                 with our bundle courses. Start learning today and save big!
               </p>
-              <button className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-3 px-8 rounded-xl inline-flex items-center gap-2 transition-all duration-300 hover:shadow-lg">
+              <Link
+                to="/bundle-course"
+                className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-3 px-8 rounded-xl inline-flex items-center gap-2 transition-all duration-300 hover:shadow-lg"
+              >
                 <Sparkles size={20} />
                 Explore All Bundles
-              </button>
+              </Link>
             </div>
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

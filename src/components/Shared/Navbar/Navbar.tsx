@@ -46,7 +46,7 @@ const Navbar = () => {
 
             <div className="flex items-center gap-5 lg:gap-8">
               <div className="flex flex-row-reverse lg:flex-row items-center gap-5 lg:gap-8">
-                <GoogleTranslate/>
+                <GoogleTranslate pathname={location?.pathname}/>
                 <Link to={"/cart"} className="relative">
                   <img
                     src={ICONS.cartDark}

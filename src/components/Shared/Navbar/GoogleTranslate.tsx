@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const GoogleTranslate = () => {
+const GoogleTranslate = ({pathname} : any) => {
   useEffect(() => {
     // Prevent loading the script multiple times
     if (!document.getElementById("google-translate-script")) {
@@ -34,7 +34,7 @@ const GoogleTranslate = () => {
         "google_translate_element"
       );
     };
-  }, []);
+  }, [pathname]);
 
   return <div id="google_translate_element" className="w-fit"></div>;
 };

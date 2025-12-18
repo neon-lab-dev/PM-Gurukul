@@ -40,17 +40,17 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
       {/* Main Content */}
       <Container>
         <div className="relative pt-20 pb-32 lg:pt-32 lg:pb-48">
-          <div className="text-center lg:text-left lg:flex lg:items-center lg:justify-between lg:gap-16">
+          <div className="text-center lg:text-left lg:flex lg:items-center lg:justify-between gap-9 2xl:gap-16">
             {/* Left Column - Main Content */}
             <div className="lg:w-1/2">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#FFD614] to-[#EFD881] text-[#051539] px-6 py-3 rounded-full font-bold text-sm mb-6 lg:mb-8 shadow-lg">
                 <Sparkles size={18} />
-                <span>LIMITED TIME OFFER • SAVE UP TO 75%</span>
+                <span>LIMITED TIME OFFER • SAVE UP TO 65%</span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 lg:mb-8 leading-tight">
+              <h1 className="text-4xl sm:text-3xl xl:text-5xl font-bold text-white mb-6 lg:mb-8 leading-tight">
                 Master <span className="text-[#FFD614]">Multiple Skills</span>
                 <br />
                 with Our Premium
@@ -75,7 +75,7 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
               </h1>
 
               {/* Description */}
-              <p className="text-lg sm:text-xl text-[#CBD5E1] mb-8 lg:mb-12 max-w-2xl lg:max-w-none">
+              <p className="text-lg xl:text-xl text-[#CBD5E1] mb-8 lg:mb-12 max-w-2xl lg:max-w-none">
                 Get access to curated course combinations designed by experts.
                 Save money while accelerating your learning journey with
                 comprehensive skill development paths.
@@ -133,8 +133,8 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0">
-                <button className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-lg">
+              <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0 text-sm">
+                <button className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                   <span>Explore All Bundles</span>
                   <ArrowRight
                     size={20}
@@ -265,7 +265,7 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                   </div>
                 </div>
 
-                <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl">
+                <div className="absolute -top-11 -right-6 xl:-right-2 2xl:-right-6 bg-white p-4 rounded-2xl shadow-xl">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-[#051539]">
                       500+

@@ -258,9 +258,11 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                     {isAdded || isCourseAlreadyInCart
                       ? "Already in Cart"
                       : "Add to Cart"}
-                    <span className="hidden lg:inline">
-                      • ₹{bundle.discountedPrice.toFixed(2)}
-                    </span>
+                    {(!isCourseAlreadyInCart) && (
+                      <span className="hidden lg:inline">
+                        • ₹{bundle.discountedPrice.toFixed(2)}
+                      </span>
+                    )}
                   </button>
                 </div>
               </div>
