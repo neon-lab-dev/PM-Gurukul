@@ -24,6 +24,7 @@ type TFormData = {
   basePrice: string;
   discountedPrice: string;
   description: string;
+  duration: string;
   file: any;
 };
 const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
@@ -55,6 +56,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
       formdata.append("basePrice", data.basePrice);
       formdata.append("discountedPrice", data.discountedPrice);
       formdata.append("description", data.description);
+      formdata.append("duration", data.duration);
       formdata.append("courseIds", JSON.stringify(selectedCourseIds));
       formdata.append("file", data.file[0]);
 
@@ -102,6 +104,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
         title: bundle.title || "",
         basePrice: bundle.basePrice || "",
         discountedPrice: bundle.discountedPrice || "",
+        duration: bundle.duration || "",
         description: bundle.description || "",
       });
 
@@ -113,6 +116,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
         title: "",
         basePrice: "",
         discountedPrice: "",
+        duration: "",
         description: "",
       });
 
@@ -180,6 +184,15 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
               error={errors.discountedPrice}
               {...register("discountedPrice", {
                 required: "Discounted Price is required",
+              })}
+            />
+
+            <TextInput
+              label="Course Duration"
+              placeholder="Ex: 120+ Hours"
+              error={errors.duration}
+              {...register("duration", {
+                required: "Duration is required",
               })}
             />
 
