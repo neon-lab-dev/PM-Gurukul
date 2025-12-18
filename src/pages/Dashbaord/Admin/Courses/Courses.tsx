@@ -114,18 +114,9 @@ const AdminCourses = () => {
           pageName="All Courses"
           pageDesc="All your courses in one place."
         />
-        <div className="flex items-center gap-4">
-          <Button
-            onClick={() => {
-              setModalType("add");
-              setIsBundleModalOpen(true);
-            }}
-            label="Create Bundle"
-          />
           <Link to="/admin/course/add">
             <Button label="Add a Course" />
           </Link>
-        </div>
       </div>
 
       {/* Status cards */}

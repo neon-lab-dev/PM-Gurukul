@@ -7,35 +7,39 @@ import CustomerSupport from "../../components/Shared/CustomerSupport/CustomerSup
 import { useGetAllCoursesQuery } from "../../redux/Features/Course/courseApi";
 import { useState } from "react";
 import WhyPMGurukkul from "../../components/HomePage/WhyPMGurukkul/WhyPMGurukkul";
+import BundleCourses from "../../components/CoursePage/BundleCourses/BundleCourses";
 
 const Courses = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const { data: allCourses, isLoading, isFetching } = useGetAllCoursesQuery(searchQuery);
-    const [selectedCategory, setSelectedCategory] = useState("All Courses");
+  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    data: allCourses,
+    isLoading,
+    isFetching,
+  } = useGetAllCoursesQuery(searchQuery);
+  const [selectedCategory, setSelectedCategory] = useState("All Courses");
 
-    return (
-        <div>
-            <Helmet>
-                <title>PMGURUKKUL | Explore Courses</title>
-            </Helmet>
-            <CourseHero
-                setSearchQuery={setSearchQuery}
-            />
-            <AllCourses
-                allCourses={allCourses}
-                isLoading={isLoading}
-                isFetching={isFetching}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
+  return (
+    <div>
+      <Helmet>
+        <title>PMGURUKKUL | Explore Courses</title>
+      </Helmet>
+      <CourseHero setSearchQuery={setSearchQuery} />
+      <AllCourses
+        allCourses={allCourses}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
 
-            />
-            {/* <WhyUs /> */}
-             <WhyPMGurukkul/>
-            <Testimonials />
-            <FAQ />
-            <CustomerSupport />
-        </div>
-    );
+      <BundleCourses/>
+      {/* <WhyUs /> */}
+      <WhyPMGurukkul />
+      <Testimonials />
+      <FAQ />
+      <CustomerSupport />
+    </div>
+  );
 };
 
 export default Courses;

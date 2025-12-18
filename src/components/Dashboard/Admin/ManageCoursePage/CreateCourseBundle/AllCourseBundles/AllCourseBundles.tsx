@@ -9,16 +9,17 @@ import NoDataFound from "../../../../../Shared/NoDataFound/NoDataFound";
 import { toast } from "sonner";
 import { formatDate } from "../../../../../../utils/formatDate";
 import { Table } from "../../../../../ReferralPayoutsPage/TransactionHistory";
+import Button from "../../../../../Reusable/Button/Button";
 
 type TAllCourseBundles = {
   setIsBundleModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setModalType: React.Dispatch<React.SetStateAction<"add" | "edit">>;
-  setSelectedBundleCourseId: React.Dispatch<React.SetStateAction<string>>
+  setSelectedBundleCourseId: React.Dispatch<React.SetStateAction<string>>;
 };
 const AllCourseBundles: React.FC<TAllCourseBundles> = ({
   setIsBundleModalOpen,
   setModalType,
-  setSelectedBundleCourseId
+  setSelectedBundleCourseId,
 }) => {
   const { data: allCourseBundles, isLoading } = useGetAllCourseBundlesQuery({});
   const [deleteCourseBundle] = useDeleteCourseBundleMutation();
@@ -73,10 +74,20 @@ const AllCourseBundles: React.FC<TAllCourseBundles> = ({
 
   return (
     <div className="space-y-4 mt-5">
-      <DashboardHeader
-        pageName="All Course Bundles"
-        pageDesc="All your course bundles in one place."
-      />
+      <div className="flex items-center justify-between">
+        <DashboardHeader
+          pageName="All Course Bundles"
+          pageDesc="All your course bundles in one place."
+        />
+
+        <Button
+          onClick={() => {
+            setModalType("add");
+            setIsBundleModalOpen(true);
+          }}
+          label="Create Bundle"
+        />
+      </div>
 
       {isLoading ? (
         <div className="flex items-center justify-center mt-5">
