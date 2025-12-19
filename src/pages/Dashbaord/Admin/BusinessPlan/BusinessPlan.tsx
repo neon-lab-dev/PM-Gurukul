@@ -79,6 +79,7 @@ const BusinessPlan = () => {
           success: "Added successfully!",
           error: "Failed to add.",
         });
+        setIsModalOpen(false);
       } else if (modalType === "edit" && editId) {
         await toast.promise(
           updateBusinessPlanDoc({ id: editId, data: payload }).unwrap(),
@@ -88,9 +89,8 @@ const BusinessPlan = () => {
             error: "Failed to update.",
           }
         );
+        setIsModalOpen(false);
       }
-
-      setIsModalOpen(false);
     } catch (err) {
       console.error(err);
     }

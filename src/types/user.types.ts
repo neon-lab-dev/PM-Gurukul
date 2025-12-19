@@ -54,6 +54,7 @@ export type TUser = {
     refralCode: string;
     state: string;
     status : "active" | "suspended"
+    assignedPages : string[];
   };
 
   export type TLoggedInUser = {

@@ -210,6 +210,27 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+
+    // Change role to employee
+    makeEmployee: builder.mutation({
+      query: (data) => ({
+        url: `/admin/make-employee`,
+        method: "PUT",
+        body : data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+    // Assign pages to employee
+    assignPage: builder.mutation({
+      query: (data) => ({
+        url: `/admin/assign-page`,
+        method: "PUT",
+        body : data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -235,5 +256,7 @@ export const {
   useAddVideoMutation,
   useDeleteVideoMutation,
   useSuspendUserMutation,
-  useWithdrawSuspensionMutation
+  useWithdrawSuspensionMutation,
+  useMakeEmployeeMutation,
+  useAssignPageMutation,
 } = adminApi;

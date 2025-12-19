@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
 import { Table } from "../../../../components/ReferralPayoutsPage/TransactionHistory";
 import {
   useGetAllUserQuery,
+  useMakeEmployeeMutation,
   useWithdrawSuspensionMutation,
 } from "../../../../redux/Features/Admin/adminApi";
 import { formatDate } from "../../../../utils/formatDate";
@@ -13,14 +15,19 @@ import DashboardStatusOrLoader from "../../../../components/Reusable/DashboardSt
 import { useState } from "react";
 import SuspendUserModal from "../../../../components/Dashboard/Admin/RegisteredUsersPage/SuspendUserModal/SuspendUserModal";
 import { toast } from "sonner";
+import AssignPageModal from "../../../../components/Dashboard/Admin/RegisteredUsersPage/AssignPageModal/AssignPageModal";
 
 const RegisteredUsers = () => {
   const [isSuspendUserModalOpen, setIsSuspendUserModalOpen] =
     useState<boolean>(false);
+  const [isAssignPageModalOpen, setIsAssignPageModalOpen] =
+    useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [assignedPages, setAssignedPages] = useState<any>([]);
   const { data: allUsers, isLoading } = useGetAllUserQuery({});
 
   const [withdrawSuspension] = useWithdrawSuspensionMutation();
+  const [makeEmployee] = useMakeEmployeeMutation();
 
   const handleWithdrawSuspension = async (userId: string) => {
     const payload = { userId };
@@ -30,7 +37,16 @@ const RegisteredUsers = () => {
       success: "Suspension withdrawn successfully!",
       error: "Failed to withdraw suspension. Please try again.",
     });
-    window.location.reload();
+  };
+
+  const handleChangeRoleToEmployee = async (userId: string) => {
+    const payload = { userId };
+
+    await toast.promise(makeEmployee(payload).unwrap(), {
+      loading: "Please wait...",
+      success: "Role changed successfully!",
+      error: "Failed to change role. Please try again.",
+    });
   };
 
   // Registered user table headers
@@ -82,6 +98,20 @@ const RegisteredUsers = () => {
               handleWithdrawSuspension(user?._id);
             },
           },
+          {
+            label: "Make Employee",
+            onClick: () => {
+              handleChangeRoleToEmployee(user?._id);
+            },
+          },
+          {
+            label: "Assign Pages",
+            onClick: () => {
+              setSelectedUserId(user?._id);
+              setAssignedPages(user?.assignedPages || []);
+              setIsAssignPageModalOpen(true);
+            },
+          },
         ],
       }))
     : [];
@@ -120,6 +150,13 @@ const RegisteredUsers = () => {
         isModalOpen={isSuspendUserModalOpen}
         setIsModalOpen={setIsSuspendUserModalOpen}
         selectedUserId={selectedUserId}
+      />
+
+      <AssignPageModal
+        isModalOpen={isAssignPageModalOpen}
+        setIsModalOpen={setIsAssignPageModalOpen}
+        userId={selectedUserId}
+        defaultValues={assignedPages}
       />
     </>
   );
