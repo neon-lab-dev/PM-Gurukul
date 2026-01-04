@@ -64,7 +64,7 @@ const Signup = () => {
           <Link to={"/"} className="flex items-center gap-2">
             <img
               src={IMAGES.pmGurukulFavicon}
-              alt="PM-Gurukul"
+              alt="PM-Gurukkul"
               className="size-16"
             />
           </Link>

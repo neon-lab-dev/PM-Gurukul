@@ -13,6 +13,7 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector(useCurrentUser) as TLoggedInUser;
+  console.log(user);
 
   //to check if the link is active
   const isActive = (path: string): boolean => location.pathname === path;
@@ -33,14 +34,20 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  const menus = user?.role === "admin" ? adminMenus : userMenus;
+  const menus =
+  user?.role === "admin"
+    ? adminMenus.filter((menu) =>
+        user.assignedPages.includes(menu.link.replace("/admin", ""))
+      )
+    : userMenus;
+
 
   return (
     <div className="w-60 min-w-60 h-screen px-4 py-6 font-Inter flex flex-col sticky left-0 top-0">
       {/* Top section: Logo */}
       <div>
         <a href="/" className="flex items-center gap-2 w-full pb-4 mb-4">
-          <img src={IMAGES.pmGurukulLogo} alt="PM-Gurukul" className="w-40" />
+          <img src={IMAGES.pmGurukulLogo} alt="PM-Gurukkul" className="w-40" />
         </a>
       </div>
 

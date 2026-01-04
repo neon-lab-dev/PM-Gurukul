@@ -63,5 +63,6 @@ export type TUser = {
     role: "user" | "admin";
     email: string;
     referralCode: string;
+    assignedPages : string[];
   };
   

@@ -22,7 +22,7 @@ const Navbar = () => {
           <Link to={"/"} className="flex items-center gap-2">
             <img
               src={IMAGES.pmGurukulLogo}
-              alt="PM-Gurukul"
+              alt="PM-Gurukkul"
               className="w-32 md:w-60"
             />
           </Link>

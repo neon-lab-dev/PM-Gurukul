@@ -40,7 +40,7 @@ const ForgotPassword = () => {
             <form onSubmit={handleSubmit(handleLogin)} className="bg-white border border-neutral-15 rounded-[20px] p-5 md:p-[60px] flex flex-col gap-5  w-[529px] max-auto">
                 <div className="flex items-center gap-5 mb-5">
                     <Link to={"/"} className="flex items-center gap-2">
-                        <img src={IMAGES.pmGurukulFavicon} alt="PM-Gurukul" className="size-16" />
+                        <img src={IMAGES.pmGurukulFavicon} alt="PM-Gurukkul" className="size-16" />
                     </Link>
                     <h1 className="text-primary-25 text-[28px] leading-8 font-semibold text-center capitalize">Forgot Your Password?</h1>
                 </div>

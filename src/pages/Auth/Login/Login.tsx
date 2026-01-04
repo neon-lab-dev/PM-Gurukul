@@ -41,6 +41,7 @@ const Login = () => {
           role: response?.user?.role,
           email: response?.user?.email,
           referralCode: response?.user?.refralCode,
+          assignedPages: response?.user?.assignedPages,
         };
         dispatch(setUser({ user }));
         if (response?.user?.role === "admin") {
@@ -66,7 +67,7 @@ const Login = () => {
           <Link to={"/"} className="flex items-center gap-2">
             <img
               src={IMAGES.pmGurukulFavicon}
-              alt="PM-Gurukul"
+              alt="PM-Gurukkul"
               className="size-16"
             />
           </Link>
