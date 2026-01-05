@@ -1,15 +1,19 @@
 import BundleCourseCard from "./BundleCourseCard";
 import { Sparkles, Package, Zap, Shield } from "lucide-react";
-import { useGetAllCourseBundlesQuery } from "../../../redux/Features/CourseBundle/courseBundleApi";
 import { TBundleCourse } from "../../../types/bundleCourse.types";
 import { Link, useLocation } from "react-router-dom";
 import Container from "../../Shared/Container/Container";
 
-const BundleCourses = () => {
+const BundleCourses = ({
+  data,
+  isLoading,
+}: {
+  data: TBundleCourse[];
+  isLoading: boolean;
+}) => {
   const pathname = useLocation().pathname;
-  const { data, isLoading } = useGetAllCourseBundlesQuery({});
   const allCourseBundles =
-    pathname === "/bundle-courses" ? data?.bundles : data?.bundles.slice(0, 3);
+    pathname === "/bundle-courses" ? data : data.slice(0, 3);
   if (isLoading) {
     return (
       <div className="py-16">
@@ -42,7 +46,10 @@ const BundleCourses = () => {
   }
 
   return (
-    <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <div
+      id="bundleCourses"
+      className="py-16 bg-gradient-to-b from-gray-50 to-white"
+    >
       <Container>
         {/* Header */}
         <div className="text-center mb-12">

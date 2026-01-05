@@ -1,30 +1,63 @@
-// components/BundleCourseHero.tsx
-import React from "react";
 import {
   Sparkles,
   Star,
-  Clock,
   Users,
   CheckCircle,
   ArrowRight,
-  Shield,
   Zap,
   Award,
   Trophy,
+  Briefcase,
+  MessageSquare,
 } from "lucide-react";
 import Container from "../../Shared/Container/Container";
+import { TBundleCourse } from "../../../types/bundleCourse.types";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../../Providers/CartProvider/CartProvider";
+import { useState } from "react";
+import { toast } from "sonner";
 
-interface BundleCourseHeroProps {
-  totalBundles?: number;
-  totalCourses?: number;
-  averageSavings?: number;
-}
-
-const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
-  totalBundles = 12,
-  totalCourses = 48,
-  averageSavings = 65,
+const BundleCourseHero = ({
+  data,
+}: {
+  data: TBundleCourse[];
+  isLoading: boolean;
 }) => {
+  const firstBundleCourse = data[0];
+  const navigate = useNavigate();
+  const { cartData: cartInfo, addCourseToCart } = useCart();
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const isCourseAlreadyInCart = cartInfo?.some(
+    (item) => item?._id === firstBundleCourse?._id
+  );
+
+  const handleAddCourseToCartAndRedirect = () => {
+    const cartData = {
+      _id: firstBundleCourse._id,
+      title: firstBundleCourse.title,
+      category: "Bundle Course",
+      image: firstBundleCourse?.thumbnail?.url,
+      basePrice: firstBundleCourse?.basePrice,
+      discountedPrice: firstBundleCourse.discountedPrice,
+    };
+
+    if (isCourseAlreadyInCart) {
+      toast.error("Course is already in the cart!");
+      setIsAdded(false);
+      return;
+    }
+
+    addCourseToCart(cartData);
+    setIsAdded(true);
+    navigate("/cart");
+  };
+
+
+  const handleScrollToSection = (id:string) => {
+    const section = document.getElementById(id);
+    section?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="relative overflow-hidden">
       {/* Background Gradient */}
@@ -90,7 +123,7 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                     </div>
                     <div className="text-left">
                       <div className="text-2xl font-bold text-white">
-                        {totalBundles}+
+                        {data?.length || 0}+
                       </div>
                       <div className="text-sm text-[#CBD5E1]">
                         Premium Bundles
@@ -105,9 +138,7 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                       <Award className="text-[#0073DF]" size={24} />
                     </div>
                     <div className="text-left">
-                      <div className="text-2xl font-bold text-white">
-                        {averageSavings}%
-                      </div>
+                      <div className="text-2xl font-bold text-white">65%%</div>
                       <div className="text-sm text-[#CBD5E1]">
                         Average Savings
                       </div>
@@ -122,7 +153,7 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                     </div>
                     <div className="text-left">
                       <div className="text-2xl font-bold text-white">
-                        {totalCourses}+
+                        {data?.length || 0}+
                       </div>
                       <div className="text-sm text-[#CBD5E1]">
                         Total Courses
@@ -134,14 +165,17 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0 text-sm">
-                <button className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <button onClick={() => handleScrollToSection("bundleCourses")} className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                   <span>Explore All Bundles</span>
                   <ArrowRight
                     size={20}
                     className="group-hover:translate-x-2 transition-transform"
                   />
                 </button>
-                <button className="group bg-transparent border-2 border-white/30 hover:border-white text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:bg-white/10">
+                <button
+                  onClick={() => handleScrollToSection("howBundleCourseWorks")}
+                  className="group bg-transparent border-2 border-white/30 hover:border-white text-white font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:bg-white/10"
+                >
                   <span>How Bundles Work</span>
                 </button>
               </div>
@@ -154,51 +188,44 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                 <div className="bg-gradient-to-br from-white to-[#FAFAFA] rounded-3xl shadow-2xl p-8 transform lg:rotate-3 hover:rotate-0 transition-transform duration-500">
                   <div className="mb-6">
                     <h3 className="text-2xl font-bold text-[#051539] mb-2">
-                      Full Stack Developer Bundle
+                      {firstBundleCourse?.title}
                     </h3>
                     <p className="text-[#6E7883] mb-4">
-                      Master frontend & backend development with 8 comprehensive
-                      courses
+                      {firstBundleCourse?.description}
                     </p>
 
                     {/* Courses Preview */}
                     <div className="flex -space-x-3 mb-6">
-                      {[1, 2, 3, 4, 5].map((i) => (
+                      {firstBundleCourse?.courseIds?.map((item) => (
                         <div
-                          key={i}
-                          className="w-12 h-12 rounded-full border-2 border-white overflow-hidden"
+                          key={item?._id}
+                          className="size-12 rounded-full border-2 border-white overflow-hidden"
                         >
-                          <div
-                            className={`w-full h-full bg-gradient-to-br ${
-                              i % 3 === 0
-                                ? "from-[#0073DF] to-[#051539]"
-                                : i % 3 === 1
-                                ? "from-[#FFD614] to-[#EFD881]"
-                                : "from-[#6BB870] to-[#11734B]"
-                            }`}
-                          ></div>
+                          <img
+                            src={item?.poster?.url}
+                            alt=""
+                            className="size-12 rounded-full border border-primary-10 object-cover"
+                          />
                         </div>
                       ))}
-                      <div className="w-12 h-12 rounded-full bg-[#051539] border-2 border-white flex items-center justify-center">
-                        <span className="text-white text-sm font-bold">+3</span>
-                      </div>
                     </div>
 
                     {/* Pricing */}
                     <div className="mb-6">
                       <div className="flex items-baseline gap-4 mb-2">
                         <span className="text-3xl font-bold text-[#051539]">
-                          $299
+                          ₹{firstBundleCourse?.discountedPrice}
                         </span>
                         <span className="text-xl text-[#8A9BB1] line-through">
-                          $899
+                          ₹{firstBundleCourse?.basePrice}
                         </span>
                         <span className="px-3 py-1 bg-[#D4EDBC] text-[#11734B] text-sm font-bold rounded-full">
                           Save 67%
                         </span>
                       </div>
                       <div className="text-sm text-[#6E7883]">
-                        8 Courses • 120+ Hours • Lifetime Access
+                        {firstBundleCourse?.courseIds?.length || 0} Courses •
+                        Lifetime Access
                       </div>
                     </div>
 
@@ -206,7 +233,10 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                     <div className="mb-8">
                       <div className="flex justify-between text-sm text-[#051539] mb-2">
                         <span>Limited spots available</span>
-                        <span className="font-bold">82% claimed</span>
+                        <span className="font-bold">
+                          {80 + firstBundleCourse?.courseIds?.length || 0}%
+                          claimed
+                        </span>
                       </div>
                       <div className="w-full bg-[#E2E8F0] rounded-full h-2">
                         <div className="bg-gradient-to-r from-[#FFD614] to-[#EFD881] h-2 rounded-full w-4/5"></div>
@@ -222,9 +252,9 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock size={16} className="text-[#0073DF]" />
+                        <MessageSquare size={16} className="text-[#0073DF]" />
                         <span className="text-sm text-[#051539]">
-                          120+ Hours
+                          Forum Access
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -234,16 +264,19 @@ const BundleCourseHero: React.FC<BundleCourseHeroProps> = ({
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Shield size={16} className="text-[#B10202]" />
-                        <span className="text-sm text-[#051539]">
-                          30-Day Guarantee
-                        </span>
+                        <Briefcase size={16} className="text-[#B10202]" />
+                        <span className="text-sm text-[#051539]">Projects</span>
                       </div>
                     </div>
 
-                    <button className="w-full bg-gradient-to-r from-[#051539] to-[#1E293B] hover:from-[#1E293B] hover:to-[#2E3238] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg">
+                    <button
+                      onClick={handleAddCourseToCartAndRedirect}
+                      className="w-full bg-gradient-to-r from-[#051539] to-[#1E293B] hover:from-[#1E293B] hover:to-[#2E3238] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg"
+                    >
                       <Zap size={20} />
-                      Get This Bundle
+                      {isAdded || isCourseAlreadyInCart
+                        ? "Already in Cart"
+                        : "Get This Bundle"}
                     </button>
                   </div>
                 </div>

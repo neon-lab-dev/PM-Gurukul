@@ -8,6 +8,7 @@ import { useGetAllCoursesQuery } from "../../redux/Features/Course/courseApi";
 import { useState } from "react";
 import WhyPMGurukkul from "../../components/HomePage/WhyPMGurukkul/WhyPMGurukkul";
 import BundleCourses from "../../components/CoursePage/BundleCourses/BundleCourses";
+import { useGetAllCourseBundlesQuery } from "../../redux/Features/CourseBundle/courseBundleApi";
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,6 +17,7 @@ const Courses = () => {
     isLoading,
     isFetching,
   } = useGetAllCoursesQuery(searchQuery);
+  const { data, isLoading: isBundleLoading } = useGetAllCourseBundlesQuery({});
   const [selectedCategory, setSelectedCategory] = useState("All Courses");
 
   return (
@@ -32,7 +34,7 @@ const Courses = () => {
         setSelectedCategory={setSelectedCategory}
       />
 
-      <BundleCourses/>
+      <BundleCourses data={data?.bundles || []} isLoading={isBundleLoading} />
       {/* <WhyUs /> */}
       <WhyPMGurukkul />
       <Testimonials />
