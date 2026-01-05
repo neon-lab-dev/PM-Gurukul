@@ -235,9 +235,6 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                           <span className="text-xl text-gray-500 line-through">
                             ₹{bundle.basePrice.toFixed(2)}
                           </span>
-                          <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded">
-                            Save {calculateDiscountPercentage()}%
-                          </span>
                         </div>
                       </div>
                     )}
@@ -252,7 +249,7 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
                 <div className="lg:w-auto">
                   <button
                     onClick={handleAddCourseToCartAndRedirect}
-                    className="w-full lg:w-auto min-w-[200px] bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:translate-y-0 text-lg"
+                    className="w-full lg:w-auto min-w-[200px] bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-semibold py-3 px-5 rounded flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 active:translate-y-0"
                   >
                     <ShoppingCart size={22} />
                     {isAdded || isCourseAlreadyInCart

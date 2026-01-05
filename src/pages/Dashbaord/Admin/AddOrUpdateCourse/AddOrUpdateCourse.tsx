@@ -57,6 +57,7 @@ const AddOrUpdateCourse = () => {
       setValue("category", singleCourseData?.course?.category);
       setValue("basePrice", singleCourseData?.course?.basePrice);
       setValue("discountedPrice", singleCourseData?.course?.discountedPrice);
+      setValue("referBonus", singleCourseData?.course?.referBonus);
       // setValue("numOfVideos", singleCourseData?.course?.numOfVideos);
       setValue("author", singleCourseData?.course?.author);
       setValue("totalDuration", singleCourseData?.course?.totalDuration);

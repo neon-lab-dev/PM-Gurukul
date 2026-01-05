@@ -117,7 +117,7 @@ export const Table = ({
   };
 
   return (
-    <div className="overflow-x-auto capitalize">
+    <div className="overflow-x-auto">
       <div className="bg-white min-h-[250px] rounded-xl flex flex-col border border-neutral-55">
         {showHeader && (
           <div className="flex p-[10px] justify-between items-center">

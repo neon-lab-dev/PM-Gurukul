@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Provider store={store}>
         <CartProvider>
           <RouterProvider router={router} />
-          <Toaster position="bottom-left" richColors />
+          <Toaster position="top-center" richColors />
         </CartProvider>
       </Provider>
     </HelmetProvider>

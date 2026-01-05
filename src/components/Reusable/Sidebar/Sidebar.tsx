@@ -13,7 +13,6 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector(useCurrentUser) as TLoggedInUser;
-  console.log(user);
 
   //to check if the link is active
   const isActive = (path: string): boolean => location.pathname === path;
@@ -35,12 +34,15 @@ const Sidebar: React.FC = () => {
   };
 
   const menus =
-  user?.role === "admin"
-    ? adminMenus.filter((menu) =>
-        user.assignedPages.includes(menu.link.replace("/admin", ""))
-      )
-    : userMenus;
-
+    user?.role === "admin"
+      ? adminMenus
+      : user?.role === "employee"
+      ? user.assignedPages
+          ?.map((page) =>
+            adminMenus.find((menu) => menu.link.replace("/admin", "") === page)
+          )
+          .filter(Boolean)
+      : userMenus;
 
   return (
     <div className="w-60 min-w-60 h-screen px-4 py-6 font-Inter flex flex-col sticky left-0 top-0">
@@ -56,16 +58,19 @@ const Sidebar: React.FC = () => {
         <ul className="flex flex-col gap-2">
           {menus.map((menu) => (
             <li
-              key={menu.link}
+              key={menu?.link}
               className={`px-3 py-2 ${
-                isActive(menu.link)
+                isActive(menu?.link as string)
                   ? "bg-neutral-60 text-primary-10 rounded-lg"
                   : "text-neutral-85"
               }`}
             >
-              <Link to={menu.link} className="flex items-center gap-2">
-                <span className="text-lg">{menu.icon}</span>
-                {menu.name}
+              <Link
+                to={menu?.link as string}
+                className="flex items-center gap-2"
+              >
+                <span className="text-lg">{menu?.icon}</span>
+                {menu?.name}
               </Link>
             </li>
           ))}

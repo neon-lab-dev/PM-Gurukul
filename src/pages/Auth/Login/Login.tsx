@@ -43,9 +43,13 @@ const Login = () => {
           referralCode: response?.user?.refralCode,
           assignedPages: response?.user?.assignedPages,
         };
+        console.log(response);
         dispatch(setUser({ user }));
         if (response?.user?.role === "admin") {
-          navigate("/admin/registered-users");
+          navigate("/admin/dashboard");
+          setTimeout(() => window.location.reload(), 50);
+        } else if(response?.user?.role === "employee"){
+          navigate(`/admin${response?.user?.assignedPages[0]}`);
           setTimeout(() => window.location.reload(), 50);
         } else {
           navigate("/dashboard");

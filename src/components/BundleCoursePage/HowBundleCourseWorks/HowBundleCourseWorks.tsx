@@ -1,4 +1,3 @@
-// components/HowBundleWorks.tsx
 import React from 'react';
 import { Search, Layers, ShoppingBag, Rocket, CheckCircle2, TrendingUp, Zap, Shield } from 'lucide-react';
 
@@ -162,99 +161,6 @@ const HowBundleWorks: React.FC<HowBundleWorksProps> = ({
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Comparison */}
-        <div className="mt-20 max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-[#051539] to-[#1E293B] rounded-3xl p-8 lg:p-12">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 mb-6">
-                <span className="text-sm font-semibold text-white uppercase tracking-wider">Value Comparison</span>
-              </div>
-              <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-                Bundle vs Individual Courses
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Individual Courses */}
-              <div className="bg-white rounded-2xl p-8">
-                <div className="text-center mb-6">
-                  <div className="text-sm font-semibold text-[#6E7883] uppercase tracking-wider mb-2">Individual</div>
-                  <div className="text-4xl font-bold text-[#051539]">$899</div>
-                  <div className="text-sm text-[#6E7883]">For 4 Courses</div>
-                </div>
-                <ul className="space-y-4">
-                  {[
-                    "Purchase courses separately",
-                    "No structured learning path",
-                    "Pay full price for each",
-                    "Limited skill integration"
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full border border-[#B6B7C3] flex items-center justify-center mt-0.5">
-                        <div className="w-2 h-2 rounded-full bg-[#B6B7C3]"></div>
-                      </div>
-                      <span className="text-[#051539]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Bundle Courses */}
-              <div className="bg-gradient-to-r from-[#FFD614] to-[#EFD881] rounded-2xl p-8 relative overflow-hidden">
-                {/* Popular Badge */}
-                <div className="absolute top-0 right-0 bg-[#051539] text-white px-4 py-2 rounded-bl-2xl rounded-tr-2xl text-sm font-semibold">
-                  RECOMMENDED
-                </div>
-
-                <div className="text-center mb-6">
-                  <div className="text-sm font-semibold text-[#051539] uppercase tracking-wider mb-2">Bundle</div>
-                  <div className="text-4xl font-bold text-[#051539]">$299</div>
-                  <div className="text-sm text-[#051539]/80">Same 4 Courses</div>
-                </div>
-                <ul className="space-y-4">
-                  {[
-                    "All courses in one package",
-                    "Structured learning path",
-                    "Save 67% with bundle",
-                    "Integrated skill development",
-                    "Lifetime access included"
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#051539] flex items-center justify-center mt-0.5">
-                        <CheckCircle2 size={12} className="text-white" />
-                      </div>
-                      <span className="text-[#051539] font-medium">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Savings Calculation */}
-            <div className="mt-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="text-center md:text-left">
-                  <div className="text-white/80 text-sm mb-1">Total Savings</div>
-                  <div className="text-4xl font-bold text-white">$600</div>
-                  <div className="text-white/60">That's 67% off</div>
-                </div>
-                <div className="h-12 w-px bg-white/20 hidden md:block"></div>
-                <div className="text-center md:text-left">
-                  <div className="text-white/80 text-sm mb-1">Price Per Course</div>
-                  <div className="text-2xl font-bold text-white">$74.75</div>
-                  <div className="text-white/60">vs $224.75 individually</div>
-                </div>
-                <div className="h-12 w-px bg-white/20 hidden md:block"></div>
-                <div className="text-center md:text-left">
-                  <div className="text-white/80 text-sm mb-1">Value Added</div>
-                  <div className="text-2xl font-bold text-white">+40%</div>
-                  <div className="text-white/60">Better learning outcomes</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

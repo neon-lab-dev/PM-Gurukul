@@ -60,7 +60,7 @@ export type TUser = {
   export type TLoggedInUser = {
     _id: string;
     name: string;
-    role: "user" | "admin";
+    role: "user" | "admin" | "employee";
     email: string;
     referralCode: string;
     assignedPages : string[];
