@@ -4,14 +4,14 @@ import BundleCourses from "../../components/CoursePage/BundleCourses/BundleCours
 import { useGetAllCourseBundlesQuery } from "../../redux/Features/CourseBundle/courseBundleApi";
 
 const BundleCourse = () => {
-    const { data, isLoading } = useGetAllCourseBundlesQuery({});
-    return (
-        <div>
-            <BundleCourseHero data={data?.bundles || []} isLoading={isLoading}/>
-            <BundleCourses data={data?.bundles || []} isLoading={isLoading}/>
-            <HowBundleWorks/>
-        </div>
-    );
+  const { data, isLoading } = useGetAllCourseBundlesQuery({});
+  return (
+    <div>
+      <BundleCourseHero data={data?.bundles || []} isLoading={isLoading} />
+      <BundleCourses data={data?.bundles || []} isLoading={isLoading} />
+      <HowBundleWorks />
+    </div>
+  );
 };
 
 export default BundleCourse;

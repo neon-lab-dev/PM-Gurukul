@@ -1,33 +1,71 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "../../redux/Features/Payment/paymentApi";
 
 const PaymentSuccessful = () => {
+  const pathname = useLocation().pathname;
   const { paymentId } = useParams();
   const [orderedCourses, setOrderedCourses] = useState([]);
-  // const [userData, setUserData] = useState(null);
+  const [bundleOrderedCourses, setBundleOrderedCourses] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const [createOrder] = useCreateOrderMutation();
 
   useEffect(() => {
     const storedCourses = localStorage.getItem("orderedCourses");
+    const bundleStoredCourses = localStorage.getItem("bundleOrderedCourses");
+    const bundleCourses = bundleStoredCourses
+      ? JSON.parse(bundleStoredCourses)
+      : [];
     const courses = storedCourses ? JSON.parse(storedCourses) : [];
     setOrderedCourses(courses);
+    setBundleOrderedCourses(bundleCourses);
   }, []);
 
+  // For single course
+  // useEffect(() => {
+  //   if (pathname === "/cart/bundle-course") {
+  //     return;
+  //   }
+  //   const handlePushOrderedItems = async () => {
+  //     try {
+  //       const orderInfo = {
+  //         courseId: orderedCourses?.map((item: any) => item._id),
+  //         orderType: "singleCourse",
+  //       };
+  //       await createOrder(orderInfo).unwrap();
+  //       setSuccess(true);
+  //       localStorage.removeItem("orderedCourses");
+  //       localStorage.removeItem("cart");
+  //     } catch (error) {
+  //       console.error("Error placing order:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   if (orderedCourses.length > 0) {
+  //     handlePushOrderedItems();
+  //   }
+  // }, [orderedCourses, createOrder]);
+
+  // For bundle course
   useEffect(() => {
+    console.log(bundleOrderedCourses);
+    if (bundleOrderedCourses?.courseIds?.length === 0) {
+      return;
+    }
     const handlePushOrderedItems = async () => {
       try {
         const orderInfo = {
-          courseId: orderedCourses,
+          courseId: bundleOrderedCourses?.courseIds?.map((item: any) => item),
+          orderType: "bundleCourse",
         };
         await createOrder(orderInfo).unwrap();
         setSuccess(true);
-        localStorage.removeItem("orderedCourses");
-        localStorage.removeItem("cart");
+        localStorage.removeItem("bundleOrderedCourses");
       } catch (error) {
         console.error("Error placing order:", error);
       } finally {
@@ -35,10 +73,10 @@ const PaymentSuccessful = () => {
       }
     };
 
-    if (orderedCourses.length > 0) {
+    if (bundleOrderedCourses?.courseIds?.length > 0) {
       handlePushOrderedItems();
     }
-  }, [orderedCourses, createOrder]);
+  }, [createOrder, bundleOrderedCourses]);
 
   if (loading) {
     return (

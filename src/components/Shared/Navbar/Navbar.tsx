@@ -15,6 +15,16 @@ const Navbar = () => {
   const location = useLocation();
   const { cartData } = useCart();
 
+  const dashboardPath = user
+    ? user.role === "user"
+      ? "/dashboard"
+      : user.role === "admin"
+      ? "/admin/dashboard"
+      :
+      user?.role === "employee" ?
+      `/admin ${user?.assignedPages[0]}`
+      : "/auth/login"
+    : "/auth/login";
   return (
     <div className="bg-blue-50 py-4 font-Inter">
       <Container>
@@ -46,7 +56,7 @@ const Navbar = () => {
 
             <div className="flex items-center gap-5 lg:gap-8">
               <div className="flex flex-row-reverse lg:flex-row items-center gap-5 lg:gap-8">
-                <GoogleTranslate pathname={location?.pathname}/>
+                <GoogleTranslate pathname={location?.pathname} />
                 <Link to={"/cart"} className="relative">
                   <img
                     src={ICONS.cartDark}
@@ -59,15 +69,7 @@ const Navbar = () => {
                 </Link>
                 <Ripple styles="rounded-xl">
                   <a
-                    href={
-                      user
-                        ? user.role === "user"
-                          ? "/dashboard"
-                          : user.role === "admin"
-                          ? "/admin/registered-users"
-                          : "/auth/login"
-                        : "/auth/login"
-                    }
+                    href={dashboardPath}
                     className="bg-primary-gradient-light px-5 py-[10px] text-primary-10 font-semibold leading-6 rounded-[10px] shadow-primary-shadow hidden sm:block"
                   >
                     {user ? "Dashboard" : "Get Started"}

@@ -41,6 +41,7 @@ const CourseDetailsHero: React.FC<TCourseDetailsHero> = ({
         image: courseDetails?.poster?.url,
         basePrice: courseDetails?.basePrice,
         discountedPrice: courseDetails.discountedPrice,
+        courseType : "singleCourse"
       };
 
       if (isCourseAlreadyInCart) {
@@ -68,6 +69,7 @@ const CourseDetailsHero: React.FC<TCourseDetailsHero> = ({
         image: courseDetails?.poster?.url,
         basePrice: courseDetails?.basePrice,
         discountedPrice: courseDetails.discountedPrice,
+        courseType : "singleCourse"
       };
 
       if (isCourseAlreadyInCart) {

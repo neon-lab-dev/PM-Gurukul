@@ -39,6 +39,7 @@ const BundleCourseHero = ({
       image: firstBundleCourse?.thumbnail?.url,
       basePrice: firstBundleCourse?.basePrice,
       discountedPrice: firstBundleCourse.discountedPrice,
+      courseType: "bundleCourse",
     };
 
     if (isCourseAlreadyInCart) {
@@ -52,8 +53,7 @@ const BundleCourseHero = ({
     navigate("/cart");
   };
 
-
-  const handleScrollToSection = (id:string) => {
+  const handleScrollToSection = (id: string) => {
     const section = document.getElementById(id);
     section?.scrollIntoView({ behavior: "smooth" });
   };
@@ -165,7 +165,10 @@ const BundleCourseHero = ({
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 mb-12 lg:mb-0 text-sm">
-                <button onClick={() => handleScrollToSection("bundleCourses")} className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <button
+                  onClick={() => handleScrollToSection("bundleCourses")}
+                  className="group bg-gradient-to-r from-[#FFD614] to-[#EFD881] hover:from-[#FFE5A0] hover:to-[#F4E28C] text-[#051539] font-bold py-4 px-8 rounded-xl flex items-center justify-center gap-3 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                >
                   <span>Explore All Bundles</span>
                   <ArrowRight
                     size={20}

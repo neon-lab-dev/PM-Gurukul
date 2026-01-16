@@ -5,4 +5,5 @@ export type TCartData = {
   image?: string;
   basePrice?: number;
   discountedPrice: number;
+  courseType : string
 }

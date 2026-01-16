@@ -26,6 +26,7 @@ type TFormData = {
   description: string;
   duration: string;
   file: any;
+  referBonus: string;
 };
 const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
   isBundleModalOpen,
@@ -57,6 +58,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
       formdata.append("discountedPrice", data.discountedPrice);
       formdata.append("description", data.description);
       formdata.append("duration", data.duration);
+      formdata.append("referBonus", data.referBonus);
       formdata.append("courseIds", JSON.stringify(selectedCourseIds));
       formdata.append("file", data.file[0]);
 
@@ -106,6 +108,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
         discountedPrice: bundle.discountedPrice || "",
         duration: bundle.duration || "",
         description: bundle.description || "",
+        referBonus: bundle.referBonus || "",
       });
 
       setSelectedCourseIds(bundle.courseIds || []);
@@ -118,6 +121,7 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
         discountedPrice: "",
         duration: "",
         description: "",
+        referBonus: "",
       });
 
       setSelectedCourseIds([]);
@@ -185,6 +189,15 @@ const CreateOrEditCourseBundle: React.FC<TCreateOrEditCourseBundle> = ({
               {...register("discountedPrice", {
                 required: "Discounted Price is required",
               })}
+            />
+
+             <TextInput
+              label="Refer Bonus(%)"
+              placeholder="Enter referral bonus for this course. Ex: 40"
+              {...register("referBonus", {
+                required: "Referral bonus is required",
+              })}
+              error={errors.referBonus}
             />
 
             <TextInput

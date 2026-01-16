@@ -160,14 +160,6 @@ export const Table = ({
               <div className="flex bg-neutral-60 p-2 rounded-lg">
                 <button onClick={handleExport}>Export</button>
               </div>
-              <div className="flex bg-neutral-60 p-2 rounded-lg">
-                <button onClick={() => handleSort("date")}>
-                  <img src={ICONS.SortVertical} alt="Sort Icon" />
-                </button>
-              </div>
-              <div className="flex bg-neutral-60 p-2 rounded-lg">
-                <img src={ICONS.Filter} alt="Filter Icon" />
-              </div>
             </div>
           </div>
         )}

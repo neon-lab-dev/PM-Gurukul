@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useMakePaymentMutation } from "../../../redux/Features/Payment/paymentApi";
 import { useGetMeQuery } from "../../../redux/Features/User/userApi";
 import { toast } from "sonner";
+import { backendBaseUrl } from "../../../redux/Api/baseApi";
 
 // Add Razorpay type to window
 declare global {
@@ -26,7 +27,12 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
   const gst = (discountedPriceTotal * 18) / 100;
   const user = useSelector(useCurrentUser) as any;
 
-  const cartItems = cartData?.map((item) => item._id);
+  const cartItems = cartData?.map((item) => {
+    return {
+      _id: item._id,
+    };
+  });
+
   const isPurchased = cartItems?.some((id) =>
     purchasedCourses.some((course: any) => course.courseId === id)
   );
@@ -44,9 +50,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
       );
     try {
       setLoading(true);
-      const keyData = await axios.get(
-        "https://api.pmgurukkul.com/api/v1/getKey"
-      );
+      const keyData = await axios.get(`${backendBaseUrl}/api/v1/getKey`);
 
       const response = await makePayment({ amount: Number(totalAmount) });
 
@@ -58,7 +62,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
         description: "Test Transaction",
         image: "https://i.ibb.co/yBPFg2BJ/pmgurukul-favicon.png",
         order_id: response?.data?.order?.id, // the order id
-        callback_url: "https://api.pmgurukkul.com/api/v1/paymentVerification", // Here backend url will be added
+        callback_url: `${backendBaseUrl}/api/v1/paymentVerification`, // Here backend url will be added
         prefill: {
           name: user?.name,
           email: user?.email,

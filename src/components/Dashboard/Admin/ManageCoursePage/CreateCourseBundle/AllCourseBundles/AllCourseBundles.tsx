@@ -41,6 +41,7 @@ const AllCourseBundles: React.FC<TAllCourseBundles> = ({
     { key: "title", label: "TITLE", sortable: true },
     { key: "basePrice", label: "BASE PRICE", sortable: true },
     { key: "discountedPrice", label: "DISCOUNTED PRICE", sortable: true },
+    { key: "referBonus", label: "REFER BONUS", sortable: true },
     { key: "publishedOn", label: "PUBLISHED ON", sortable: true },
     { key: "action", label: "ACTION", sortable: false },
   ];
@@ -54,6 +55,7 @@ const AllCourseBundles: React.FC<TAllCourseBundles> = ({
         discountedPrice: bundle?.discountedPrice
           ? `₹${bundle.discountedPrice}`
           : "—",
+        referBonus: bundle?.referBonus + "%",
         publishedOn: formatDate(bundle?.createdAt),
         action: [
           {
