@@ -1,5 +1,4 @@
 import { pdf } from "@react-pdf/renderer";
-import { useNavigate } from "react-router-dom";
 import { useGetAllOrdersQuery } from "../../../../redux/Features/Admin/adminApi";
 import Invoice from "./Invoice";
 import DashboardHeader from "../../../../components/Reusable/DashboardHeader/DashboardHeader";
@@ -14,6 +13,7 @@ import { toast } from "sonner";
 
 export type TOrders = {
   _id: string;
+  orderId : string;
   paymentId: string;
   user: {
     _id: string;
@@ -28,13 +28,14 @@ export type TOrders = {
   tds: number;
   amountCredited: number;
   status: "paid" | "cancelled";
-  orderType : "singleCourse" | "bundleCourse";
+  orderType: "singleCourse" | "bundleCourse";
+  bundleTitle: string | null;
   createdAt: string;
   __v: number;
 };
 
 const PurchaseHistory = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data: allOrdersHistory, isLoading } = useGetAllOrdersQuery({});
   const [isGeneratingInvoice, setIsGeneratingInvoice] =
     useState<boolean>(false);
@@ -61,78 +62,89 @@ const PurchaseHistory = () => {
   // All orders history user table headers
   const allOrdersHistoryTableHeaders = [
     { key: "no", label: "No.", sortable: true },
-    { key: "orderID", label: "Order #", sortable: true },
+    { key: "orderID", label: "Order", sortable: true },
     { key: "customerName", label: "Customer Name", sortable: true },
     { key: "mobile", label: "Mobile Number", sortable: true },
     { key: "noOfItems", label: "No. of Items", sortable: true },
     { key: "amount", label: "Amount", sortable: true },
     { key: "orderDate", label: "Order Date", sortable: true },
     { key: "orderType", label: "Order type", sortable: true },
+    { key: "status", label: "Status", sortable: true },
     { key: "action", label: "Action", sortable: false },
   ];
 
-    const [cancelOrder] = useCancelOrderMutation();
-  
-    const handleCancelOrder = async (id: string, createdAt: string) => {
-      const now = new Date();
-      const orderCreatedAt = new Date(createdAt);
-      const hoursSinceOrder =
-        (now.getTime() - orderCreatedAt.getTime()) / (1000 * 60 * 60);
-  
-      if (hoursSinceOrder > 24) {
-        // Show toast error
-        toast.error("Cannot cancel this order now. 24 hours have passed.");
-        return;
-      }
-      try {
-        await toast.promise(cancelOrder(id).unwrap(), {
-          loading: "Loading...",
-          success: "Order cancelled successfully!",
-          error: "Failed to cancel order. Please try again.",
-        });
-      } catch (err) {
-        console.error("Error canceling this order:", err);
-      }
-    };
+  const [cancelOrder] = useCancelOrderMutation();
+
+  const handleCancelOrder = async (id: string, createdAt: string) => {
+    const now = new Date();
+    const orderCreatedAt = new Date(createdAt);
+    const hoursSinceOrder =
+      (now.getTime() - orderCreatedAt.getTime()) / (1000 * 60 * 60);
+
+    if (hoursSinceOrder > 24) {
+      // Show toast error
+      toast.error("Cannot cancel this order now. 24 hours have passed.");
+      return;
+    }
+    try {
+      await toast.promise(cancelOrder(id).unwrap(), {
+        loading: "Loading...",
+        success: "Order cancelled successfully!",
+        error: "Failed to cancel order. Please try again.",
+      });
+    } catch (err) {
+      console.error("Error canceling this order:", err);
+    }
+  };
 
   // All orders history user table data
-const allOrdersHistoryTableData = allOrdersHistory?.orders?.length
-  ? allOrdersHistory.orders.map((order: TOrders, index: number) => {
-      // Calculate time difference for cancel option
-      const createdAt = new Date(order?.createdAt);
-      const now = new Date();
-      const hoursSinceOrder = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60); // in hours
-      const canCancel = hoursSinceOrder <= 24 && order?.status !== "cancelled";
+  const allOrdersHistoryTableData = allOrdersHistory?.orders?.length
+    ? allOrdersHistory.orders.map((order: TOrders, index: number) => {
+        // Calculate time difference for cancel option
+        const createdAt = new Date(order?.createdAt);
+        const now = new Date();
+        const hoursSinceOrder =
+          (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60); // in hours
+        const canCancel =
+          hoursSinceOrder <= 24 && order?.status !== "cancelled";
 
-      return {
-        no: `${index + 1}`,
-        orderID: order?._id,
-        customerName: order?.user?.full_name,
-        mobile: order?.user?.mobileNumber,
-        noOfItems: order?.course?.length || 0,
-        amount: `₹${order?.totalPrice}`,
-        orderDate: createdAt.toLocaleDateString(),
-        orderType : order?.orderType === "bundleCourse" ? "Bundle Course" : "Single Course",
-        action: [
-          {
-            label: "View Order",
-            onClick: () => navigate(`/admin/order-details/${order._id}`),
-          },
-          {
-            label: `${isGeneratingInvoice ? "Generating Invoice" : "Download Invoice"}`,
-            onClick: () => handleDownloadInvoice(order),
-          },
-          {
-            label: "Cancel Order",
-            onClick: () => handleCancelOrder(order?._id, order?.createdAt),
-            disabled: !canCancel, // disable button if 24 hours passed
-          },
-        ],
-      };
-    })
-  : [];
-
-
+        return {
+          no: `${index + 1}`,
+          orderID: `#${order?.orderId}`,
+          customerName: order?.user?.full_name,
+          mobile: order?.user?.mobileNumber,
+          noOfItems: order?.course?.length || 0,
+          amount: `₹${order?.totalPrice}`,
+          orderDate: createdAt.toLocaleDateString(),
+          orderType:
+            order?.orderType === "bundleCourse"
+              ? "Bundle Course"
+              : "Single Course",
+          status: (
+            <span
+              className={`${order?.status === "cancelled" ? "text-white bg-red-600 " : "text-white bg-green-500"} px-1.5 py-1 rounded text-xs`}
+            >
+              {order?.status === "cancelled" ? "Cancelled" : "Paid"}
+            </span>
+          ),
+          action: [
+            // {
+            //   label: "View Order",
+            //   onClick: () => navigate(`/admin/order-details/${order._id}`),
+            // },
+            {
+              label: `${isGeneratingInvoice ? "Generating Invoice" : "Download Invoice"}`,
+              onClick: () => handleDownloadInvoice(order),
+            },
+            {
+              label: "Cancel Order",
+              onClick: () => handleCancelOrder(order?._id, order?.createdAt),
+              disabled: !canCancel, // disable button if 24 hours passed
+            },
+          ],
+        };
+      })
+    : [];
 
   return (
     <>

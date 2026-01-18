@@ -23,6 +23,7 @@ const PaymentSuccessful = () => {
     setBundleOrderedCourses(bundleCourses);
   }, []);
 
+  // Hitting order api
   useEffect(() => {
     setLoading(true);
     // For single course
@@ -59,6 +60,7 @@ const PaymentSuccessful = () => {
           const orderInfo = {
             courseId: bundleOrderedCourses?.courseIds?.map((item: any) => item),
             orderType: "bundleCourse",
+            title: bundleOrderedCourses?.title,
             totalPrice: bundleOrderedCourses?.price,
           };
           await createOrder(orderInfo).unwrap();
@@ -76,7 +78,7 @@ const PaymentSuccessful = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center text-center mt-32">
+      <div className="min-h-[30vh] flex flex-col items-center text-center mt-32">
         <p className="text-neutral-10 text-lg">Processing your payment...</p>
       </div>
     );

@@ -14,6 +14,7 @@ import Spinner from "../../../../components/Loaders/Spinner/Spinner";
 const OrderDetails: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading: isOrderLoading } = useGetSingleOrderByIdQuery(id);
+  console.log(data);
   const { data: userData, isLoading: isUserLoading } = useGetSingleUserByIdQuery(data?.order?.user);
   const { data: courseData, isLoading: isCourseLoading } = useGetSingleCourseByIdQuery(data?.order?.course.map((course: string) => course));
 
@@ -24,7 +25,6 @@ const OrderDetails: React.FC = () => {
       setIsCopied(true);
     });
   };
-
 
 
   const orderedOn = data?.order?.createdAt ? formatDate(data.order.createdAt) : 'Date not available';

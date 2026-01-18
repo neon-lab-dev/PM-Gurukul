@@ -41,6 +41,7 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
   const cartItems = {
     orderType: "bundleCourse",
     courseIds: bundle?.courseIds?.map((item) => item._id),
+    title : bundle.title,
     price : bundle.discountedPrice
   };
 

@@ -40,6 +40,7 @@ const MyOrders = () => {
     { key: "orderId", label: "Order #", sortable: true },
     { key: "noOfItems", label: "No. of Items", sortable: true },
     { key: "amount", label: "Amount", sortable: true },
+    { key: "orderDate", label: "Order Date", sortable: true },
     { key: "status", label: "Status", sortable: true },
     { key: "action", label: "Action" },
   ];
@@ -48,6 +49,7 @@ const MyOrders = () => {
     useState<boolean>(false);
 
   const handleDownloadInvoice = async (order: TOrders) => {
+    console.log(order);
     setIsGeneratingInvoice(true);
     try {
       const companyDetails = {
@@ -55,7 +57,7 @@ const MyOrders = () => {
         gstCompanyName: user?.user?.gstCompanyName,
       };
       const blob = await pdf(
-        <Invoice order={order} companyDetails={companyDetails} />
+        <Invoice order={order} companyDetails={companyDetails} />,
       ).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -82,7 +84,9 @@ const MyOrders = () => {
 
     if (hoursSinceOrder > 24) {
       // Show toast error
-      toast.error("You cannot cancel this order now. 24 hours have passed.");
+      toast.error(
+        "You can only cancel this order within 24 hours of placing it.",
+      );
       return;
     }
     try {
@@ -108,9 +112,17 @@ const MyOrders = () => {
 
         return {
           no: `${index + 1}`,
-          orderId: order?._id,
+          orderId: `#${order?.orderId}`,
           noOfItems: order?.course?.length,
           amount: `₹${order?.totalPrice}`,
+          orderDate: createdAt.toLocaleDateString(),
+          status: (
+            <span
+              className={`${order?.status === "cancelled" ? "text-white bg-red-600 " : "text-white bg-green-500"} px-1.5 py-1 rounded text-xs`}
+            >
+              {order?.status === "cancelled" ? "Cancelled" : "Paid"}
+            </span>
+          ),
           action: [
             {
               label: `${

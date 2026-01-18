@@ -163,31 +163,31 @@ const Invoice = ({
           </View>
 
           {/* GST details */}
-           <View
-              style={{
-                alignSelf: "flex-start",
-              }}
-            >
-              <Text style={styles.boldText}>GST Information:</Text>
-              <View style={{ marginTop: 5 }}>
-                <Text>
-                  <Text style={styles.boldText}>GST Company Name:</Text>
-                  <Text style={styles.normalText}>
-                    {" "}
-                    {companyDetails?.gstCompanyName || "N/A"}
-                  </Text>
+          <View
+            style={{
+              alignSelf: "flex-start",
+            }}
+          >
+            <Text style={styles.boldText}>GST Information:</Text>
+            <View style={{ marginTop: 5 }}>
+              <Text>
+                <Text style={styles.boldText}>GST Company Name:</Text>
+                <Text style={styles.normalText}>
+                  {" "}
+                  {companyDetails?.gstCompanyName || "N/A"}
                 </Text>
-              </View>
-              <View style={{ marginTop: 5 }}>
-                <Text>
-                  <Text style={styles.boldText}>GST Number:</Text>
-                  <Text style={styles.normalText}>
-                    {" "}
-                    {companyDetails?.gstNumber || "N/A"}
-                  </Text>
-                </Text>
-              </View>
+              </Text>
             </View>
+            <View style={{ marginTop: 5 }}>
+              <Text>
+                <Text style={styles.boldText}>GST Number:</Text>
+                <Text style={styles.normalText}>
+                  {" "}
+                  {companyDetails?.gstNumber || "N/A"}
+                </Text>
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* Course Table */}
@@ -205,24 +205,41 @@ const Invoice = ({
           </View>
 
           {/* Course Details */}
-          {order?.course?.map((course: any) => (
+          {order?.orderType === "singleCourse" &&
+            order?.course?.map((course: any) => (
+              <View
+                key={course?._id}
+                style={[styles.tableRow, styles.rowFontSize]}
+              >
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                  {course?.title}
+                </Text>
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>1</Text>
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                  999293
+                </Text>
+                <Text style={styles.tableCell}>
+                  <Image src={rupee} style={styles.rupee} />
+                  {order?.discountedPrice}
+                </Text>
+              </View>
+            ))}
+          {order?.orderType === "bundleCourse" &&
             <View
-              key={course?._id}
-              style={[styles.tableRow, styles.rowFontSize]}
-            >
-              <Text style={[styles.tableCell, styles.cellWithBorder]}>
-                {course?.title}
-              </Text>
-              <Text style={[styles.tableCell, styles.cellWithBorder]}>1</Text>
-              <Text style={[styles.tableCell, styles.cellWithBorder]}>
-                999293
-              </Text>
-              <Text style={styles.tableCell}>
-                <Image src={rupee} style={styles.rupee} />
-                {order?.discountedPrice}
-              </Text>
-            </View>
-          ))}
+                style={[styles.tableRow, styles.rowFontSize]}
+              >
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                  {order?.bundleTitle}
+                </Text>
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>1</Text>
+                <Text style={[styles.tableCell, styles.cellWithBorder]}>
+                  999293
+                </Text>
+                <Text style={styles.tableCell}>
+                  <Image src={rupee} style={styles.rupee} />
+                  {order?.discountedPrice}
+                </Text>
+              </View>}
 
           {/* Subtotal */}
           <View style={[styles.tableRow, styles.rowFontSize]}>
