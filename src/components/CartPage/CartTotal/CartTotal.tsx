@@ -30,6 +30,7 @@ const CartTotal = ({ cartData }: { cartData: TCartData[] }) => {
   const cartItems = cartData?.map((item) => {
     return {
       _id: item._id,
+      price : item.discountedPrice
     };
   });
 

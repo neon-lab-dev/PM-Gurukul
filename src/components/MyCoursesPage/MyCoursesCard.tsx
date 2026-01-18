@@ -49,7 +49,7 @@ const MyCoursesCard: React.FC<TMyCoursesCard> = ({
             {title?.length > 20 ? `${title?.slice(0, 20)}...` : title}
           </h1>
 
-          <div>
+          {/* <div>
             <div className="flex justify-center items-center gap-2">
               <div
                 className="relative w-full max-w-md h-2 bg-gray-300
@@ -65,7 +65,7 @@ const MyCoursesCard: React.FC<TMyCoursesCard> = ({
               </p>
             </div>
             <p className="text-neutral-95 text-sm">Course Progress</p>
-          </div>
+          </div> */}
 
           <div className="flex gap-2">
             <button

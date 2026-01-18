@@ -28,6 +28,7 @@ export type TOrders = {
   tds: number;
   amountCredited: number;
   status: "paid" | "cancelled";
+  orderType : "singleCourse" | "bundleCourse";
   createdAt: string;
   __v: number;
 };
@@ -66,7 +67,7 @@ const PurchaseHistory = () => {
     { key: "noOfItems", label: "No. of Items", sortable: true },
     { key: "amount", label: "Amount", sortable: true },
     { key: "orderDate", label: "Order Date", sortable: true },
-    { key: "status", label: "Status", sortable: true },
+    { key: "orderType", label: "Order type", sortable: true },
     { key: "action", label: "Action", sortable: false },
   ];
 
@@ -111,6 +112,7 @@ const allOrdersHistoryTableData = allOrdersHistory?.orders?.length
         noOfItems: order?.course?.length || 0,
         amount: `₹${order?.totalPrice}`,
         orderDate: createdAt.toLocaleDateString(),
+        orderType : order?.orderType === "bundleCourse" ? "Bundle Course" : "Single Course",
         action: [
           {
             label: "View Order",

@@ -41,6 +41,7 @@ const BundleCourseCard: React.FC<BundleCourseCardProps> = ({ bundle }) => {
   const cartItems = {
     orderType: "bundleCourse",
     courseIds: bundle?.courseIds?.map((item) => item._id),
+    price : bundle.discountedPrice
   };
 
   const handleCheckout = async () => {

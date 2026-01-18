@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "../../redux/Features/Payment/paymentApi";
 
 const PaymentSuccessful = () => {
-  const pathname = useLocation().pathname;
   const { paymentId } = useParams();
   const [orderedCourses, setOrderedCourses] = useState([]);
   const [bundleOrderedCourses, setBundleOrderedCourses] = useState<any>([]);
@@ -24,63 +23,60 @@ const PaymentSuccessful = () => {
     setBundleOrderedCourses(bundleCourses);
   }, []);
 
-  // For single course
-  // useEffect(() => {
-  //   if (pathname === "/cart/bundle-course") {
-  //     return;
-  //   }
-  //   const handlePushOrderedItems = async () => {
-  //     try {
-  //       const orderInfo = {
-  //         courseId: orderedCourses?.map((item: any) => item._id),
-  //         orderType: "singleCourse",
-  //       };
-  //       await createOrder(orderInfo).unwrap();
-  //       setSuccess(true);
-  //       localStorage.removeItem("orderedCourses");
-  //       localStorage.removeItem("cart");
-  //     } catch (error) {
-  //       console.error("Error placing order:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   if (orderedCourses.length > 0) {
-  //     handlePushOrderedItems();
-  //   }
-  // }, [orderedCourses, createOrder]);
-
-  // For bundle course
   useEffect(() => {
-    console.log(bundleOrderedCourses);
-    if (bundleOrderedCourses?.courseIds?.length === 0) {
-      return;
-    }
-    const handlePushOrderedItems = async () => {
-      try {
-        const orderInfo = {
-          courseId: bundleOrderedCourses?.courseIds?.map((item: any) => item),
-          orderType: "bundleCourse",
-        };
-        await createOrder(orderInfo).unwrap();
-        setSuccess(true);
-        localStorage.removeItem("bundleOrderedCourses");
-      } catch (error) {
-        console.error("Error placing order:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
+    // For single course
+    if (orderedCourses?.length > 0) {
+      const totalPrice =
+        orderedCourses?.reduce((total: number, item: any) => {
+          return total + Number(item.price || 0);
+        }, 0) ?? 0;
 
-    if (bundleOrderedCourses?.courseIds?.length > 0) {
+      const handlePushOrderedItems = async () => {
+        try {
+          const orderInfo = {
+            courseId: orderedCourses?.map((item: any) => item._id),
+            orderType: "singleCourse",
+            totalPrice,
+          };
+          await createOrder(orderInfo).unwrap();
+          setSuccess(true);
+          localStorage.removeItem("orderedCourses");
+          localStorage.removeItem("cart");
+        } catch (error) {
+          console.error("Error placing order:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
       handlePushOrderedItems();
     }
-  }, [createOrder, bundleOrderedCourses]);
+    // For bundle course
+    else if (bundleOrderedCourses?.courseIds?.length > 0) {
+      const handlePushOrderedItems = async () => {
+        try {
+          const orderInfo = {
+            courseId: bundleOrderedCourses?.courseIds?.map((item: any) => item),
+            orderType: "bundleCourse",
+            totalPrice: bundleOrderedCourses?.price,
+          };
+          await createOrder(orderInfo).unwrap();
+          setSuccess(true);
+          localStorage.removeItem("bundleOrderedCourses");
+        } catch (error) {
+          console.error("Error placing order:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      handlePushOrderedItems();
+    }
+  }, [orderedCourses, bundleOrderedCourses, createOrder]);
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center text-center mt-32">
+      <div className="min-h-screen flex flex-col items-center text-center mt-32">
         <p className="text-neutral-10 text-lg">Processing your payment...</p>
       </div>
     );
@@ -111,7 +107,7 @@ const PaymentSuccessful = () => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col items-center text-center mt-32">
+    <div className="min-h-screen flex flex-col items-center text-center mt-32">
       <p className="text-red-500 text-lg">
         Failed to process your order. Please try again.
       </p>
