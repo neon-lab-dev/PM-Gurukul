@@ -1,8 +1,8 @@
 import { BaseQueryFn, createApi, FetchBaseQueryError, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // export const backendBaseUrl = 'http://localhost:5000';
-// export const backendBaseUrl = 'https://pmgurukul-server.vercel.app';
-export const backendBaseUrl = 'https://api.pmgurukkul.com';
+export const backendBaseUrl = 'https://pmgurukul-server.vercel.app';
+// export const backendBaseUrl = 'https://api.pmgurukkul.com';
 const baseQuery: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
   const rawBaseQuery = fetchBaseQuery({
     baseUrl: `${backendBaseUrl}/api/v1`,
